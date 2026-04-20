@@ -175,39 +175,65 @@ const Resources = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-16 lg:pb-0">
-      <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-7xl">
+    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,hsl(var(--background)),hsl(var(--background)),hsl(var(--secondary)/0.06))] pb-16 lg:pb-0">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-20 top-12 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute right-0 top-1/4 h-72 w-72 rounded-full bg-secondary/12 blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-wellness/10 blur-3xl" />
+      </div>
+      <div className="relative z-10 container mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8">
         {/* Header */}
         <motion.div 
-          className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4"
+          className="mb-8"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="flex items-center gap-4">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => navigate("/dashboard")}
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-            <div>
-              <Badge className="mb-2 px-3 py-1 bg-primary/20 border-primary/50 text-primary dark:bg-primary/30 dark:border-primary/60 dark:text-primary">
-                <BookOpen className="w-3 h-3 mr-1" />
-                Learning Hub
-              </Badge>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Mental Health Resources
-              </h1>
-              <p className="text-sm sm:text-base text-muted-foreground">Evidence-based tools and educational content</p>
+          <div className="premium-panel overflow-hidden rounded-[2rem] border border-primary/15 p-5 sm:p-8">
+            <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+              <div>
+                <div className="flex items-center gap-4">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => navigate("/dashboard")}
+                    className="rounded-full border-primary/15 bg-background/70"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                  </Button>
+                  <Badge className="rounded-full border-primary/20 bg-primary/10 px-4 py-1.5 text-primary">
+                    <BookOpen className="mr-2 h-3.5 w-3.5" />
+                    Learning hub
+                  </Badge>
+                </div>
+                <h1 className="mt-5 font-display text-3xl font-semibold text-foreground sm:text-4xl lg:text-5xl">
+                  Resources that are easier to scan, save, and return to.
+                </h1>
+                <p className="mt-4 max-w-2xl font-body text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+                  Explore supportive reading, guided audio, practical tools, and crisis pathways without digging through
+                  a cluttered layout.
+                </p>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                <div className="rounded-[1.5rem] border border-primary/10 bg-background/70 p-4">
+                  <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Catalog</div>
+                  <div className="mt-3 text-3xl font-semibold text-foreground">{resources.length}</div>
+                  <p className="mt-2 text-sm text-muted-foreground">Curated items across tools, audio, articles, and crisis help.</p>
+                </div>
+                <div className="rounded-[1.5rem] border border-primary/10 bg-background/70 p-4">
+                  <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Filtered view</div>
+                  <div className="mt-3 text-3xl font-semibold text-foreground">{filteredResources.length}</div>
+                  <p className="mt-2 text-sm text-muted-foreground">Live results update as users search, sort, and narrow the list.</p>
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>
 
         {/* Search and Filters */}
         <motion.div 
-          className="mb-8 space-y-4"
+          className="premium-panel mb-8 space-y-4 rounded-[1.8rem] border border-primary/10 p-5"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -218,12 +244,12 @@ const Resources = () => {
               placeholder="Search resources..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="border-primary/10 bg-background/80 pl-10"
             />
           </div>
 
           <Tabs defaultValue="all" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6 h-auto">
+            <TabsList className="grid h-auto w-full grid-cols-3 rounded-[1.4rem] bg-background/80 sm:grid-cols-6">
               <TabsTrigger 
                 value="all" 
                 className="text-xs sm:text-sm px-2 sm:px-4 py-2"
@@ -282,7 +308,7 @@ const Resources = () => {
                 variant={selectedCategory === category ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedCategory(category)}
-                className="text-xs sm:text-sm"
+                className="rounded-full text-xs sm:text-sm"
               >
                 {category}
               </Button>
@@ -312,7 +338,7 @@ const Resources = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.02, y: -5 }}
               >
-                <Card className="h-full hover:shadow-xl transition-all duration-300 cursor-pointer group">
+                <Card className="premium-panel h-full cursor-pointer rounded-[1.6rem] border border-primary/10 transition-all duration-300 group hover:-translate-y-1 hover:shadow-[0_18px_40px_hsl(var(--primary)/0.10)]">
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <Badge className={`${getTypeColor(resource.type)} text-xs`}>
@@ -320,7 +346,7 @@ const Resources = () => {
                         <span className="ml-1 capitalize">{resource.type}</span>
                       </Badge>
                       {resource.type === "hotline" && (
-                        <Badge className="bg-red-100 text-red-700 text-xs animate-pulse">
+                        <Badge className="animate-pulse bg-red-100 text-xs text-red-700">
                           24/7
                         </Badge>
                       )}
@@ -353,7 +379,7 @@ const Resources = () => {
                       </div>
 
                       <Button 
-                        className="w-full group-hover:bg-primary/90 transition-colors"
+                        className="btn-enhanced w-full group-hover:bg-primary/90 transition-colors"
                         onClick={() => {
                           if (resource.type === "hotline") {
                             window.location.href = resource.url;
@@ -396,7 +422,7 @@ const Resources = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          <Card className="bg-gradient-to-r from-red-50 to-red-100 dark:from-red-950/20 dark:to-red-900/20 border-red-200 dark:border-red-800">
+          <Card className="rounded-[1.8rem] border border-red-200 bg-gradient-to-r from-red-50 to-red-100 dark:border-red-800 dark:from-red-950/20 dark:to-red-900/20">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">

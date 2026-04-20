@@ -4,11 +4,12 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, path.resolve(__dirname, '..'), '');
+  const envDir = __dirname;
+  const env = loadEnv(mode, envDir, "");
   
   return {
     base: '/',
-    envDir: path.resolve(__dirname, '..'),
+    envDir,
     plugins: [
       react(),
       mode === "development" && componentTagger(),
@@ -36,7 +37,7 @@ export default defineConfig(({ mode }) => {
         port: 8080,
         proxy: {
           '/api': {
-            target: process.env.VITE_BACKEND_API_URL || 'http://localhost:3001',
+            target: env.VITE_BACKEND_API_URL || 'http://localhost:3001',
             changeOrigin: true,
             secure: false,
             rewrite: (path) => path.replace(/^\/api/, ''),

@@ -98,6 +98,65 @@ if (!admin.apps.length) {
 }
 
 const db = admin.firestore();
+let spotifyAccessToken = null;
+let spotifyTokenExpiry = 0;
+
+const hasSpotifyCredentials = () =>
+  Boolean(process.env.SPOTIFY_CLIENT_ID && process.env.SPOTIFY_CLIENT_SECRET);
+
+const getSpotifyAccessToken = async () => {
+  if (!hasSpotifyCredentials()) {
+    throw new Error('Spotify credentials are not configured on the backend');
+  }
+
+  if (spotifyAccessToken && Date.now() < spotifyTokenExpiry) {
+    return spotifyAccessToken;
+  }
+
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${Buffer.from(
+        `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
+      ).toString('base64')}`,
+    },
+    body: 'grant_type=client_credentials',
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Spotify auth failed (${response.status}): ${errorText}`);
+  }
+
+  const data = await response.json();
+  spotifyAccessToken = data.access_token;
+  spotifyTokenExpiry = Date.now() + data.expires_in * 1000 - 60000;
+
+  return spotifyAccessToken;
+};
+
+const fetchSpotifyJson = async (endpoint) => {
+  const token = await getSpotifyAccessToken();
+  const response = await fetch(`https://api.spotify.com/v1${endpoint}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (response.status === 401) {
+    spotifyAccessToken = null;
+    spotifyTokenExpiry = 0;
+    return fetchSpotifyJson(endpoint);
+  }
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Spotify API failed (${response.status}): ${errorText}`);
+  }
+
+  return response.json();
+};
 
 // Check if user exists
 app.post('/api/auth/check-user', async (req, res) => {
@@ -531,12 +590,59 @@ app.post('/api/user/wellness-game-stats', async (req, res) => {
     res.status(500).json({ error: 'Server error while updating game stats' });
   }
 });
+
+app.get('/api/spotify/search', async (req, res) => {
+  const query = String(req.query.q || '').trim();
+  const type = String(req.query.type || 'playlist').trim();
+  const limit = Math.min(Math.max(Number.parseInt(String(req.query.limit || '20'), 10) || 20, 1), 50);
+
+  if (!query) {
+    return res.status(400).json({ error: 'Search query is required' });
+  }
+
+  if (!hasSpotifyCredentials()) {
+    return res.status(503).json({ error: 'Spotify credentials are not configured on the backend' });
+  }
+
+  try {
+    const data = await fetchSpotifyJson(
+      `/search?q=${encodeURIComponent(query)}&type=${encodeURIComponent(type)}&limit=${limit}`
+    );
+
+    res.json(data);
+  } catch (error) {
+    console.error('Spotify search error:', error);
+    res.status(502).json({ error: 'Failed to search Spotify playlists' });
+  }
+});
+
+app.get('/api/spotify/playlists/:playlistId/tracks', async (req, res) => {
+  const playlistId = String(req.params.playlistId || '').trim();
+  const limit = Math.min(Math.max(Number.parseInt(String(req.query.limit || '50'), 10) || 50, 1), 100);
+
+  if (!playlistId) {
+    return res.status(400).json({ error: 'Playlist ID is required' });
+  }
+
+  if (!hasSpotifyCredentials()) {
+    return res.status(503).json({ error: 'Spotify credentials are not configured on the backend' });
+  }
+
+  try {
+    const data = await fetchSpotifyJson(`/playlists/${encodeURIComponent(playlistId)}/tracks?limit=${limit}`);
+    res.json(data);
+  } catch (error) {
+    console.error('Spotify playlist tracks error:', error);
+    res.status(502).json({ error: 'Failed to fetch Spotify playlist tracks' });
+  }
+});
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
     message: 'Server is running',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    spotifyConfigured: hasSpotifyCredentials(),
   });
 });
 

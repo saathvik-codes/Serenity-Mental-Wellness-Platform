@@ -1,67 +1,84 @@
-import { useState } from 'react';
-import { Play, Pause } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Pause, Play, Sparkles } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 export default function ProfessionalHeroVideo() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <div className="w-full h-[500px] md:h-[600px] rounded-3xl overflow-hidden bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 dark:from-primary/10 dark:via-secondary/10 dark:to-accent/10 relative border border-border/20 shadow-2xl">
-      {/* Professional Mental Health Video */}
-      <div className="relative w-full h-full">
+    <div className="premium-panel relative overflow-hidden rounded-[2rem] p-3 shadow-[0_30px_90px_hsl(var(--primary)/0.16)]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.14),transparent_45%),radial-gradient(circle_at_bottom_right,hsl(var(--secondary)/0.18),transparent_40%)]" />
+
+      <div className="relative overflow-hidden rounded-[1.6rem] border border-white/60 dark:border-white/10">
         {!isPlaying ? (
-          // Thumbnail with play button
-          <div className="relative w-full h-full">
-            <img 
-              src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-              alt="Mental Health and Wellness - Professional therapy session"
-              className="w-full h-full object-cover"
+          <div className="relative aspect-[16/10] w-full">
+            <img
+              src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+              alt="Guided wellness conversation in a calm clinical setting"
+              className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
-            
-            {/* Play Button Overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,18,0.1),rgba(10,10,18,0.75))]" />
+
+            <div className="absolute left-5 top-5 rounded-full border border-white/25 bg-black/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-white backdrop-blur-md">
+              Guided walkthrough
+            </div>
+
             <div className="absolute inset-0 flex items-center justify-center">
               <Button
                 size="lg"
                 onClick={() => setIsPlaying(true)}
-                className="w-20 h-20 rounded-full bg-white/90 hover:bg-white text-primary hover:text-primary shadow-2xl transition-all duration-300 hover:scale-110"
+                className="h-20 w-20 rounded-full border border-white/50 bg-white/90 text-primary shadow-[0_20px_50px_rgba(0,0,0,0.25)] hover:bg-white"
+                aria-label="Play Serenity product walkthrough"
               >
-                <Play className="w-8 h-8 ml-1" />
+                <Play className="ml-1 h-8 w-8" />
               </Button>
             </div>
 
-            {/* Video Info Overlay */}
-            <div className="absolute bottom-6 left-6 right-6">
-              <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl p-4 text-center">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
-                  Understanding Mental Health: A Professional Perspective
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Learn how Serenity combines clinical expertise with modern technology
-                </p>
+            <div className="absolute inset-x-5 bottom-5">
+              <div className="flex flex-col gap-4 rounded-[1.4rem] border border-white/20 bg-black/30 p-5 text-white backdrop-blur-xl md:flex-row md:items-end md:justify-between">
+                <div className="max-w-xl">
+                  <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">
+                    <Sparkles className="h-3.5 w-3.5" />
+                    Designed to feel calm, private, and premium
+                  </div>
+                  <h3 className="font-display text-2xl font-semibold leading-tight">
+                    A guided look at the assessment, insights, and daily support experience.
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 text-left text-sm text-white/80 md:min-w-[220px]">
+                  <div className="rounded-2xl border border-white/20 bg-white/10 p-3">
+                    <div className="font-display text-lg font-semibold text-white">3 mins</div>
+                    <div>Product walkthrough</div>
+                  </div>
+                  <div className="rounded-2xl border border-white/20 bg-white/10 p-3">
+                    <div className="font-display text-lg font-semibold text-white">Private</div>
+                    <div>Privacy-first flows</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         ) : (
-          // Embedded Video
-          <div className="relative w-full h-full">
+          <div className="relative aspect-[16/10] w-full">
             <iframe
               src="https://www.youtube.com/embed/DxIDKZHW3-E?autoplay=1&rel=0&modestbranding=1"
-              title="Mental Health Awareness and Wellness"
+              title="Mental health awareness and Serenity product walkthrough"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
-              className="w-full h-full rounded-3xl"
+              className="h-full w-full"
             />
-            
-            {/* Close Button */}
+
             <Button
               size="sm"
               variant="ghost"
               onClick={() => setIsPlaying(false)}
-              className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white"
+              className="absolute right-4 top-4 border border-white/20 bg-black/40 text-white hover:bg-black/70 hover:text-white"
             >
-              <Pause className="w-4 h-4" />
+              <Pause className="h-4 w-4" />
+              Close
             </Button>
           </div>
         )}

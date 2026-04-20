@@ -3,6 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { MessageCircle, X, Mic, MicOff, Send, Sparkles, Volume2 } from 'lucide-react';
 import { getAIResponse, getQuickSuggestions } from '@/lib/aiAssistant';
+import {
+  getSpeechRecognitionConstructor,
+  getSpeechRecognitionErrorMessage,
+  isIgnorableSpeechError,
+  isSpeechRecognitionSupported,
+} from '@/lib/speechRecognition';
 import { useToast } from '@/components/ui/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -23,6 +29,7 @@ const VoiceAssistant = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
   const { toast } = useToast();
+  const speechSupported = isSpeechRecognitionSupported();
 
   useEffect(() => {
     scrollToBottom();
@@ -30,12 +37,17 @@ const VoiceAssistant = () => {
 
   useEffect(() => {
     // Initialize speech recognition
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+    const SpeechRecognition = getSpeechRecognitionConstructor();
+    if (SpeechRecognition) {
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.continuous = false;
       recognitionRef.current.interimResults = false;
+      recognitionRef.current.maxAlternatives = 1;
       recognitionRef.current.lang = 'en-US';
+
+      recognitionRef.current.onstart = () => {
+        setIsListening(true);
+      };
 
       recognitionRef.current.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
@@ -48,10 +60,15 @@ const VoiceAssistant = () => {
       recognitionRef.current.onerror = (event: any) => {
         console.error('Speech recognition error:', event.error);
         setIsListening(false);
+
+        if (isIgnorableSpeechError(event.error)) {
+          return;
+        }
+
         toast({
-          title: "Speech Recognition Error",
-          description: "Could not recognize speech. Please try again.",
-          variant: "destructive",
+          title: event.error === "not-allowed" ? "Microphone Access Needed" : "Voice Input Unavailable",
+          description: getSpeechRecognitionErrorMessage(event.error),
+          variant: event.error === "not-allowed" || event.error === "audio-capture" ? "destructive" : undefined,
         });
       };
 
@@ -132,11 +149,10 @@ const VoiceAssistant = () => {
   };
 
   const toggleListening = () => {
-    if (!recognitionRef.current) {
+    if (!speechSupported || !recognitionRef.current) {
       toast({
         title: "Not Supported",
-        description: "Speech recognition is not supported in your browser.",
-        variant: "destructive",
+        description: "Voice input works only in browsers that support speech recognition, such as Chrome or Edge.",
       });
       return;
     }
@@ -147,16 +163,15 @@ const VoiceAssistant = () => {
     } else {
       try {
         recognitionRef.current.start();
-        setIsListening(true);
         toast({
           title: "Listening...",
-          description: "Speak now. I'm listening!",
+          description: "Speak naturally. Your message will send after capture.",
         });
       } catch (error) {
         console.error('Recognition start error:', error);
         toast({
           title: "Error",
-          description: "Could not start speech recognition.",
+          description: "Could not start voice input. Check microphone permission and try again.",
           variant: "destructive",
         });
       }
@@ -195,34 +210,40 @@ const VoiceAssistant = () => {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <Button
-            className="fixed bottom-6 right-6 h-12 w-12 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg z-40"
+            className="fixed bottom-6 right-6 z-40 h-14 w-14 rounded-full border border-primary/20 bg-gradient-to-br from-primary to-secondary text-white shadow-[0_18px_42px_hsl(var(--primary)/0.35)] hover:scale-105 hover:from-primary/90 hover:to-secondary/90"
             size="icon"
           >
             <MessageCircle className="w-5 h-5 text-white" />
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="max-w-md h-[500px] flex flex-col p-0">
+        <DialogContent className="flex h-[560px] max-w-md flex-col overflow-hidden border-primary/15 bg-background/95 p-0 backdrop-blur-xl">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b">
-            <h3 className="font-semibold text-lg flex items-center gap-2">
-              <MessageCircle className="w-5 h-5 text-blue-600" />
+          <div className="border-b border-primary/10 bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.12),transparent_55%)] p-4">
+            <div className="flex items-center justify-between">
+              <h3 className="flex items-center gap-2 text-lg font-semibold">
+                <MessageCircle className="w-5 h-5 text-primary" />
               Serenity Assistant
-            </h3>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(false)}
-              className="h-8 w-8"
-            >
-            </Button>
+              </h3>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsOpen(false)}
+                className="h-8 w-8 rounded-full"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <p className="mt-2 text-sm text-muted-foreground">
+              A quick guide for using Serenity, finding features, and getting gentle next-step help.
+            </p>
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 space-y-4 overflow-y-auto bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--primary)/0.03))] p-4">
             {messages.length === 0 && (
-              <div className="text-center text-gray-500 text-sm py-8">
-                <MessageCircle className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+              <div className="py-10 text-center text-sm text-muted-foreground">
+                <MessageCircle className="mx-auto mb-3 h-9 w-9 text-primary/60" />
                 <p>Ask me anything about using Serenity!</p>
               </div>
             )}
@@ -233,10 +254,10 @@ const VoiceAssistant = () => {
                 className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-lg px-3 py-2 ${
+                  className={`max-w-[80%] rounded-2xl px-3 py-2.5 shadow-sm ${
                     message.type === 'user'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-gradient-to-br from-primary to-secondary text-white'
+                      : 'border border-primary/10 bg-card/90 text-foreground'
                   }`}
                 >
                   <p className="text-sm">{message.text}</p>
@@ -247,20 +268,20 @@ const VoiceAssistant = () => {
           </div>
 
           {/* Quick Questions */}
-          <div className="border-t p-4">
+          <div className="border-t border-primary/10 bg-background/95 p-4">
             {isTyping && (
-              <div className="flex items-center gap-2 mb-3 text-sm text-gray-500">
+              <div className="mb-3 flex items-center gap-2 text-sm text-muted-foreground">
                 <Sparkles className="w-4 h-4 animate-spin" />
                 <span>Thinking...</span>
               </div>
             )}
-            <div className="flex flex-wrap gap-2 mb-3">
+            <div className="mb-3 flex flex-wrap gap-2">
               {quickSuggestions.map((question, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   size="sm"
-                  className="text-xs h-auto py-1 px-2"
+                  className="h-auto rounded-full border-primary/15 bg-background px-3 py-1.5 text-xs hover:bg-primary/5"
                   onClick={() => handleQuestionClick(question)}
                 >
                   {question}
@@ -274,8 +295,9 @@ const VoiceAssistant = () => {
                 onClick={toggleListening}
                 variant={isListening ? "destructive" : "outline"}
                 size="icon"
-                className="flex-shrink-0"
-                title="Voice Input"
+                className="flex-shrink-0 rounded-full"
+                title={speechSupported ? "Voice Input" : "Voice input not supported in this browser"}
+                disabled={!speechSupported || isTyping}
               >
                 {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
               </Button>
@@ -284,7 +306,7 @@ const VoiceAssistant = () => {
                 onClick={toggleSpeaking}
                 variant={isSpeaking ? "default" : "outline"}
                 size="icon"
-                className="flex-shrink-0"
+                className="flex-shrink-0 rounded-full"
                 title="Voice Output"
               >
                 <Volume2 className="w-4 h-4" />
@@ -296,7 +318,7 @@ const VoiceAssistant = () => {
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type or speak your question..."
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
+                className="flex-1 rounded-2xl border border-primary/10 bg-background px-3 py-2 text-sm"
               />
               
               <Button

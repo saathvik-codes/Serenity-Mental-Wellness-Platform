@@ -6,13 +6,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sparkles, Mail, Lock, User, ArrowLeft, Phone, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Mail, Lock, User, ArrowLeft, Phone, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "@/firebase";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, sendEmailVerification } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import BrandLogo from "@/components/BrandLogo";
+
+const fieldClassName =
+  "h-11 rounded-xl border-border/70 bg-background/85 pl-10 shadow-[0_10px_24px_hsl(var(--secondary)/0.06)] focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0";
+const fieldWithRightIconClassName = `${fieldClassName} pr-10`;
+const fieldLabelClassName = "font-soft text-sm font-semibold text-foreground/78";
+const leftIconClassName = "pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-foreground/35";
+const rightIconClassName = "absolute right-3 top-3 text-foreground/35 transition-colors hover:text-primary";
 
 
 const AuthPage = () => {
@@ -423,9 +431,9 @@ const AuthPage = () => {
           }
         }}
       >
-        <Card className="w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+        <Card className="premium-panel w-full max-w-md rounded-[1.6rem] border-0 shadow-[0_24px_60px_hsl(var(--secondary)/0.12)]" onClick={(e) => e.stopPropagation()}>
           <CardHeader>
-            <CardTitle>Reset Your Password</CardTitle>
+            <CardTitle className="font-display text-2xl">Reset Your Password</CardTitle>
             <CardDescription>
               Enter your email address and we'll send you instructions to reset your password.
             </CardDescription>
@@ -433,15 +441,15 @@ const AuthPage = () => {
           <CardContent>
             <form onSubmit={handleForgotPassword} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="forgotPasswordEmail">Email</Label>
+                <Label htmlFor="forgotPasswordEmail" className={fieldLabelClassName}>Email</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 w-4 h-4 text-slate-400 pointer-events-none" />
+                  <Mail className={leftIconClassName} />
                   <Input
                     id="forgotPasswordEmail"
                     name="forgotPasswordEmail"
                     type="email"
                     placeholder="your@email.com"
-                    className="pl-10 bg-white border-slate-200 focus:border-indigo-400"
+                    className={fieldClassName}
                     value={forgotPasswordEmail}
                     onChange={(e) => setForgotPasswordEmail(e.target.value)}
                     autoComplete="email"
@@ -466,7 +474,8 @@ const AuthPage = () => {
                 </Button>
                 <Button
                   type="submit"
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-700"
+                  variant="hero"
+                  className="flex-1"
                   disabled={isForgotPasswordLoading || !forgotPasswordEmail}
                 >
                   {isForgotPasswordLoading ? (
@@ -490,31 +499,31 @@ const AuthPage = () => {
     
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-        <Card className="w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+        <Card className="premium-panel w-full max-w-md rounded-[1.6rem] border-0 shadow-[0_24px_60px_hsl(var(--secondary)/0.12)]" onClick={(e) => e.stopPropagation()}>
           <CardHeader>
-            <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Mail className="w-8 h-8 text-indigo-600" />
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 shadow-[0_14px_34px_hsl(var(--primary)/0.18)]">
+              <Mail className="h-8 w-8 text-primary" />
             </div>
-            <CardTitle className="text-center">Verify Your Email</CardTitle>
+            <CardTitle className="text-center font-display text-2xl">Verify Your Email</CardTitle>
             <CardDescription className="text-center">
               We've sent a verification email to:
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-center">
-              <p className="font-semibold text-indigo-600">{verificationEmail}</p>
+              <p className="font-semibold text-primary">{verificationEmail}</p>
             </div>
             
-            <div className="bg-slate-50 p-4 rounded-lg space-y-2 text-sm">
+            <div className="rounded-xl border border-border/70 bg-background/70 p-4 text-sm shadow-[0_10px_28px_hsl(var(--secondary)/0.08)]">
               <p className="font-medium">Next steps:</p>
-              <ol className="list-decimal list-inside space-y-1 text-slate-600">
+              <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
                 <li>Check your inbox for the verification email</li>
                 <li>Click the verification link in the email</li>
                 <li>Return here and sign in to your account</li>
               </ol>
             </div>
 
-            <div className="text-xs text-slate-500 text-center">
+            <div className="text-xs text-muted-foreground text-center">
               <p>Didn't receive the email? Check your spam folder or</p>
             </div>
 
@@ -535,7 +544,8 @@ const AuthPage = () => {
               </Button>
               <Button
                 type="button"
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700"
+                variant="hero"
+                className="flex-1"
                 onClick={() => {
                   setShowVerificationMessage(false);
                   setActiveTab("signin");
@@ -552,14 +562,15 @@ const AuthPage = () => {
 
   return (
     <div 
-      className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4"
+      className="min-h-screen bg-transparent flex items-center justify-center p-4"
       data-aos="fade-in"
     >
       <div id="recaptcha-container"></div>
-      {/* Background Pattern */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full blur-3xl opacity-50"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-200 rounded-full blur-3xl opacity-50"></div>
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.16),transparent_26%),radial-gradient(circle_at_top_right,hsl(var(--secondary)/0.16),transparent_24%),linear-gradient(180deg,hsl(var(--background)),hsl(var(--muted)/0.52))]" />
+        <div className="absolute -top-28 -right-28 h-80 w-80 rounded-full bg-primary/14 blur-3xl"></div>
+        <div className="absolute -bottom-28 -left-24 h-80 w-80 rounded-full bg-secondary/16 blur-3xl"></div>
+        <div className="absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full border border-primary/10"></div>
       </div>
 
       {/* Forgot Password Modal */}
@@ -576,7 +587,7 @@ const AuthPage = () => {
         {/* Back to Home */}
         <Link 
           to="/" 
-          className="inline-flex items-center text-slate-600 hover:text-indigo-600 transition-colors mb-6"
+          className="mb-6 inline-flex items-center font-soft text-sm font-semibold text-foreground/70 transition-colors hover:text-primary"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Home
@@ -588,23 +599,18 @@ const AuthPage = () => {
           data-aos="fade-up"
           data-aos-delay="200"
         >
-          <div className="w-16 h-16 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-            <Sparkles className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            Serenity
-          </h1>
-          <p className="text-slate-600 mt-2">Your mental wellness journey starts here</p>
+          <BrandLogo size="lg" stacked className="justify-center" />
+          <p className="mt-3 font-body text-sm leading-6 text-muted-foreground">Your mental wellness journey starts here.</p>
         </div>
 
         <Card 
-          className="shadow-xl border-0 bg-white/80 backdrop-blur-sm"
+          className="premium-panel rounded-[2rem] border-0 shadow-[0_30px_80px_hsl(var(--secondary)/0.12)]"
           data-aos="fade-up"
           data-aos-delay="300"
         >
           <CardHeader className="text-center pb-4">
-            <CardTitle className="text-2xl font-bold text-slate-800">Welcome</CardTitle>
-            <CardDescription className="text-slate-600">
+            <CardTitle className="font-display text-3xl font-semibold text-foreground">Welcome</CardTitle>
+            <CardDescription className="font-body text-muted-foreground">
               Sign in to your account or create a new one
             </CardDescription>
           </CardHeader>
@@ -618,15 +624,15 @@ const AuthPage = () => {
               data-aos-delay="400"
             >
               <TabsList 
-                className="grid w-full grid-cols-2 bg-slate-100 p-1 rounded-lg"
+                className="grid h-auto w-full grid-cols-2 rounded-2xl bg-muted/85 p-1.5"
                 data-aos="fade-up"
                 data-aos-delay="450"
               >
                 <TabsTrigger 
                   value="signin" 
                   className={cn(
-                    "data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm",
-                    "rounded-md py-2 text-sm font-medium transition-all"
+                    "rounded-xl py-2.5 font-soft text-sm font-semibold transition-all",
+                    "data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-[0_10px_22px_hsl(var(--secondary)/0.08)]"
                   )}
                 >
                   Sign In
@@ -634,8 +640,8 @@ const AuthPage = () => {
                 <TabsTrigger 
                   value="signup" 
                   className={cn(
-                    "data-[state=active]:bg-white data-[state=active]:text-indigo-600 data-[state=active]:shadow-sm",
-                    "rounded-md py-2 text-sm font-medium transition-all"
+                    "rounded-xl py-2.5 font-soft text-sm font-semibold transition-all",
+                    "data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-[0_10px_22px_hsl(var(--secondary)/0.08)]"
                   )}
                 >
                   Sign Up
@@ -650,14 +656,14 @@ const AuthPage = () => {
               >
                 <form onSubmit={handleSignIn} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-slate-700">Email</Label>
+                    <Label htmlFor="email" className={fieldLabelClassName}>Email</Label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                      <Mail className={leftIconClassName} />
                       <Input
                         name="email"
                         type="email"
                         placeholder="your@email.com"
-                        className="pl-10 bg-white border-slate-200 focus:border-indigo-400"
+                        className={fieldClassName}
                         required
                         value={formData.email}
                         onChange={handleInputChange}
@@ -666,21 +672,21 @@ const AuthPage = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="password" className="text-slate-700">Password</Label>
+                    <Label htmlFor="password" className={fieldLabelClassName}>Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                      <Lock className={leftIconClassName} />
                       <Input
                         name="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
-                        className="pl-10 pr-10 bg-white border-slate-200 focus:border-indigo-400"
+                        className={fieldWithRightIconClassName}
                         required
                         value={formData.password}
                         onChange={handleInputChange}
                       />
                       <button
                         type="button"
-                        className="absolute right-3 top-3 text-slate-400 hover:text-indigo-600 transition-colors"
+                        className={rightIconClassName}
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -692,13 +698,13 @@ const AuthPage = () => {
                     <label className="flex items-center space-x-2 cursor-pointer">
                       <input 
                         type="checkbox" 
-                        className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" 
+                        className="rounded border-border accent-primary" 
                       />
-                      <span className="text-slate-600">Remember me</span>
+                      <span className="text-muted-foreground">Remember me</span>
                     </label>
                     <button
                       type="button"
-                      className="text-indigo-600 hover:underline text-sm"
+                      className="text-sm font-semibold text-primary hover:underline"
                       onClick={() => setShowForgotPassword(true)}
                     >
                       Forgot password?
@@ -707,7 +713,8 @@ const AuthPage = () => {
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors"
+                    variant="hero"
+                    className="w-full"
                     disabled={isLoading}
                   >
                     {isLoading ? (
@@ -728,14 +735,14 @@ const AuthPage = () => {
               >
                 <form onSubmit={handleSignUp} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="text-slate-700">Full Name</Label>
+                    <Label htmlFor="name" className={fieldLabelClassName}>Full Name</Label>
                     <div className="relative">
-                      <User className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                      <User className={leftIconClassName} />
                       <Input
                         name="name"
                         type="text"
                         placeholder="Your full name"
-                        className="pl-10 bg-white border-slate-200 focus:border-indigo-400"
+                        className={fieldClassName}
                         required
                         value={formData.name}
                         onChange={handleInputChange}
@@ -744,14 +751,14 @@ const AuthPage = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-slate-700">Email</Label>
+                    <Label htmlFor="email" className={fieldLabelClassName}>Email</Label>
                     <div className="relative">
-                      <Mail className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                      <Mail className={leftIconClassName} />
                       <Input
                         name="email"
                         type="email"
                         placeholder="your@email.com"
-                        className="pl-10 bg-white border-slate-200 focus:border-indigo-400"
+                        className={fieldClassName}
                         required
                         value={formData.email}
                         onChange={handleInputChange}
@@ -760,14 +767,14 @@ const AuthPage = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-slate-700">Phone Number (Optional)</Label>
+                    <Label htmlFor="phone" className={fieldLabelClassName}>Phone Number (Optional)</Label>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                      <Phone className={leftIconClassName} />
                       <Input
                         name="phone"
                         type="tel"
                         placeholder="+1 (555) 123-4567"
-                        className="pl-10 bg-white border-slate-200 focus:border-indigo-400"
+                        className={fieldClassName}
                         value={formData.phone}
                         onChange={handleInputChange}
                       />
@@ -775,47 +782,47 @@ const AuthPage = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="password" className="text-slate-700">Password</Label>
+                    <Label htmlFor="password" className={fieldLabelClassName}>Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                      <Lock className={leftIconClassName} />
                       <Input
                         name="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Create a strong password"
-                        className="pl-10 pr-10 bg-white border-slate-200 focus:border-indigo-400"
+                        className={fieldWithRightIconClassName}
                         required
                         value={formData.password}
                         onChange={handleInputChange}
                       />
                       <button
                         type="button"
-                        className="absolute right-3 top-3 text-slate-400 hover:text-indigo-600 transition-colors"
+                        className={rightIconClassName}
                         onClick={() => setShowPassword(!showPassword)}
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-muted-foreground">
                       Must be at least 8 characters long
                     </p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword" className="text-slate-700">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword" className={fieldLabelClassName}>Confirm Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-3 w-4 h-4 text-slate-400" />
+                      <Lock className={leftIconClassName} />
                       <Input
                         name="confirmPassword"
                         type={showConfirmPassword ? "text" : "password"}
                         placeholder="Confirm your password"
-                        className="pl-10 bg-white border-slate-200 focus:border-indigo-400"
+                        className={fieldWithRightIconClassName}
                         required
                         value={formData.confirmPassword}
                         onChange={handleInputChange}
                       />
                       <button
                         type="button"
-                        className="absolute right-3 top-3 text-slate-400 hover:text-indigo-600 transition-colors"
+                        className={rightIconClassName}
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       >
                         {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -823,16 +830,17 @@ const AuthPage = () => {
                     </div>
                   </div>
 
-                  <div className="text-xs text-slate-500">
+                  <div className="text-xs text-muted-foreground">
                     By creating an account, you agree to our{" "}
-                    <a href="#" className="text-indigo-600 hover:underline">Terms of Service</a>{" "}
+                    <a href="#" className="font-semibold text-primary hover:underline">Terms of Service</a>{" "}
                     and{" "}
-                    <a href="#" className="text-indigo-600 hover:underline">Privacy Policy</a>
+                    <a href="#" className="font-semibold text-primary hover:underline">Privacy Policy</a>
                   </div>
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors"
+                    variant="hero"
+                    className="w-full"
                     disabled={isLoading}
                   >
                     {isLoading ? (
@@ -854,10 +862,10 @@ const AuthPage = () => {
           >
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-slate-200"></div>
+                  <div className="w-full border-t border-border/70"></div>
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white px-2 text-slate-500">Or continue with</span>
+                  <span className="bg-background/90 px-2 text-muted-foreground">Or continue with</span>
                 </div>
               </div>
 
@@ -868,7 +876,7 @@ const AuthPage = () => {
             >
                 <Button 
                   variant="outline" 
-                  className="w-full border-slate-200 hover:bg-slate-50 text-slate-700"
+                  className="w-full border-border/80 bg-background/70 text-foreground/80 hover:bg-primary/5 hover:text-primary"
                   onClick={handleGoogleLogin}
                   type="button"
                   disabled={isLoading}
@@ -888,12 +896,19 @@ const AuthPage = () => {
 
         {/* Privacy Notice */}
         <div 
-        className="text-center mt-6 text-xs text-slate-500"
+        className="hidden"
         data-aos="fade-up"
         data-aos-delay="700"
       >
-          <p>🔒 Your data is protected with end-to-end encryption</p>
-          <p>HIPAA & GDPR compliant</p>
+          <p>Calm sign-in flow</p>
+          <p>Simple account access</p>
+        </div>
+        <div
+        className="mt-6 text-center text-xs text-muted-foreground"
+        data-aos="fade-up"
+        data-aos-delay="700"
+      >
+          <p>Calm sign-in flows and account tools are built to feel clear from the first visit.</p>
         </div>
       </div>
     </div>

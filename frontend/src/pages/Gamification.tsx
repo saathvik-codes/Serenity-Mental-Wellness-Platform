@@ -15,7 +15,7 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "@/firebase";
-import { doc, getDoc, updateDoc, increment, onSnapshot } from "firebase/firestore";
+import { doc, updateDoc, increment, onSnapshot, arrayUnion } from "firebase/firestore";
 import { 
   Trophy,
   Star,
@@ -256,11 +256,23 @@ const levelRewards = [
   { level: 50, title: "Legendary Profile Badge", description: "Display a prestigious 'Legendary' badge on your profile.", icon: Crown },
 ];
 
-const RewardItem = ({ reward, userLevel }: { reward: typeof levelRewards[0], userLevel: number }) => {
+const RewardItem = ({
+  reward,
+  userLevel,
+  isClaimed,
+  onClaim,
+  isClaiming,
+}: {
+  reward: typeof levelRewards[0];
+  userLevel: number;
+  isClaimed: boolean;
+  onClaim: (level: number) => void;
+  isClaiming: boolean;
+}) => {
   const isUnlocked = userLevel >= reward.level;
   const Icon = reward.icon;
   return (
-    <div className={cn("flex items-center gap-4 p-3 rounded-lg border", isUnlocked ? "border-primary/30 bg-primary/5" : "border-border bg-muted/50 opacity-60")}>
+    <div className={cn("flex items-center gap-4 rounded-[1.4rem] border p-4", isUnlocked ? "border-primary/30 bg-primary/5" : "border-border bg-muted/50 opacity-60")}>
       <div className={cn("w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0", isUnlocked ? "bg-primary text-white" : "bg-muted-foreground/20 text-muted-foreground")}>
         <Icon className="w-5 h-5" />
       </div>
@@ -272,20 +284,55 @@ const RewardItem = ({ reward, userLevel }: { reward: typeof levelRewards[0], use
         <p className="text-xs text-muted-foreground">Lvl</p>
         <p className="font-bold text-lg">{reward.level}</p>
       </div>
-      {isUnlocked ? <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" /> : <Lock className="w-5 h-5 text-muted-foreground flex-shrink-0" />}
+      {isUnlocked ? (
+        <Button
+          size="sm"
+          variant={isClaimed ? "outline" : "default"}
+          className="rounded-full"
+          disabled={isClaimed || isClaiming}
+          onClick={() => onClaim(reward.level)}
+        >
+          {isClaimed ? "Claimed" : "Claim reward"}
+        </Button>
+      ) : (
+        <Lock className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+      )}
     </div>
   );
 };
 
-const RewardsDialog = ({ open, onOpenChange, userLevel }: { open: boolean, onOpenChange: (open: boolean) => void, userLevel: number }) => (
+const RewardsDialog = ({
+  open,
+  onOpenChange,
+  userLevel,
+  claimedRewards,
+  onClaimReward,
+  claimingRewardLevel,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  userLevel: number;
+  claimedRewards: number[];
+  onClaimReward: (level: number) => void;
+  claimingRewardLevel: number | null;
+}) => (
   <Dialog open={open} onOpenChange={onOpenChange}>
-    <DialogContent>
+    <DialogContent className="border-primary/15 bg-background/95 backdrop-blur-xl">
       <DialogHeader>
         <DialogTitle>Level Rewards</DialogTitle>
         <DialogDescription>Here are the rewards you can unlock as you progress on your wellness journey.</DialogDescription>
       </DialogHeader>
       <div className="space-y-4 py-4">
-        {levelRewards.map(reward => <RewardItem key={reward.level} reward={reward} userLevel={userLevel} />)}
+        {levelRewards.map((reward) => (
+          <RewardItem
+            key={reward.level}
+            reward={reward}
+            userLevel={userLevel}
+            isClaimed={claimedRewards.includes(reward.level)}
+            onClaim={onClaimReward}
+            isClaiming={claimingRewardLevel === reward.level}
+          />
+        ))}
       </div>
     </DialogContent>
   </Dialog>
@@ -306,6 +353,7 @@ const Gamification = () => {
   const [showRewards, setShowRewards] = useState(false);
   const [user, setUser] = useState<any>(null); // Store current user object
   const [userDBData, setUserDBData] = useState<any>(null);
+  const [claimingRewardLevel, setClaimingRewardLevel] = useState<number | null>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -513,35 +561,83 @@ const Gamification = () => {
     return `${hours}h ${minutes}m`;
   };
 
+  const handleClaimReward = async (level: number) => {
+    if (!user) return;
+    if ((userDBData?.claimedRewards || []).includes(level)) return;
+
+    try {
+      setClaimingRewardLevel(level);
+      await updateDoc(doc(db, "users", user.uid), {
+        claimedRewards: arrayUnion(level),
+      });
+      toast({
+        title: "Reward claimed",
+        description: `Level ${level} reward has been added to your claimed rewards.`,
+      });
+    } catch (error) {
+      console.error("Error claiming reward:", error);
+      toast({
+        title: "Claim failed",
+        description: "Unable to claim this reward right now.",
+        variant: "destructive",
+      });
+    } finally {
+      setClaimingRewardLevel(null);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-16 lg:pb-0">
-      <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-7xl">
+    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,hsl(var(--background)),hsl(var(--background)),hsl(var(--primary)/0.06))] pb-16 lg:pb-0">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-16 top-12 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute right-0 top-1/4 h-72 w-72 rounded-full bg-secondary/10 blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-energy/10 blur-3xl" />
+      </div>
+      <div className="relative z-10 container mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
+        <div className="premium-panel mb-8 overflow-hidden rounded-[2rem] border border-primary/15 p-5 sm:p-8">
+          <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+            <div className="flex items-start space-x-4">
             <Button
-              variant="ghost"
+              variant="outline"
               size="icon"
               onClick={() => navigate("/dashboard")}
+              className="rounded-full border-primary/15 bg-background/70"
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div>
-              <h1 className="text-3xl font-bold flex items-center gap-3">
+              <Badge className="mb-3 rounded-full border-primary/20 bg-primary/10 px-4 py-1.5 text-primary">
+                Level system
+              </Badge>
+              <h1 className="font-display text-3xl font-semibold flex items-center gap-3 sm:text-4xl lg:text-5xl">
                 <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
                   <Trophy className="w-6 h-6 text-white" />
                 </div>
                 Achievements & Challenges
               </h1>
-              <p className="text-muted-foreground mt-1">
-                Track your progress and unlock rewards
+              <p className="mt-3 max-w-2xl font-body text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+                Track levels, unlock achievements, and claim milestone rewards in a cleaner progression space.
               </p>
+            </div>
+          </div>
+            <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+              <div className="rounded-[1.5rem] border border-primary/10 bg-background/70 p-4">
+                <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Current level</div>
+                <div className="mt-3 text-3xl font-semibold text-foreground">{userStats.level}</div>
+                <p className="mt-2 text-sm text-muted-foreground">{userStats.rank} rank</p>
+              </div>
+              <div className="rounded-[1.5rem] border border-primary/10 bg-background/70 p-4">
+                <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Claimed rewards</div>
+                <div className="mt-3 text-3xl font-semibold text-foreground">{(userDBData?.claimedRewards || []).length}</div>
+                <p className="mt-2 text-sm text-muted-foreground">Reward milestones you have already collected.</p>
+              </div>
             </div>
           </div>
         </div>
 
         {/* User Stats Card */}
-        <Card className="shadow-medium border-primary/10 mb-8 bg-gradient-to-br from-primary/5 to-primary/10">
+        <Card className="premium-panel mb-8 rounded-[1.8rem] border border-primary/10 bg-gradient-to-br from-primary/5 to-primary/10 shadow-medium">
           <CardContent className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="text-center">
@@ -599,10 +695,17 @@ const Gamification = () => {
             </div>
           </CardContent>
         </Card>
-        <RewardsDialog open={showRewards} onOpenChange={setShowRewards} userLevel={userStats.level} />
+        <RewardsDialog
+          open={showRewards}
+          onOpenChange={setShowRewards}
+          userLevel={userStats.level}
+          claimedRewards={userDBData?.claimedRewards || []}
+          onClaimReward={handleClaimReward}
+          claimingRewardLevel={claimingRewardLevel}
+        />
 
         <Tabs defaultValue="challenges" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsList className="mb-6 grid w-full grid-cols-2 rounded-[1.4rem] bg-background/80">
             <TabsTrigger value="challenges">Active Challenges</TabsTrigger>
             <TabsTrigger value="achievements">Achievements</TabsTrigger>
           </TabsList>
@@ -624,7 +727,7 @@ const Gamification = () => {
                     <Card 
                       key={challenge.id}
                       className={cn(
-                        "shadow-medium border-primary/10",
+                        "premium-panel rounded-[1.6rem] border border-primary/10 shadow-medium",
                         challenge.completed && "bg-primary/5 border-primary/30"
                       )}
                     >
@@ -695,7 +798,7 @@ const Gamification = () => {
                     <Card 
                       key={challenge.id}
                       className={cn(
-                        "shadow-medium border-primary/10",
+                        "premium-panel rounded-[1.6rem] border border-primary/10 shadow-medium",
                         challenge.completed && "bg-wellness/5 border-wellness/30"
                       )}
                     >
@@ -762,7 +865,7 @@ const Gamification = () => {
                   <Card 
                     key={achievement.id}
                     className={cn(
-                      "shadow-medium border-2 transition-all",
+                      "premium-panel rounded-[1.6rem] border-2 shadow-medium transition-all",
                       achievement.unlocked 
                         ? `${getRarityBg(achievement.rarity)} ${getRarityColor(achievement.rarity)}`
                         : "border-muted opacity-60"

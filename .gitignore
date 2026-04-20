@@ -17,6 +17,7 @@ dist-ssr
 .env.local
 .env.production
 securityAccountKey.json
+mental-health-assessment-af964-firebase-adminsdk-fbsvc-e329cb87a4.json
 
 # Editor directories and files
 .vscode/*

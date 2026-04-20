@@ -31,6 +31,12 @@ import { FileUploadDialog } from "@/components/FileUploadDialog";
 import { cn } from "@/lib/utils";
 import { generateAIResponse, analyzeEmotion, isCrisisMessage } from "@/lib/aiService";
 import { notifyAIChatResponse } from "@/lib/notifications";
+import {
+  getSpeechRecognitionConstructor,
+  getSpeechRecognitionErrorMessage,
+  isIgnorableSpeechError,
+  isSpeechRecognitionSupported,
+} from "@/lib/speechRecognition";
 
 interface FileAttachment {
   name: string;
@@ -275,21 +281,25 @@ const AITherapist = () => {
     }
   };
 
-  const handleVoiceInput = () => {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+const handleVoiceInput = () => {
+    if (!isSpeechRecognitionSupported()) {
       toast({
         title: "Not Supported",
-        description: "Voice input is not supported in your browser.",
-        variant: "destructive",
+        description: "Voice input works only in browsers that support speech recognition, such as Chrome or Edge.",
       });
       return;
     }
 
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const SpeechRecognition = getSpeechRecognitionConstructor();
+    if (!SpeechRecognition) {
+      return;
+    }
+
     const recognition = new SpeechRecognition();
 
     recognition.continuous = false;
     recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
     recognition.lang = 'en-US';
 
     recognition.onstart = () => {
@@ -302,20 +312,34 @@ const AITherapist = () => {
       setIsListening(false);
     };
 
-    recognition.onerror = () => {
+    recognition.onerror = (event: any) => {
       setIsListening(false);
+
+      if (isIgnorableSpeechError(event.error)) {
+        return;
+      }
+
       toast({
-        title: "Error",
-        description: "Failed to capture voice input.",
-        variant: "destructive",
+        title: event.error === "not-allowed" ? "Microphone Access Needed" : "Voice Input Unavailable",
+        description: getSpeechRecognitionErrorMessage(event.error),
+        variant: event.error === "not-allowed" || event.error === "audio-capture" ? "destructive" : undefined,
       });
     };
 
     recognition.onend = () => {
       setIsListening(false);
     };
-
-    recognition.start();
+    try {
+      recognition.start();
+    } catch (error) {
+      console.error("Voice input start error:", error);
+      setIsListening(false);
+      toast({
+        title: "Voice Input Unavailable",
+        description: "Could not start voice input. Check microphone permission and try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -542,11 +566,16 @@ const AITherapist = () => {
                       variant="outline"
                       size="icon"
                       onClick={handleVoiceInput}
-                      disabled={isListening}
+                      disabled={isListening || !isSpeechRecognitionSupported()}
                       className={cn(
                         "flex-shrink-0",
                         isListening && "bg-primary text-primary-foreground"
                       )}
+                      title={
+                        isSpeechRecognitionSupported()
+                          ? "Use voice input"
+                          : "Voice input is not supported in this browser"
+                      }
                     >
                       {isListening ? (
                         <MicOff className="w-4 h-4 animate-pulse" />

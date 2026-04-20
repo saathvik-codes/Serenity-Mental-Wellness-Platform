@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
+  readonly VITE_BACKEND_API_URL: string;
   readonly VITE_FIREBASE_API_KEY: string;
   readonly VITE_FIREBASE_AUTH_DOMAIN: string;
   readonly VITE_FIREBASE_PROJECT_ID: string;
@@ -10,7 +11,6 @@ interface ImportMetaEnv {
   readonly VITE_GEMINI_API_KEY: string;
   readonly VITE_NEWS_API_KEY: string;
   readonly VITE_SPOTIFY_CLIENT_ID: string;
-  readonly VITE_SPOTIFY_CLIENT_SECRET: string;
 }
 
 interface ImportMeta {

@@ -17,6 +17,12 @@ import {
   Sparkles,
   Volume2,
   Headphones,
+  MoonStar,
+  Leaf,
+  Target,
+  SunMedium,
+  Waves,
+  Wind,
 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import {
@@ -41,6 +47,16 @@ const SpotifyWellness = () => {
   const { toast } = useToast();
 
   const categories = getWellnessCategories();
+  const categoryIcons = {
+    anxiety: Heart,
+    meditation: Sparkles,
+    sleep: MoonStar,
+    stress: Leaf,
+    focus: Target,
+    mood: SunMedium,
+    nature: Waves,
+    yoga: Wind,
+  } as const;
 
   useEffect(() => {
     if (selectedCategory) {
@@ -60,14 +76,14 @@ const SpotifyWellness = () => {
         if (results.length === 0) {
           toast({
             title: "No Playlists Found",
-            description: `No playlists available for ${category.name}. Try searching manually.`,
+            description: `No playlists loaded for ${category.name}. Try another category or a custom search.`,
           });
         }
       } catch (error) {
         console.error("Error loading playlists:", error);
         toast({
           title: "Loading Failed",
-          description: "Unable to load playlists. Please check your Spotify credentials.",
+          description: "Unable to load playlists right now. Try again in a moment.",
           variant: "destructive",
         });
         setPlaylists([]);
@@ -121,7 +137,7 @@ const SpotifyWellness = () => {
       if (results.length === 0) {
         toast({
           title: "No Results",
-          description: `No playlists found for "${searchQuery}". Try different keywords.`,
+          description: `No playlists matched "${searchQuery}". Try a broader mood or activity keyword.`,
         });
       } else {
         toast({
@@ -151,9 +167,12 @@ const SpotifyWellness = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black pb-16 lg:pb-0">
-      {/* Spotify-themed gradient background */}
-      <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-green-950 opacity-90" />
+    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,#0d1110,#111915,#1b291f)] pb-16 lg:pb-0">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-16 top-10 h-64 w-64 rounded-full bg-green-500/15 blur-3xl" />
+        <div className="absolute right-0 top-1/4 h-72 w-72 rounded-full bg-emerald-300/10 blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-lime-400/10 blur-3xl" />
+      </div>
       
       <div className={`relative z-10 container mx-auto px-4 sm:px-6 py-4 sm:py-8 ${isPlayerActive ? 'pb-40 lg:pb-40' : ''}`}>
         {/* Header - Mobile Optimized */}
@@ -194,14 +213,34 @@ const SpotifyWellness = () => {
           </div>
         </div>
 
-        {/* Title Section */}
-        <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-3xl sm:text-5xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-            Mental Wellness Music
-          </h1>
-          <p className="text-base sm:text-xl text-gray-400 max-w-2xl mx-auto px-4">
-            Curated playlists designed to support your mental health journey
-          </p>
+        <div className="mb-8 overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:mb-12 sm:p-8">
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-green-400/20 bg-green-400/10 px-4 py-2 text-sm font-medium text-green-200">
+                <Music className="h-4 w-4" />
+                Spotify wellness space
+              </div>
+              <h1 className="mt-5 bg-gradient-to-r from-green-200 via-green-400 to-emerald-300 bg-clip-text text-3xl font-semibold text-transparent sm:text-5xl">
+                Music for calmer routines, focus resets, and slower evenings.
+              </h1>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
+                Browse mood-led playlists, open full songs in Spotify, and use preview clips here when they are available.
+              </p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+              <div className="rounded-[1.5rem] border border-white/10 bg-black/20 p-4">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Live search</div>
+                <div className="mt-3 text-2xl font-semibold text-white">Spotify-backed</div>
+                <p className="mt-2 text-sm text-slate-300">Search runs through your backend so the client secret stays out of the browser bundle.</p>
+              </div>
+              <div className="rounded-[1.5rem] border border-white/10 bg-black/20 p-4">
+                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Fallback playlists</div>
+                <div className="mt-3 text-2xl font-semibold text-white">Always something to open</div>
+                <p className="mt-2 text-sm text-slate-300">If Spotify search is unavailable, curated wellness playlists still populate the experience.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Search Bar */}
@@ -214,12 +253,12 @@ const SpotifyWellness = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && handleSearch()}
-                className="pl-10 bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 focus:border-green-500"
+                className="border-white/10 bg-white/5 pl-10 text-white placeholder:text-slate-500 focus:border-green-500"
               />
             </div>
             <Button
               onClick={handleSearch}
-              className="bg-green-500 hover:bg-green-600 text-black font-semibold"
+              className="bg-green-500 font-semibold text-black hover:bg-green-400"
             >
               <Search className="w-4 h-4 mr-2" />
               Search
@@ -238,17 +277,24 @@ const SpotifyWellness = () => {
               {categories.map((category) => (
                 <Card
                   key={category.id}
-                  className={`cursor-pointer transition-all duration-300 border-2 ${
+                  className={`cursor-pointer overflow-hidden rounded-[1.6rem] border transition-all duration-300 ${
                     selectedCategory === category.id
-                      ? "bg-green-500/20 border-green-500 shadow-lg shadow-green-500/50"
-                      : "bg-gray-900 border-gray-700 hover:border-green-500/50 hover:bg-gray-800"
+                      ? "border-green-400/60 bg-green-500/15 shadow-[0_18px_40px_rgba(34,197,94,0.24)]"
+                      : "border-white/10 bg-white/5 hover:border-green-400/30 hover:bg-white/10"
                   }`}
                   onClick={() => setSelectedCategory(category.id)}
                 >
                   <CardContent className="p-6 text-center">
-                    <div className="text-4xl mb-3">{category.icon}</div>
+                    <div className="mb-4 flex justify-center">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-black/20">
+                        {(() => {
+                          const Icon = categoryIcons[category.id as keyof typeof categoryIcons] || Music;
+                          return <Icon className="h-6 w-6 text-green-300" />;
+                        })()}
+                      </div>
+                    </div>
                     <h3 className="font-semibold text-white mb-1">{category.name}</h3>
-                    <p className="text-xs text-gray-400">{category.description}</p>
+                    <p className="text-xs text-slate-300">{category.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -267,11 +313,11 @@ const SpotifyWellness = () => {
             {isLoading ? (
               <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {[1, 2, 3, 4].map((i) => (
-                  <Card key={i} className="bg-gray-900 border-gray-700 animate-pulse">
-                    <div className="h-48 bg-gray-800 rounded-t-lg" />
+                  <Card key={i} className="animate-pulse rounded-[1.6rem] border-white/10 bg-white/5">
+                    <div className="h-48 rounded-t-[1.6rem] bg-white/10" />
                     <CardContent className="p-4">
-                      <div className="h-4 bg-gray-800 rounded mb-2" />
-                      <div className="h-3 bg-gray-800 rounded" />
+                      <div className="mb-2 h-4 rounded bg-white/10" />
+                      <div className="h-3 rounded bg-white/10" />
                     </CardContent>
                   </Card>
                 ))}
@@ -281,7 +327,7 @@ const SpotifyWellness = () => {
                 {playlists.map((playlist) => (
                   <Card
                     key={playlist.id}
-                    className="bg-gray-900 border-gray-700 hover:bg-gray-800 transition-all duration-300 cursor-pointer group overflow-hidden hover:shadow-xl hover:shadow-green-500/20"
+                    className="group cursor-pointer overflow-hidden rounded-[1.6rem] border border-white/10 bg-white/5 transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_18px_40px_rgba(34,197,94,0.18)]"
                     onClick={() => handlePlaylistClick(playlist)}
                   >
                     <div className="relative h-48 overflow-hidden">
@@ -301,10 +347,10 @@ const SpotifyWellness = () => {
                       <h3 className="font-semibold text-white mb-1 line-clamp-1">
                         {playlist.name}
                       </h3>
-                      <p className="text-xs text-gray-400 line-clamp-2 mb-2">
+                      <p className="mb-2 line-clamp-2 text-xs text-slate-300">
                         {playlist.description}
                       </p>
-                      <div className="flex items-center gap-2 text-xs text-gray-500">
+                      <div className="flex items-center gap-2 text-xs text-slate-400">
                         <Music className="w-3 h-3" />
                         <span>{playlist.trackCount} tracks</span>
                       </div>
@@ -333,7 +379,7 @@ const SpotifyWellness = () => {
 
             <div className="grid md:grid-cols-3 gap-8 mb-8">
               <div className="md:col-span-1">
-                <Card className="bg-gradient-to-br from-gray-900 to-green-950/30 border-green-500/30 overflow-hidden">
+                <Card className="overflow-hidden rounded-[1.8rem] border border-green-500/20 bg-gradient-to-br from-white/10 to-green-900/20 backdrop-blur-xl">
                   <img
                     src={selectedPlaylist.image}
                     alt={selectedPlaylist.name}
@@ -343,10 +389,10 @@ const SpotifyWellness = () => {
                     <h2 className="text-2xl font-bold text-white mb-2">
                       {selectedPlaylist.name}
                     </h2>
-                    <p className="text-gray-400 text-sm mb-4">
+                    <p className="mb-4 text-sm text-slate-300">
                       {selectedPlaylist.description}
                     </p>
-                    <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
+                    <div className="mb-6 flex items-center gap-4 text-sm text-slate-400">
                       <div className="flex items-center gap-1">
                         <Music className="w-4 h-4" />
                         <span>{selectedPlaylist.trackCount} tracks</span>
@@ -370,7 +416,7 @@ const SpotifyWellness = () => {
                       <Button
                         onClick={() => handlePlayOnSpotify(selectedPlaylist.externalUrl)}
                         variant="outline"
-                        className="w-full border-green-500 text-green-500 hover:bg-green-500 hover:text-black"
+                        className="w-full border-green-500 text-green-300 hover:bg-green-500 hover:text-black"
                       >
                         <ExternalLink className="w-4 h-4 mr-2" />
                         Open in Spotify (Full Songs)
@@ -381,7 +427,7 @@ const SpotifyWellness = () => {
               </div>
 
               <div className="md:col-span-2">
-                <Card className="bg-gray-900 border-gray-700">
+                <Card className="rounded-[1.8rem] border border-white/10 bg-white/5 backdrop-blur-xl">
                   <CardHeader>
                     <CardTitle className="text-white flex items-center gap-2">
                       <Music className="w-5 h-5 text-green-500" />
@@ -407,7 +453,7 @@ const SpotifyWellness = () => {
                           {tracks.map((track, index) => (
                             <div
                               key={track.id}
-                              className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer group"
+                            className="group flex cursor-pointer items-center gap-3 rounded-[1.2rem] p-3 transition-colors hover:bg-white/5"
                               onClick={() => handlePlayOnSpotify(track.externalUrl)}
                             >
                               <span className="text-gray-500 w-6 text-sm">{index + 1}</span>
@@ -429,7 +475,7 @@ const SpotifyWellness = () => {
                                   <Button
                                     size="sm"
                                     variant="ghost"
-                                    className="text-gray-400 hover:text-green-400"
+                                className="text-slate-400 hover:text-green-400"
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       const audio = new Audio(track.previewUrl!);
@@ -443,7 +489,7 @@ const SpotifyWellness = () => {
                                     <Volume2 className="w-4 h-4" />
                                   </Button>
                                 )}
-                                <span className="text-gray-500 text-sm">
+                                <span className="text-sm text-slate-500">
                                   {formatDuration(track.duration)}
                                 </span>
                                 <Button
@@ -469,14 +515,14 @@ const SpotifyWellness = () => {
         {/* Empty State */}
         {!selectedPlaylist && playlists.length === 0 && !isLoading && selectedCategory && (
           <div className="text-center py-20">
-            <Music className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-400 mb-2">No playlists found</h3>
-            <p className="text-gray-500">Try selecting a different category or search term</p>
+            <Music className="mx-auto mb-4 h-16 w-16 text-slate-500" />
+            <h3 className="mb-2 text-xl font-semibold text-slate-300">No playlists found</h3>
+            <p className="text-slate-500">Try selecting a different category or a broader search phrase.</p>
           </div>
         )}
 
         {/* Info Banner */}
-        <Card className="mt-12 bg-gradient-to-r from-green-950/50 to-gray-900 border-green-500/30">
+        <Card className="mt-12 rounded-[1.8rem] border border-green-500/20 bg-gradient-to-r from-green-950/50 to-black/30 backdrop-blur-xl">
           <CardContent className="p-6">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">
@@ -486,10 +532,10 @@ const SpotifyWellness = () => {
                 <h3 className="text-white font-semibold mb-2">
                   Personalized Music Therapy
                 </h3>
-                <p className="text-gray-400 text-sm">
-                  Music has been scientifically proven to reduce anxiety, improve mood, and enhance
-                  relaxation. Our curated playlists are specifically designed to support your mental
-                  wellness journey. Listen regularly for best results.
+                <p className="text-sm text-slate-300">
+                  Music can be a useful part of a wellness routine, especially when someone wants a calmer background,
+                  a slower evening rhythm, or help staying focused. Use these playlists as one supportive part of your
+                  routine and open them fully in Spotify whenever you want the complete listening experience.
                 </p>
               </div>
             </div>
