@@ -401,7 +401,7 @@ const LandingPage = () => {
                   </div>
 
                   <motion.div
-                    className="absolute left-10 top-10 max-w-[230px] rounded-[1.4rem] border border-white/20 bg-black/40 p-4 text-white backdrop-blur-xl"
+                    className="absolute left-6 top-8 hidden max-w-[200px] rounded-[1.4rem] border border-white/20 bg-black/40 p-4 text-white backdrop-blur-xl xl:block"
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                   >
@@ -411,7 +411,7 @@ const LandingPage = () => {
                   </motion.div>
 
                   <motion.div
-                    className="absolute right-10 top-24 rounded-[1.3rem] border border-white/20 bg-white/95 px-4 py-3 text-sm shadow-2xl dark:bg-[hsl(var(--background)/0.92)] dark:text-white"
+                    className="absolute right-6 top-24 hidden max-w-[190px] rounded-[1.3rem] border border-white/20 bg-white/95 px-4 py-3 text-sm shadow-2xl dark:bg-[hsl(var(--background)/0.92)] dark:text-white xl:block"
                     animate={{ y: [0, 12, 0] }}
                     transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
                   >
