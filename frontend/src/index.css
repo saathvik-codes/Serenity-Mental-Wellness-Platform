@@ -595,3 +595,6 @@
     }
   }
 }
+
+/* Decorative blobs and scroll animations must never create a sideways scrollbar */
+html, body { overflow-x: clip; max-width: 100%; }

@@ -23,7 +23,6 @@ import BrandLogo from "@/components/BrandLogo";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import InfiniteCarousel from "@/components/InfiniteCarousel";
 import ProfessionalHeroVideo from "@/components/ProfessionalHeroVideo";
-import TestimonialsSection from "@/components/TestimonialsSection";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -32,7 +31,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 const navigationItems = [
   { label: "Features", href: "#features" },
   { label: "Experience", href: "#experience" },
-  { label: "Stories", href: "#stories" },
 ] as const;
 
 const heroStats = [
@@ -779,10 +777,6 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
-
-        <div id="stories">
-          <TestimonialsSection />
-        </div>
 
         <section className="relative overflow-hidden px-6 py-20">
           <div className="absolute inset-0 bg-gradient-hero" />
