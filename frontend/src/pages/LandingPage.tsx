@@ -96,6 +96,13 @@ const features = [
   },
 ] as const;
 
+// Drawings for three of the features above; the words under each come from the feature itself, so they cannot drift apart
+const calmTiles = [
+  { title: "Personalized guidance", image: "/illustrations/sn-journal.webp" },
+  { title: "Adaptive reminders", image: "/illustrations/sn-breathing.webp" },
+  { title: "Human-centered community", image: "/illustrations/sn-stories-bench.webp" },
+];
+
 const benefitList = [
   "Early pattern detection with less friction.",
   "Personalized recommendations that feel actionable.",
@@ -577,6 +584,20 @@ const LandingPage = () => {
 
         <section className="px-6 py-16">
           <div className="container mx-auto">
+            <div className="grid gap-6 md:grid-cols-3">
+              {calmTiles.map((tile) => (
+                <article key={tile.title} className="rounded-[1.4rem] border border-border/60 bg-card/60 p-6" data-aos="fade-up">
+                  <img src={tile.image} alt="" width={320} height={176} loading="lazy" className="mx-auto mb-5 h-44 w-full object-contain" />
+                  <h3 className="font-display text-xl font-semibold text-foreground">{tile.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-foreground/70">{features.find((f) => f.title === tile.title)?.description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-6 py-16">
+          <div className="container mx-auto">
             <div className="grid gap-8 xl:grid-cols-[1fr_1.05fr]">
               <div data-aos="fade-right">
                 <Badge className="mb-4 rounded-full border-energy/30 bg-energy/10 px-4 py-2 text-energy">Impact and benefits</Badge>
@@ -777,6 +798,10 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
+
+        <div className="px-6 pb-4">
+          <img src="/illustrations/sn-hero-landscape.webp" alt="" width={1200} height={220} loading="lazy" className="mx-auto h-44 w-full max-w-6xl rounded-[1.4rem] object-cover" />
+        </div>
 
         <section className="relative overflow-hidden px-6 py-20">
           <div className="absolute inset-0 bg-gradient-hero" />
