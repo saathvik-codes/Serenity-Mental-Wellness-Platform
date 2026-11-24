@@ -759,6 +759,55 @@ app.get('/api/videos', async (req, res) => {
   }
 });
 
+// ── Music: full-length, freely streamable tracks from Audius (no key, no account needed) ──
+let audiusHost = null;
+const musicCache = new Map(); // query -> { at, tracks }
+async function getAudiusHost() {
+  if (audiusHost) return audiusHost;
+  try {
+    const r = await fetch('https://api.audius.co');
+    const data = await r.json();
+    audiusHost = (data.data && data.data[0]) || 'https://api.audius.co';
+  } catch { audiusHost = 'https://api.audius.co'; }
+  return audiusHost;
+}
+
+app.get('/api/music', async (req, res) => {
+  const q = String(req.query.q || 'calm piano').trim().slice(0, 80);
+  const key = q.toLowerCase();
+  const hit = musicCache.get(key);
+  if (hit && Date.now() - hit.at < 30 * 60 * 1000) return res.json({ tracks: hit.tracks });
+  try {
+    const host = await getAudiusHost();
+    const r = await fetch(`${host}/v1/tracks/search?query=${encodeURIComponent(q)}&app_name=serenity`);
+    if (!r.ok) { audiusHost = null; return res.status(502).json({ error: 'Music service did not respond', tracks: [] }); }
+    const data = await r.json();
+    const seen = new Set();
+    const tracks = (data.data || [])
+      .filter((t) => t.is_streamable !== false && Number(t.duration) >= 60)
+      .filter((t) => {
+        // the same piece is often uploaded several times with small title changes
+        const k = `${(t.user && t.user.handle) || ''}|${String(t.title).toLowerCase().replace(/[^a-z]+/g, ' ').trim().slice(0, 24)}`;
+        if (seen.has(k) || seen.has(t.id)) return false;
+        seen.add(k); seen.add(t.id); return true;
+      })
+      .map((t) => ({
+        id: t.id,
+        title: t.title,
+        artist: (t.user && t.user.name) || 'Unknown artist',
+        duration: t.duration,
+        artwork: (t.artwork && (t.artwork['480x480'] || t.artwork['150x150'])) || null,
+        streamUrl: `${host}/v1/tracks/${t.id}/stream?app_name=serenity`,
+        link: t.permalink ? `https://audius.co${t.permalink}` : null,
+      }));
+    musicCache.set(key, { at: Date.now(), tracks });
+    res.json({ tracks });
+  } catch (error) {
+    console.error('Music error:', error);
+    res.status(502).json({ error: 'Music service did not respond', tracks: [] });
+  }
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({
