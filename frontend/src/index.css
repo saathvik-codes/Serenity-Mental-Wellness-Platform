@@ -619,7 +619,9 @@ body { font-family: 'Instrument Sans', system-ui, sans-serif; }
 .bg-gradient-primary { background: hsl(var(--primary)) !important; }
 .bg-gradient-calm, .bg-gradient-glass { background: hsl(var(--secondary)) !important; }
 .bg-gradient-hero { background: hsl(var(--foreground)) !important; }
-.bg-hologram, .particle-network, .particle, .cyber-grid { display: none !important; }
+.bg-hologram, .particle-network, .particle { display: none !important; }
+.cyber-grid { background-image: none !important; }   /* keep the page, drop the grid pattern */
+.cyber-grid::before, .cyber-grid::after { content: none !important; }
 .text-gradient-primary { background: none !important; -webkit-text-fill-color: currentColor !important; color: hsl(var(--primary)) !important; }
 .blur-3xl, .blur-2xl, .blur-xl { display: none !important; }            /* decorative colour blobs */
 [class*="backdrop-blur"] { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }

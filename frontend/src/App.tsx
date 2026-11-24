@@ -4,6 +4,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import LandingPage from "./pages/LandingPage";
@@ -27,7 +30,17 @@ import SpotifyWellness from "./pages/SpotifyWellness";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+// Firebase restores a saved session asynchronously. Pages read auth.currentUser when they mount,
+// so routes render only after that first check has finished.
+const useAuthReady = () => {
+  const [ready, setReady] = useState(false);
+  useEffect(() => onAuthStateChanged(auth, () => setReady(true)), []);
+  return ready;
+};
+
+const App = () => {
+  const authReady = useAuthReady();
+  return (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider
       attribute="class"
@@ -38,6 +51,9 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        {!authReady ? (
+          <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted-foreground">Loading...</div>
+        ) : (
         <BrowserRouter
           future={{
             v7_startTransition: true,
@@ -67,9 +83,12 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        )}
       </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );
+
+};
 
 export default App;

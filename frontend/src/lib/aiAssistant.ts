@@ -1,25 +1,5 @@
-// AI Assistant Service using Google Gemini
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-
-let genAI: GoogleGenerativeAI | null = null;
-let model: any = null;
-
-// Initialize Gemini AI
-const initializeAI = () => {
-  if (!GEMINI_API_KEY) {
-    console.warn("Gemini API key not configured");
-    return false;
-  }
-
-  if (!genAI) {
-    genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    model = genAI.getGenerativeModel({ model: "gemini-pro" });
-  }
-
-  return true;
-};
+// AI Assistant: the model is called through the Serenity backend so no key ships in the browser.
+import { aiGenerate } from "@/lib/backend";
 
 // System prompt for the assistant
 const SYSTEM_PROMPT = `You are Serenity Assistant, a compassionate and knowledgeable mental wellness companion. You help users navigate the Serenity mental health platform.
@@ -57,11 +37,6 @@ Respond naturally and helpfully to user questions.`;
  * Get AI response using Gemini
  */
 export const getAIResponse = async (userMessage: string, conversationHistory: any[] = []): Promise<string> => {
-  // Check if AI is available
-  if (!initializeAI()) {
-    return getFallbackResponse(userMessage);
-  }
-
   try {
     // Build conversation context
     const context = conversationHistory
@@ -71,11 +46,7 @@ export const getAIResponse = async (userMessage: string, conversationHistory: an
     const fullPrompt = `${SYSTEM_PROMPT}\n\nConversation History:\n${context}\n\nUser: ${userMessage}\n\nAssistant:`;
 
     // Generate response
-    const result = await model.generateContent(fullPrompt);
-    const response = await result.response;
-    const text = response.text();
-
-    return text.trim();
+    return await aiGenerate(fullPrompt);
   } catch (error) {
     console.error("AI response error:", error);
     return getFallbackResponse(userMessage);

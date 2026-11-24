@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { auth, db } from "@/firebase";
 import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 import { useToast } from "@/components/ui/use-toast";
 
 interface Achievement {
@@ -72,7 +73,7 @@ const Achievements = () => {
 
   const fetchUserData = async () => {
       const user = auth.currentUser;
-      if (!user) return;
+      if (!user) { setLoading(false); return; }
 
       try {
         setLoading(true);
@@ -347,7 +348,9 @@ const Achievements = () => {
     };
 
   useEffect(() => {
-    fetchUserData();
+    // Wait for Firebase to restore the session; currentUser is empty on first render after a refresh.
+    const stop = onAuthStateChanged(auth, (u) => { if (u) fetchUserData(); else setLoading(false); });
+    return stop;
   }, [toast]);
 
   const filteredAchievements = achievements.filter(achievement => 

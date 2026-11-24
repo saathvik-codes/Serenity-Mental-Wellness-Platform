@@ -636,6 +636,62 @@ app.get('/api/spotify/playlists/:playlistId/tracks', async (req, res) => {
     res.status(502).json({ error: 'Failed to fetch Spotify playlist tracks' });
   }
 });
+// ── AI (Gemini) and news: keys live here, never in the browser bundle ──
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+const aiHits = new Map(); // ip -> [timestamps], a small per-IP limit so the key cannot be drained
+
+app.post('/api/ai/generate', async (req, res) => {
+  const prompt = String((req.body && req.body.prompt) || '').trim();
+  if (!prompt) return res.status(400).json({ error: 'Prompt is required' });
+  if (prompt.length > 60000) return res.status(413).json({ error: 'Prompt is too long' });
+  if (!process.env.GEMINI_API_KEY) return res.status(503).json({ error: 'AI is not configured on the server' });
+
+  const ip = String(req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
+  const now = Date.now();
+  const recent = (aiHits.get(ip) || []).filter((t) => now - t < 60000);
+  if (recent.length >= 20) return res.status(429).json({ error: 'Too many requests, please wait a minute' });
+  aiHits.set(ip, [...recent, now]);
+
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': process.env.GEMINI_API_KEY },
+        body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }] }),
+      }
+    );
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      console.error('Gemini error', r.status, data && data.error && data.error.message);
+      return res.status(502).json({ error: 'The AI service did not respond' });
+    }
+    const text = (data.candidates?.[0]?.content?.parts || []).map((p) => p.text || '').join('').trim();
+    res.json({ text });
+  } catch (error) {
+    console.error('AI generate error:', error);
+    res.status(502).json({ error: 'The AI service did not respond' });
+  }
+});
+
+let newsCache = { key: '', at: 0, articles: [] };
+app.get('/api/news', async (req, res) => {
+  const q = String(req.query.q || 'mental health wellness').slice(0, 100);
+  if (!process.env.NEWS_API_KEY) return res.status(503).json({ error: 'News is not configured on the server', articles: [] });
+  if (newsCache.key === q && Date.now() - newsCache.at < 30 * 60 * 1000) return res.json({ articles: newsCache.articles });
+  try {
+    const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(q)}&language=en&sortBy=publishedAt&pageSize=20`;
+    const r = await fetch(url, { headers: { 'X-Api-Key': process.env.NEWS_API_KEY } });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) return res.status(502).json({ error: 'News service did not respond', articles: [] });
+    newsCache = { key: q, at: Date.now(), articles: data.articles || [] };
+    res.json({ articles: newsCache.articles });
+  } catch (error) {
+    console.error('News error:', error);
+    res.status(502).json({ error: 'News service did not respond', articles: [] });
+  }
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({
@@ -643,6 +699,8 @@ app.get('/api/health', (req, res) => {
     message: 'Server is running',
     timestamp: new Date().toISOString(),
     spotifyConfigured: hasSpotifyCredentials(),
+    aiConfigured: Boolean(process.env.GEMINI_API_KEY),
+    newsConfigured: Boolean(process.env.NEWS_API_KEY),
   });
 });
 

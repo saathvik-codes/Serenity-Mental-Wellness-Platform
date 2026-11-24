@@ -1,18 +1,9 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { aiGenerate } from "@/lib/backend";
 
 // PDF.js (browser-safe)
 import * as pdfjsLib from "pdfjs-dist";
 import "pdfjs-dist/build/pdf.worker.mjs";
 
-// Load Gemini API Key
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
-
-let genAI: GoogleGenerativeAI | null = null;
-
-if (API_KEY) {
-  genAI = new GoogleGenerativeAI(API_KEY);
-  console.log("Gemini AI initialized");
-}
 
 // ─────────────────────────────────────────────
 // SYSTEM PROMPT
@@ -69,14 +60,7 @@ export const generateAIResponse = async (
 ): Promise<string> => {
   const isDocumentMode = Boolean(pdfText && pdfText.length > 20);
 
-  if (!genAI) {
-    return isDocumentMode
-      ? "The document was received, but AI analysis is unavailable (missing API key)."
-      : "I'm here for you. Could you tell me more about what you're feeling?";
-  }
-
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
   
     const context = conversationHistory
@@ -132,11 +116,9 @@ Assistant:
 `;
     }
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text().trim();
+    return await aiGenerate(prompt);
   } catch (error) {
-    console.error("Gemini error:", error);
+    console.error("AI service error:", error);
     return isDocumentMode
       ? "The document could not be analyzed due to an internal error."
       : "I'm here with you. Let's try again — tell me what you're experiencing.";

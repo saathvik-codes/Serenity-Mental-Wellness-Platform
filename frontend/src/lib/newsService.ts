@@ -12,18 +12,12 @@ export interface NewsArticle {
   author?: string;
 }
 
-const NEWS_API_KEY = import.meta.env.VITE_NEWS_API_KEY || "";
-const NEWS_API_URL = "https://newsapi.org/v2/everything";
+import { fetchNews } from "@/lib/backend";
 
 /**
  * Fetch mental wellness news from NewsAPI
  */
 export const fetchMentalWellnessNews = async (): Promise<NewsArticle[]> => {
-  // If no API key, return curated fallback articles
-  if (!NEWS_API_KEY) {
-    return getFallbackNews();
-  }
-
   try {
     const queries = [
       "mental health wellness",
@@ -35,22 +29,12 @@ export const fetchMentalWellnessNews = async (): Promise<NewsArticle[]> => {
 
     const randomQuery = queries[Math.floor(Math.random() * queries.length)];
 
-    const response = await fetch(
-      `${NEWS_API_URL}?q=${encodeURIComponent(randomQuery)}&language=en&sortBy=publishedAt&pageSize=12&apiKey=${NEWS_API_KEY}`
-    );
-
-    if (!response.ok) {
-      console.error("News API error:", response.status);
+    const articles = await fetchNews(randomQuery);
+    if (articles.length === 0) {
       return getFallbackNews();
     }
 
-    const data = await response.json();
-
-    if (!data.articles || data.articles.length === 0) {
-      return getFallbackNews();
-    }
-
-    return data.articles
+    return articles
       .filter((article: any) => article.urlToImage && article.title && article.description)
       .slice(0, 12)
       .map((article: any, index: number) => ({
