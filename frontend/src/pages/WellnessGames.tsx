@@ -18,8 +18,7 @@ import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import {
   ArrowLeft, Play, Pause, RotateCcw, TreePine, Award, Target, Clock,
   Leaf, Flower2, Trees, Brain, Heart, Zap, Trophy, Star, Smile, Cloud, Home,
-  Gamepad2, Crown, Shield, Flame, Gem, Rocket, Cpu, Wifi
-} from "lucide-react";
+  Gamepad2, Crown, Shield, Flame, Gem, Rocket, Cpu, Wifi, Sprout, TreeDeciduous, Sun, Moon, Feather, Flower, Shell, Snowflake, Frown, CloudSun } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import MobileBottomNav from "@/components/MobileBottomNav";
@@ -151,7 +150,7 @@ const WellnessGames = () => {
       // Check for level up
       if (levelData.level > gameLevel.level) {
         toast({
-          title: `🎉 Level Up!`,
+          title: `Level up`,
           description: `${gameType.replace('Level', '')} is now level ${levelData.level}!`,
         });
       }
@@ -189,7 +188,7 @@ const WellnessGames = () => {
     },
     { 
       id: "whack", title: "Whack-a-Stress", desc: "Tap the worries away", icon: Zap, color: "bg-[#efe6d2]", points: stats.whackScore,
-      instructions: "When the game starts, anxious faces (😰) will pop up. Click them as fast as you can to score points before the 30-second timer runs out. Avoid the calm faces (💤)!"
+      instructions: "When the game starts, worried faces will pop up. Click them as fast as you can to score points before the 30-second timer runs out. Leave the calm ones alone."
     }
   ];
 
@@ -285,8 +284,10 @@ const WellnessGames = () => {
     toast({ title: "Tree Planted!", description: `+${mins * 2} points!` });
   };
 
+  const MEMORY_ICONS: Record<string, any> = { sun: Sun, moon: Moon, star: Star, feather: Feather, flower: Flower, shell: Shell, snowflake: Snowflake, leaf: Leaf };
+
   const startMemory = () => {
-    const emojis = ["🎮","🎯","🎨","🎭","🎪","🎸","🎺","🎻"];
+    const emojis = ["sun","moon","star","feather","flower","shell","snowflake","leaf"];
     const cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5)
       .map((emoji, id) => ({ id, emoji, flipped: false, matched: false }));
     setMemoryCards(cards);
@@ -416,9 +417,6 @@ const WellnessGames = () => {
             <Button variant="ghost" onClick={() => navigate("/dashboard")}><ArrowLeft className="w-4 h-4 mr-2" />Back</Button>
             <div className="flex items-center gap-2">
               <Badge className="text-lg px-4 py-2"><Trophy className="w-5 h-5 mr-2" />{stats.totalPoints} Points</Badge>
-              {/* Debug buttons - remove these after testing */}
-              <Button size="sm" variant="outline" onClick={fetchStats}>🔄 Load</Button>
-              <Button size="sm" variant="outline" onClick={() => updateStats({totalPoints: stats.totalPoints + 10})}>💾 Test Save</Button>
             </div>
           </div>
 
@@ -497,7 +495,7 @@ const WellnessGames = () => {
         {currentGame === "forest" && (
           <Card className="p-6">
             <div className="text-center space-y-6">
-              <div className="text-9xl">{["🌱","🌿","🪴","🌳","🌲","🌴"][treeStage]}</div>
+              {(() => { const Stage = [Sprout, Sprout, Leaf, TreeDeciduous, TreePine, Trees][treeStage] || Trees; return <Stage className="mx-auto text-primary" style={{ width: 72 + treeStage * 12, height: 72 + treeStage * 12 }} strokeWidth={1.25} />; })()}
               <div className="text-6xl font-mono font-bold">{Math.floor(forestTime/60)}:{(forestTime%60).toString().padStart(2,'0')}</div>
               <Progress value={((forestDuration*60-forestTime)/(forestDuration*60))*100} className="h-4" />
               <div className="flex gap-3 justify-center flex-wrap">
@@ -516,12 +514,12 @@ const WellnessGames = () => {
         {currentGame === "memory" && (
           <Card className="p-6">
             <div className="mb-4 flex justify-between"><span>Moves: {memoryMoves}</span><Button onClick={startMemory} size="sm"><RotateCcw className="w-4 h-4" /></Button></div>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="mx-auto grid max-w-md grid-cols-4 gap-3">
               {memoryCards.map((card,i) => (
                 <motion.div key={i} whileTap={{scale:0.9}} onClick={()=>flipMemoryCard(i)}
-                  className={cn("aspect-square rounded-xl flex items-center justify-center text-4xl cursor-pointer transition-all",
-                    card.flipped||card.matched?"bg-white dark:bg-gray-800 border-4 border-primary":" bg-[#ece4d6]")}>
-                  {card.flipped||card.matched?card.emoji:"?"}
+                  className={cn("aspect-square rounded-xl flex items-center justify-center cursor-pointer transition-all",
+                    card.matched ? "bg-primary/10 border border-primary/40" : card.flipped ? "bg-card border-2 border-primary" : "bg-secondary hover:bg-secondary/70")}>
+                  {card.flipped||card.matched ? (() => { const I = MEMORY_ICONS[card.emoji] || Star; return <I className="h-8 w-8 text-primary" strokeWidth={1.5} />; })() : <span className="text-2xl text-foreground/30">?</span>}
                 </motion.div>
               ))}
             </div>
@@ -531,12 +529,12 @@ const WellnessGames = () => {
         {currentGame === "breathing" && (
           <Card className="p-6">
             <div className="text-center space-y-6">
-              <motion.div animate={{scale:breathPhase==="in"?1.5:breathPhase==="out"?0.7:1}} transition={{duration:breathPhase==="rest"?2:4}}
-                className={cn("w-64 h-64 mx-auto rounded-full flex items-center justify-center text-white text-3xl font-bold",
-                  breathPhase==="in"?"bg-blue-500":breathPhase==="hold"?"bg-purple-500":breathPhase==="out"?"bg-green-500":"bg-gray-400")}>
-                {breathPhase==="in"?"Breathe In":breathPhase==="hold"?"Hold":breathPhase==="out"?"Breathe Out":"Rest"}
-              </motion.div>
-              <div className="flex gap-2 justify-center">{[...Array(5)].map((_,i)=><div key={i} className={cn("w-4 h-4 rounded-full",i<breathCount?"bg-blue-500":"bg-gray-300")}/>)}</div>
+              <div className="flex h-80 items-center justify-center overflow-hidden"><motion.div animate={{scale:breathPhase==="in"?1.35:breathPhase==="out"?0.75:1}} transition={{duration:breathPhase==="rest"?2:4}}
+                className={cn("w-48 h-48 mx-auto rounded-full flex items-center justify-center text-2xl font-display font-semibold",
+                  breathPhase==="in"?"bg-primary/25 text-foreground":breathPhase==="hold"?"bg-primary/40 text-foreground":breathPhase==="out"?"bg-primary/15 text-foreground":"bg-secondary text-muted-foreground")}>
+                {breathPhase==="in"?"Breathe in":breathPhase==="hold"?"Hold":breathPhase==="out"?"Breathe out":"Rest"}
+              </motion.div></div>
+              <div className="flex gap-2 justify-center">{[...Array(5)].map((_,i)=><div key={i} className={cn("w-4 h-4 rounded-full",i<breathCount?"bg-primary":"bg-secondary")}/>)}</div>
               <Button size="lg" onClick={startBreathing} disabled={breathActive} className="w-full"><Play className="w-5 h-5 mr-2" />Start Breathing</Button>
             </div>
           </Card>
@@ -554,8 +552,8 @@ const WellnessGames = () => {
                 <AnimatePresence>
                   {gratitudeList.map((item,i) => (
                     <motion.div key={i} initial={{scale:0,rotate:-20}} animate={{scale:1,rotate:0}} exit={{scale:0}}
-                      className="p-4 bg-pink-100 dark:bg-pink-950 rounded-xl text-center">
-                      <div className="text-4xl mb-2">🌸</div>
+                      className="rounded-xl border border-border bg-card p-4 text-center">
+                      <Flower2 className="mx-auto mb-2 h-8 w-8 text-accent" strokeWidth={1.5} />
                       <p className="text-sm font-medium">{item}</p>
                     </motion.div>
                   ))}
@@ -572,12 +570,12 @@ const WellnessGames = () => {
                 <span>Score: {whackScore}</span>
                 <span>Time: {whackTime}s</span>
               </div>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="mx-auto grid max-w-md grid-cols-3 gap-4">
                 {whackMoles.map((active,i) => (
                   <motion.div key={i} whileTap={{scale:0.8}} onClick={()=>whackMole(i)}
-                    className={cn("aspect-square rounded-2xl flex items-center justify-center text-6xl cursor-pointer transition-all",
-                      active?" bg-red-400":"bg-gray-200 dark:bg-gray-800")}>
-                    {active?"😰":"💤"}
+                    className={cn("aspect-square rounded-2xl flex items-center justify-center cursor-pointer transition-colors",
+                      active?"bg-[#f1e1d8] border border-accent/40":"bg-secondary")}>
+                    {active ? <Frown className="h-12 w-12 text-accent" strokeWidth={1.5} /> : <CloudSun className="h-10 w-10 text-foreground/20" strokeWidth={1.25} />}
                   </motion.div>
                 ))}
               </div>
