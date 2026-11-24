@@ -626,3 +626,6 @@ body { font-family: 'Instrument Sans', system-ui, sans-serif; }
 .hero-art { -webkit-mask-image: radial-gradient(ellipse closest-side, #000 55%, transparent 100%); mask-image: radial-gradient(ellipse closest-side, #000 55%, transparent 100%); }
 body { background-image: none !important; }
 .font-cursive { font-family: 'Fraunces', Georgia, serif !important; font-style: italic; font-weight: 400; }
+
+/* Drawings are dark ink on transparent: in dark mode flip lightness and keep the hue */
+.dark .illus { filter: invert(0.9) hue-rotate(180deg); }

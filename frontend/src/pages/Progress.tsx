@@ -403,6 +403,7 @@ const Progress = () => {
               <CardContent>
                 {assessments.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground">
+                    <img src="/illustrations/sn-empty-assessments.webp" alt="" width={240} height={171} loading="lazy" className="illus mx-auto mb-4 h-auto w-48" />
                     <p>No assessments completed yet</p>
                     <p className="text-sm">Start your mental health journey by taking an assessment</p>
                   </div>

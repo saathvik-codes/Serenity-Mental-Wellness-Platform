@@ -186,6 +186,7 @@ const AssessmentChart = ({ data, type, title, description }: AssessmentChartProp
         {data.length === 0 ? (
           <div className="flex items-center justify-center h-[300px] text-muted-foreground">
             <div className="text-center">
+              <img src="/illustrations/sn-empty-assessments.webp" alt="" width={240} height={171} loading="lazy" className="illus mx-auto mb-4 h-auto w-48" />
               <p>No assessment data available</p>
               <p className="text-sm">Complete an assessment to see your progress</p>
             </div>

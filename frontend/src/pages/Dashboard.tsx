@@ -1012,7 +1012,7 @@ const Dashboard = () => {
                   <CardContent>
                     {recentAssessments.length === 0 ? (
                       <div className="py-10 text-center">
-                        <Brain className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                        <img src="/illustrations/sn-empty-assessments.webp" alt="" width={240} height={171} loading="lazy" className="illus mx-auto mb-4 h-auto w-48" />
                         <p className="text-muted-foreground">
                           No assessments completed yet
                         </p>

@@ -579,6 +579,7 @@ const AuthPage = () => {
       {/* Email Verification Message Modal */}
       {showVerificationMessage && <EmailVerificationMessageModal />}
 
+      <img src="/illustrations/sn-auth-window.webp" alt="" width={380} height={464} className="illus mr-16 hidden h-auto w-[340px] shrink-0 lg:block" />
       <div 
         className="relative w-full max-w-md"
         data-aos="fade-up"
