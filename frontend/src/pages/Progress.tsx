@@ -254,10 +254,6 @@ const Progress = () => {
               <ArrowLeft className="w-4 h-4" />
             </Button>
             <div>
-              <Badge className="mb-2 px-3 py-1 bg-primary/20 border-primary/50 text-primary dark:bg-primary/30 dark:border-primary/60 dark:text-primary">
-                <Leaf className="w-3 h-3 mr-1" />
-                Your Journey
-              </Badge>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-primary bg-clip-text text-transparent">
                 Progress Reports
               </h1>

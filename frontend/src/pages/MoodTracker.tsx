@@ -335,7 +335,6 @@ const MoodTracker = () => {
                         )}
                       >
                         <div className="flex flex-col items-center space-y-2">
-                          <span className="text-3xl">{option.emoji}</span>
                           <Icon className={cn("w-5 h-5", selectedMood === option.value ? option.color : "text-muted-foreground")} />
                           <span className="text-xs font-medium">{option.label}</span>
                         </div>

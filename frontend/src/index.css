@@ -631,3 +631,30 @@ body { background-image: none !important; }
 
 /* Drawings are dark ink on transparent: in dark mode flip lightness and keep the hue */
 .dark .illus { filter: invert(0.9) hue-rotate(180deg); }
+
+/* ── Shared look for every screen ───────────────────────────────────────────
+   Tabs read as an underlined row, cards are flat panels, progress bars are slim. */
+[role="tablist"] {
+  background: transparent !important;
+  border-radius: 0 !important;
+  border-bottom: 1px solid hsl(var(--border));
+  padding: 0 !important;
+  height: auto !important;
+  gap: 1.5rem;
+  box-shadow: none !important;
+}
+[role="tab"] {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0.65rem 0.25rem !important;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  color: hsl(var(--muted-foreground));
+}
+[role="tab"][data-state="active"] {
+  border-bottom-color: hsl(var(--primary));
+  color: hsl(var(--foreground)) !important;
+}
+.bg-card, .premium-panel, .shadow-medium, .shadow-soft { box-shadow: none !important; }
+[role="progressbar"] { height: 6px !important; }
