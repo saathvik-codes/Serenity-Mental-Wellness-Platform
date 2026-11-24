@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchVideos } from "@/lib/backend";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +26,23 @@ const Resources = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [savedResources, setSavedResources] = useState<number[]>([]);
+  const [liveVideos, setLiveVideos] = useState<any[]>([]);
+  useEffect(() => {
+    fetchVideos()
+      .then((list) => setLiveVideos(list.slice(0, 9).map((v, i) => ({
+        id: 1000 + i,
+        title: v.title,
+        type: "video",
+        category: "videos",
+        description: v.description || `From ${v.channel}`,
+        duration: v.publishedAt ? new Date(v.publishedAt).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" }) : "",
+        icon: Video,
+        tags: [v.channel],
+        videoUrl: v.url,
+        externalUrl: v.url,
+      }))))
+      .catch(() => setLiveVideos([]));
+  }, []);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -41,8 +59,8 @@ const Resources = () => {
     "https://www.nimh.nih.gov/health/topics/anxiety-disorders",
     "https://ggia.berkeley.edu/practice/mindful_breathing#data-tab-download",
     "https://www.cci.health.wa.gov.au/~/media/CCI/Mental-Health-Professionals/Depression/Depression---Information-Sheets/Depression-Information-Sheet---01---What-is-Depression.pdf",
-    "https://www.apa.org/topics/stress/toolkit.pdf",
-    "https://www.uhs.umich.edu/files/uhs/field/downloads/relaxation-skills.pdf",
+    "https://www.apa.org/topics/stress",
+    "https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/breathing-exercises-for-stress/",
     "https://store.samhsa.gov/sites/default/files/d7/priv/sma16-4955.pdf"
   ];
 
@@ -155,7 +173,9 @@ const Resources = () => {
     }
   ];
 
-  const filteredResources = resources.filter(resource => {
+  // Live videos when the backend answers; the built-in ones only as a fallback, never both.
+  const allResources = liveVideos.length ? [...resources.filter((x) => x.type !== "video"), ...liveVideos] : resources;
+  const filteredResources = allResources.filter(resource => {
     const matchesSearch = resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          resource.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = activeCategory === "all" || resource.category === activeCategory;
@@ -194,10 +214,6 @@ const Resources = () => {
       link.click();
       document.body.removeChild(link);
       
-      toast({
-        title: "Download Started",
-        description: `${resource.title} is being downloaded.`,
-      });
     } else if (resource.videoUrl || resource.audioUrl) {
       // For videos and audio, open in new tab
       window.open(resource.externalUrl || resource.videoUrl || resource.audioUrl, '_blank');
@@ -211,19 +227,11 @@ const Resources = () => {
       window.open(resource.videoUrl, '_blank');
     } else if (resource.audioUrl) {
       // For audio, you could create an audio player
-      const audio = new Audio(resource.audioUrl);
-      audio.play().catch(() => {
-        // If autoplay fails, open in new tab
-        window.open(resource.audioUrl, '_blank');
-      });
+      window.open(resource.audioUrl, '_blank');
     } else if (resource.externalUrl) {
       window.open(resource.externalUrl, '_blank');
     }
     
-    toast({
-      title: "Opening Content",
-      description: `Opening ${resource.title}...`,
-    });
   };
 
   // Handle Save/Bookmark
@@ -305,7 +313,7 @@ const Resources = () => {
       };
     } else if (resource.downloadUrl) {
       return {
-        text: "Download",
+        text: /\.pdf($|\?)/i.test(resource.downloadUrl) ? "Download" : "Open",
         icon: Download,
         action: () => handleDownload(resource)
       };

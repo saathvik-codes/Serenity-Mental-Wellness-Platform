@@ -1,3 +1,4 @@
+// uniqueBy title
 // Mental Wellness News Service
 // Uses NewsAPI to fetch real mental health and wellness news
 
@@ -34,7 +35,8 @@ export const fetchMentalWellnessNews = async (): Promise<NewsArticle[]> => {
       return getFallbackNews();
     }
 
-    return articles
+    const seenTitles = new Set<string>();
+    return articles.filter((a: any) => { const k = (a.title || '').toLowerCase(); if (seenTitles.has(k)) return false; seenTitles.add(k); return true; })
       .filter((article: any) => article.urlToImage && article.title && article.description)
       .slice(0, 12)
       .map((article: any, index: number) => ({

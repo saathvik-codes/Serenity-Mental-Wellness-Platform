@@ -36,8 +36,9 @@ import {
 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { fetchVideos } from "@/lib/backend";
 import { fetchMentalWellnessNews, formatNewsDate, type NewsArticle } from "@/lib/newsService";
-import { getMentalWellnessVideos, getLiveStreams, getMentalHealthDiscussions, formatTimestamp, type VideoContent, type Discussion } from "@/lib/contentService";
+import { formatTimestamp, type VideoContent, type Discussion } from "@/lib/contentService";
 import SpotifyPlayer from "@/components/SpotifyPlayer";
 import { motion, AnimatePresence } from "framer-motion";
 import MobileBottomNav from "@/components/MobileBottomNav";
@@ -131,21 +132,19 @@ const Community = () => {
       setNewsArticles(articles);
       setIsLoadingNews(false);
       
-      // Load videos and discussions
-      setVideos(getMentalWellnessVideos());
-      setLiveStreams(getLiveStreams());
-      setDiscussions(getMentalHealthDiscussions());
+      // Real posts only (Firestore); videos are the latest uploads from mental-health channels.
+      setDiscussions([]);
       loadDiscussionsFromFirebase();
+      fetchVideos()
+        .then((list) => setVideos(list.map((v) => ({
+          id: v.id, title: v.title, description: v.description, thumbnail: v.thumbnail, channel: v.channel, url: v.url,
+          duration: v.publishedAt ? new Date(v.publishedAt).toLocaleDateString(undefined, { day: "numeric", month: "short" }) : "",
+          type: "video" as const,
+        }))))
+        .catch(() => setVideos([]));
       loadSupportGroupsFromFirebase();
     };
     loadContent();
-
-    // Refresh live streams every 30 seconds to show dynamic content
-    const liveStreamInterval = setInterval(() => {
-      setLiveStreams(getLiveStreams());
-    }, 30000);
-
-    return () => clearInterval(liveStreamInterval);
   }, []);
 
   const handleLikeDiscussion = async (discussionId: string) => {
@@ -375,7 +374,7 @@ const Community = () => {
             className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary whitespace-nowrap text-xs sm:text-sm px-3 sm:px-4 py-2 flex-shrink-0"
           >
             <Video className="w-4 h-4 mr-1 sm:mr-2" />
-            <span className="hidden sm:inline">Videos & Live Streams</span>
+            <span className="hidden sm:inline">Videos</span>
             <span className="sm:hidden">Videos</span>
           </Button>
           <Button
@@ -614,58 +613,6 @@ const Community = () => {
 
         {activeTab === "events" && (
           <div>
-            {/* Live Streams Section */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                <Badge className="bg-red-500">LIVE</Badge>
-                24/7 Mental Wellness Streams
-              </h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {liveStreams.map(stream => (
-                  <Card 
-                    key={stream.id} 
-                    className="hover:shadow-sm transition-all duration-300 cursor-pointer group overflow-hidden"
-                    onClick={() => window.open(stream.url, "_blank")}
-                  >
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        src={stream.thumbnail}
-                        alt={stream.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
-                      <div className="absolute top-2 left-2">
-                        <Badge className="bg-red-500 text-white">
-                          LIVE
-                        </Badge>
-                      </div>
-                      <div className="absolute top-2 right-2">
-                        <Badge className="bg-black/70 text-white">
-                          {stream.viewers?.toLocaleString()} watching
-                        </Badge>
-                      </div>
-                    </div>
-                    <CardHeader>
-                      <CardTitle className="text-lg line-clamp-2 group-hover:text-primary transition-colors">
-                        {stream.title}
-                      </CardTitle>
-                      <CardDescription className="line-clamp-2">
-                        {stream.description}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-muted-foreground">{stream.channel}</span>
-                        <Button size="sm" variant="outline">
-                          <Play className="w-4 h-4 mr-1" />
-                          Watch Now
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
             {/* Videos Section */}
             <div>
               <h2 className="text-2xl font-bold mb-4">Mental Wellness Videos & Meditations</h2>

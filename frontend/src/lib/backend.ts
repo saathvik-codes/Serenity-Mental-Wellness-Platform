@@ -38,3 +38,13 @@ export async function fetchNews(query: string): Promise<any[]> {
   const data = await res.json();
   return Array.isArray(data.articles) ? data.articles : [];
 }
+
+export type Video = { id: string; title: string; description: string; thumbnail: string; channel: string; url: string; publishedAt: string };
+
+/** Latest uploads from a few mental-health YouTube channels (through the backend). */
+export async function fetchVideos(q = ""): Promise<Video[]> {
+  const res = await fetch(`${BACKEND_URL}/api/videos${q ? `?q=${encodeURIComponent(q)}` : ""}`);
+  if (!res.ok) throw new Error(`Videos request failed (${res.status})`);
+  const data = await res.json();
+  return Array.isArray(data.videos) ? data.videos : [];
+}

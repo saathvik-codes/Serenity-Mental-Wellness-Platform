@@ -690,11 +690,72 @@ app.get('/api/news', async (req, res) => {
     const r = await fetch(url, { headers: { 'X-Api-Key': process.env.NEWS_API_KEY } });
     const data = await r.json().catch(() => ({}));
     if (!r.ok) return res.status(502).json({ error: 'News service did not respond', articles: [] });
-    newsCache = { key: q, at: Date.now(), articles: data.articles || [] };
+    // The same story is often syndicated under several URLs: keep one per link and per title.
+    const seenNews = new Set();
+    const articles = (data.articles || []).filter((a) => {
+      if (!a || !a.title || !a.url || a.title === '[Removed]') return false;
+      const t = a.title.toLowerCase().replace(/\s+-\s+[^-]+$/, '').replace(/[^a-z0-9]+/g, ' ').trim();
+      if (seenNews.has(a.url) || seenNews.has(t)) return false;
+      seenNews.add(a.url); seenNews.add(t);
+      return true;
+    });
+    newsCache = { key: q, at: Date.now(), articles };
     res.json({ articles: newsCache.articles });
   } catch (error) {
     console.error('News error:', error);
     res.status(502).json({ error: 'News service did not respond', articles: [] });
+  }
+});
+
+// ── Videos: latest uploads from a few mental-health channels via YouTube's public RSS feeds (no key) ──
+const VIDEO_CHANNELS = {
+  'UCpuqYFKLkcEryEieomiAv3Q': 'Therapy in a Nutshell',
+  'UCzBYOHyEEzlkRdDOSobbpvw': 'Kati Morton',
+  'UCkJEpR7JmS36tajD34Gp4VA': 'Psych2Go',
+  'UC3JhfsgFPLSLNEROQCdj-GQ': 'Headspace',
+  'UChSpME3QaSFAWK8Hpmg-Dyw': 'Calm',
+  'UC7IcJI8PUf5Z3zKxnZvTBog': 'The School of Life',
+  'UCN4vyryy6O4GlIXcXTIuZQQ': 'Great Meditation',
+};
+let videoCache = { at: 0, videos: [] };
+const decodeXml = (s = '') => s.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+const pick = (xml, re) => { const m = xml.match(re); return m ? decodeXml(m[1].trim()) : ''; };
+
+async function loadVideos() {
+  if (Date.now() - videoCache.at < 60 * 60 * 1000 && videoCache.videos.length) return videoCache.videos;
+  const results = await Promise.allSettled(Object.entries(VIDEO_CHANNELS).map(async ([id, channel]) => {
+    const r = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${id}`);
+    if (!r.ok) return [];
+    const xml = await r.text();
+    return (xml.split('<entry>').slice(1)).map((entry) => ({
+      id: pick(entry, /<yt:videoId>([^<]+)</),
+      title: pick(entry, /<title>([^<]+)</),
+      description: pick(entry, /<media:description>([\s\S]*?)<\/media:description>/).slice(0, 280),
+      thumbnail: pick(entry, /<media:thumbnail url="([^"]+)"/),
+      publishedAt: pick(entry, /<published>([^<]+)</),
+      channel,
+    }));
+  }));
+  const seen = new Set();
+  const videos = results.flatMap((r) => (r.status === 'fulfilled' ? r.value : []))
+    .filter((v) => v.id && !seen.has(v.id) && seen.add(v.id))
+    .filter((v) => !/#shorts/i.test(v.title))
+    .sort((a, b) => String(b.publishedAt).localeCompare(String(a.publishedAt)))
+    .map((v) => ({ ...v, url: `https://www.youtube.com/watch?v=${v.id}` }));
+  if (videos.length) videoCache = { at: Date.now(), videos };
+  return videos.length ? videos : videoCache.videos;
+}
+
+app.get('/api/videos', async (req, res) => {
+  try {
+    const q = String(req.query.q || '').trim().toLowerCase();
+    const limit = Math.min(Number.parseInt(String(req.query.limit || '24'), 10) || 24, 60);
+    let videos = await loadVideos();
+    if (q) videos = videos.filter((v) => `${v.title} ${v.description} ${v.channel}`.toLowerCase().includes(q));
+    res.json({ videos: videos.slice(0, limit) });
+  } catch (error) {
+    console.error('Videos error:', error);
+    res.status(502).json({ error: 'Could not load videos', videos: [] });
   }
 });
 
