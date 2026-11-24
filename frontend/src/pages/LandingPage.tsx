@@ -29,130 +29,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 const navigationItems = [
   { label: "Features", href: "#features" },
-  { label: "Experience", href: "#experience" },
-] as const;
-
-const heroStats = [
-  { value: "12+", label: "Guided wellness flows" },
-  { value: "24/7", label: "Calm, always-on support" },
-  { value: "Private", label: "User-first privacy posture" },
-] as const;
-
-const trustPillars = [
-  "Validated assessments with gentle explanations",
-  "AI reflections designed for real-life routines",
-  "Progress tracking that feels clear, not clinical",
-] as const;
-
-const features = [
-  {
-    icon: Brain,
-    title: "Validated assessments",
-    description: "PHQ-9, GAD-7, PCL-5, and guided check-ins presented with a calmer, easier experience.",
-    color: "text-primary",
-    detail: "Move from uncertainty to clarity with screening tools that feel approachable and structured.",
-    bullets: ["Clinically grounded question flows", "Readable score summaries", "Fast repeat check-ins"],
-  },
-  {
-    icon: TrendingUp,
-    title: "Elegant progress tracking",
-    description: "See mood movement, streaks, and behavioral trends in a dashboard that feels premium and readable.",
-    color: "text-wellness",
-    detail: "Progress is framed as momentum, not pressure, so users can notice patterns without feeling overwhelmed.",
-    bullets: ["Trend cards and weekly snapshots", "Visual progress summaries", "Healthy habit reminders"],
-  },
-  {
-    icon: Heart,
-    title: "Personalized guidance",
-    description: "Receive supportive recommendations, daily rituals, and therapeutic prompts tailored to your needs.",
-    color: "text-energy",
-    detail: "Insights adapt to what the user is experiencing and suggest the next best step instead of generic advice.",
-    bullets: ["Context-aware suggestions", "Daily wellness prompts", "Actionable coping techniques"],
-  },
-  {
-    icon: Users,
-    title: "Human-centered community",
-    description: "Support groups, shared stories, and guided discussion spaces that reduce isolation without adding noise.",
-    color: "text-secondary",
-    detail: "The social layer is designed to feel safe, moderated, and emotionally useful rather than crowded.",
-    bullets: ["Supportive discussion spaces", "Moderated wellness conversations", "Shared accountability"],
-  },
-  {
-    icon: Bell,
-    title: "Adaptive reminders",
-    description: "Gentle nudges help users stay consistent without making the product feel demanding or intrusive.",
-    color: "text-accent",
-    detail: "Reminders are framed like coaching cues and can reinforce reflection, tracking, and healthier routines.",
-    bullets: ["Smart timing for check-ins", "Habit-friendly language", "Reduced notification fatigue"],
-  },
-  {
-    icon: Shield,
-    title: "Privacy-first by design",
-    description: "Sensitive wellness data is handled with a clear privacy posture that reinforces trust from first use.",
-    color: "text-focus",
-    detail: "Confidence matters in mental health products, so privacy is made visible instead of hidden in the footer.",
-    bullets: ["Secure account flows", "Protected records", "Transparent trust messaging"],
-  },
-] as const;
-
-// Drawings for three of the features above; the words under each come from the feature itself, so they cannot drift apart
-const calmTiles = [
-  { title: "Personalized guidance", image: "/illustrations/sn-journal.webp" },
-  { title: "Adaptive reminders", image: "/illustrations/sn-breathing.webp" },
-  { title: "Human-centered community", image: "/illustrations/sn-stories-bench.webp" },
-];
-
-const benefitList = [
-  "Early pattern detection with less friction.",
-  "Personalized recommendations that feel actionable.",
-  "Support between therapy or counseling sessions.",
-  "A calmer onboarding experience for first-time users.",
-  "Better habit consistency through thoughtful reminders.",
-  "Lower stigma through elegant, private design.",
-] as const;
-
-const routineMoments = [
-  {
-    icon: Heart,
-    title: "Start with a soft check-in",
-    copy: "A quick mood note or guided prompt can turn self-reflection into something approachable instead of heavy.",
-    note: "Designed for a low-friction daily habit",
-  },
-  {
-    icon: Bell,
-    title: "Keep momentum without pressure",
-    copy: "Gentle reminders and light-touch rituals help users stay consistent without feeling monitored.",
-    note: "Useful when routines feel hard to maintain",
-  },
-  {
-    icon: TrendingUp,
-    title: "Review progress with clarity",
-    copy: "Weekly summaries and visual patterns help people notice movement over time without drowning them in metrics.",
-    note: "A calmer way to revisit personal progress",
-  },
-] as const;
-
-const productPrinciples = [
-  {
-    icon: Shield,
-    title: "Visible privacy cues",
-    copy: "Important account and privacy signals are surfaced in the experience instead of buried in small print.",
-  },
-  {
-    icon: Brain,
-    title: "Readable guidance",
-    copy: "Language, layout, and feedback are tuned to feel understandable even when someone is emotionally tired.",
-  },
-  {
-    icon: Users,
-    title: "Supportive tone",
-    copy: "The product aims to feel steady, human, and respectful rather than overly clinical or overly bright.",
-  },
-  {
-    icon: Activity,
-    title: "Useful reflection loops",
-    copy: "Check-ins, summaries, and next steps are shaped to encourage return visits without creating guilt.",
-  },
+  { label: "How it works", href: "#how" },
+  { label: "Contact", href: "#contact" },
 ] as const;
 
 
@@ -196,8 +74,23 @@ function VideoModal({ onClose }: { onClose: () => void }) {
   );
 }
 
+// What the app actually offers, each linking to the real page
+const offerings = [
+  { title: "Check-ins", copy: "Short, validated questionnaires (PHQ-9 for low mood, GAD-7 for anxiety) with plain-language results.", href: "/assessment-center" },
+  { title: "Mood log", copy: "A one-minute daily note on how you feel and what might have affected it.", href: "/mood-tracker" },
+  { title: "Breathing and meditation", copy: "Guided sessions for a few minutes of calm, wherever you are.", href: "/mindfulness" },
+  { title: "Progress", copy: "See how your scores and moods change over weeks, and export a report to share with a professional.", href: "/progress" },
+  { title: "Community", copy: "Support groups and discussions with people who understand what you are going through.", href: "/community" },
+  { title: "Help now", copy: "If things feel urgent, find crisis lines and nearby support in one place.", href: "/emergency-help" },
+];
+
+const steps = [
+  { title: "Check in", copy: "Answer a short questionnaire or log your mood. It takes a couple of minutes.", image: "/illustrations/sn-journal.webp" },
+  { title: "Take a breath", copy: "Use a guided breathing or meditation session when you need to slow down.", image: "/illustrations/sn-breathing.webp" },
+  { title: "Stay connected", copy: "Follow your progress over time, and join a support group when talking helps.", image: "/illustrations/sn-stories-bench.webp" },
+];
+
 const LandingPage = () => {
-  const [activeFeature, setActiveFeature] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
 
@@ -211,8 +104,6 @@ const LandingPage = () => {
     });
   }, []);
 
-  const featuredCapability = features[activeFeature];
-  const FeaturedIcon = featuredCapability.icon;
 
   return (
     <div className="min-h-screen bg-transparent">
@@ -321,442 +212,77 @@ const LandingPage = () => {
       <AnimatePresence>{isVideoModalOpen && <VideoModal onClose={() => setIsVideoModalOpen(false)} />}</AnimatePresence>
 
       <main>
-        <section className="relative overflow-hidden px-6 pb-20 pt-32 lg:pt-36">
-          <div className="container mx-auto">
-            <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
-              <div className="max-w-3xl" data-aos="fade-right">
-                <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Premium mental wellness, made approachable</p>
-
-                <div className="mb-5 font-soft text-sm uppercase tracking-[0.3em] text-foreground/60">
-                  <TypeAnimation
-                    sequence={["Private check-ins", 1600, "Beautiful progress tracking", 1600, "Support that feels human", 1600]}
-                    speed={55}
-                    repeat={Infinity}
-                  />
-                </div>
-
-                <h1 className="font-display text-5xl font-semibold leading-[0.95] text-foreground sm:text-6xl lg:text-7xl">
-                  Serenity makes mental wellness feel
-                  <span className="mt-2 block font-cursive text-gradient-primary">calm, personal, and beautifully guided.</span>
-                </h1>
-
-                <p className="mt-7 max-w-2xl font-body text-lg leading-8 text-muted-foreground sm:text-xl">
-                  A refined digital companion for assessments, daily reflection, AI-guided insights, and progress tracking.
-                  Built to feel elegant for users and credible for care-aware experiences.
-                </p>
-
-                <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                  <Button asChild size="lg" variant="hero" className="group">
-                    <Link to="/auth">
-                      Start your assessment
-                      <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
-                    </Link>
-                  </Button>
-                  <Button size="lg" variant="outline" className="btn-enhanced" onClick={() => setIsVideoModalOpen(true)}>
-                    Watch the product film
-                  </Button>
-                </div>
-
-                <div className="mt-10 grid gap-4 sm:grid-cols-3">
-                  {heroStats.map((stat, index) => (
-                    <div
-                      key={stat.label}
-                      className="premium-panel rounded-xl px-5 py-4 shadow-soft"
-                      data-aos="fade-up"
-                      data-aos-delay={index * 120}
-                    >
-                      <div className="font-display text-2xl font-semibold text-foreground">{stat.value}</div>
-                      <div className="mt-1 font-body text-sm text-muted-foreground">{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                  {trustPillars.map((item, index) => (
-                    <div
-                      key={item}
-                      className="rounded-2xl border border-border/70 bg-white/60 px-4 py-3 text-sm text-foreground/80 shadow-sm backdrop-blur-sm dark:bg-card/60"
-                      data-aos="fade-up"
-                      data-aos-delay={index * 110}
-                    >
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="relative" data-aos="fade-left">
-                <img src="/illustrations/sn-hero-landscape.webp" alt="Rolling hills at dawn with a winding path" width={1200} height={600} className="hero-art h-auto w-full" />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="experience" className="px-6 pb-10">
-          <div className="container mx-auto">
-            <div className="rounded-xl bg-gradient-hero p-[1px] shadow-sm">
-              <div className="grid gap-6 rounded-xl bg-background/90 p-6 backdrop-blur-xl lg:grid-cols-[1.1fr_0.9fr] lg:p-8">
-                <div data-aos="fade-right">
-                  <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Designed like a premium wellness product</p>
-                  <h2 className="font-display text-3xl font-semibold leading-tight text-foreground md:text-4xl">
-                    A softer, higher-trust first impression for people who may already be overwhelmed.
-                  </h2>
-                  <p className="mt-4 max-w-2xl font-body text-lg leading-8 text-muted-foreground">
-                    The new landing experience balances clinical credibility with emotional warmth: polished typography,
-                    confident motion, richer buttons, and clear product storytelling instead of a generic feature dump.
-                  </p>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2" data-aos="fade-left">
-                  {[
-                    { title: "Focused hierarchy", copy: "Clearer hero structure makes the first action obvious." },
-                    { title: "Richer motion", copy: "Layered ambient visuals and softer hover states add depth without noise." },
-                    { title: "Premium typography", copy: "Outfit, Figtree, and Quicksand create a more editorial look." },
-                    { title: "Friendlier CTAs", copy: "Buttons now feel tactile, elevated, and easier to trust." },
-                  ].map((item) => (
-                    <div key={item.title} className="premium-panel rounded-xl p-5">
-                      <div className="font-display text-xl font-semibold text-foreground">{item.title}</div>
-                      <div className="mt-2 font-body text-sm leading-6 text-muted-foreground">{item.copy}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="video" className="px-6 py-16">
-          <div className="container mx-auto">
-            <div className="mx-auto max-w-3xl text-center" data-aos="fade-up">
-              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Product film</p>
-              <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
-                See the experience in motion before users ever sign in.
-              </h2>
-              <p className="mt-4 font-body text-lg leading-8 text-muted-foreground">
-                The walkthrough now sits inside a more refined media shell, with better framing, stronger overlays, and
-                motion that matches the rest of the landing page.
+        <section className="px-6 pb-16 pt-32 lg:pt-40">
+          <div className="container mx-auto grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+            <div>
+              <h1 className="font-display text-5xl font-semibold leading-[1.02] text-foreground sm:text-6xl">
+                A quiet place to check in with yourself.
+              </h1>
+              <p className="mt-6 max-w-xl text-lg leading-8 text-foreground/75">
+                Serenity helps you notice how you are doing: short, validated check-ins, a daily mood log, guided breathing and
+                meditation, and a clear view of how things change over time.
               </p>
-            </div>
-
-            <div className="mt-12" data-aos="fade-up" data-aos-delay="100">
-              <ProfessionalHeroVideo />
-            </div>
-          </div>
-        </section>
-
-        <section id="features" className="px-6 py-20">
-          <div className="container mx-auto">
-            <div className="mx-auto max-w-3xl text-center" data-aos="fade-up">
-              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Core capabilities</p>
-              <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
-                Everything a premium mental wellness product needs, without the clutter.
-              </h2>
-              <p className="mt-4 font-body text-lg leading-8 text-muted-foreground">
-                Hover or focus a capability to preview the story it tells. The new layout gives each feature more weight
-                and makes the product feel intentional instead of crowded.
-              </p>
-            </div>
-
-            <div className="mt-14 grid gap-8 xl:grid-cols-[0.92fr_1.08fr]">
-              <Card className="premium-panel sticky top-28 h-fit overflow-hidden rounded-xl border-0 p-0 shadow-sm">
-                <div className=" p-8 dark:">
-                  <div className="mb-5 flex items-center gap-4">
-                    <div className={`glow-effect flex h-16 w-16 items-center justify-center rounded-3xl bg-primary/10 ${featuredCapability.color}`}>
-                      <FeaturedIcon className="h-8 w-8" />
-                    </div>
-                    <div>
-                      <div className="font-soft text-[11px] uppercase tracking-[0.3em] text-foreground/50">Selected capability</div>
-                      <h3 className="font-display text-3xl font-semibold text-foreground">{featuredCapability.title}</h3>
-                    </div>
-                  </div>
-
-                  <p className="font-body text-lg leading-8 text-muted-foreground">{featuredCapability.detail}</p>
-
-                  <div className="mt-8 grid gap-3">
-                    {featuredCapability.bullets.map((bullet) => (
-                      <div key={bullet} className="flex items-start gap-3 rounded-2xl border border-border/70 bg-white/60 px-4 py-3 dark:bg-card/60">
-                        <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary" />
-                        <span className="font-body text-sm leading-6 text-foreground/80">{bullet}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </Card>
-
-              <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {features.map((feature, index) => {
-                  const Icon = feature.icon;
-                  const isActive = index === activeFeature;
-
-                  return (
-                    <Card
-                      key={feature.title}
-                      className={`premium-panel group cursor-pointer rounded-xl border-0 transition-all duration-300 ${
-                        isActive ? "translate-y-[-4px] shadow-sm" : "shadow-soft"
-                      }`}
-                      onMouseEnter={() => setActiveFeature(index)}
-                      onFocus={() => setActiveFeature(index)}
-                      tabIndex={0}
-                      data-aos="fade-up"
-                      data-aos-delay={index * 80}
-                    >
-                      <CardHeader>
-                        <div className={`glow-effect mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 transition-transform duration-300 group-hover:scale-105 ${feature.color}`}>
-                          <Icon className="h-7 w-7" />
-                        </div>
-                        <CardTitle className="font-display text-2xl">{feature.title}</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <CardDescription className="font-body text-base leading-7 text-muted-foreground">
-                          {feature.description}
-                        </CardDescription>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+              <div className="mt-9 flex flex-wrap gap-3">
+                <a href="/auth" className="inline-flex items-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+                  Start a check-in
+                </a>
+                <a href="#how" className="inline-flex items-center rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground hover:border-primary/60">
+                  How it works
+                </a>
               </div>
             </div>
+            <img src="/illustrations/sn-hero-landscape.webp" alt="Rolling hills at dawn with a winding path" width={1200} height={600} className="hero-art h-auto w-full" />
           </div>
         </section>
 
-        <section className="px-6 py-16">
+        <section id="features" className="px-6 py-16">
           <div className="container mx-auto">
-            <div className="grid gap-6 md:grid-cols-3">
-              {calmTiles.map((tile) => (
-                <article key={tile.title} className="rounded-xl border border-border/60 bg-card/60 p-6" data-aos="fade-up">
-                  <img src={tile.image} alt="" width={320} height={176} loading="lazy" className="mx-auto mb-5 h-44 w-full object-contain" />
-                  <h3 className="font-display text-xl font-semibold text-foreground">{tile.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-foreground/70">{features.find((f) => f.title === tile.title)?.description}</p>
-                </article>
+            <h2 className="font-display text-3xl font-semibold text-foreground md:text-4xl">What you can do</h2>
+            <div className="mt-10 grid border-t border-border sm:grid-cols-2 lg:grid-cols-3">
+              {offerings.map((item) => (
+                <a key={item.title} href={item.href} className="group border-b border-border py-7 pr-8 sm:[&:nth-child(odd)]:pr-10">
+                  <h3 className="text-lg font-semibold text-foreground group-hover:text-primary">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-foreground/70">{item.copy}</p>
+                </a>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="px-6 py-16">
+        <section id="how" className="px-6 py-16">
           <div className="container mx-auto">
-            <div className="grid gap-8 xl:grid-cols-[1fr_1.05fr]">
-              <div data-aos="fade-right">
-                <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Impact and benefits</p>
-                <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
-                  Better aesthetics are not cosmetic here. They directly improve trust, clarity, and willingness to engage.
-                </h2>
-                <p className="mt-5 font-body text-lg leading-8 text-muted-foreground">
-                  In mental wellness products, first impressions carry emotional weight. The refreshed page reduces visual
-                  friction, communicates privacy earlier, and makes the first step feel more considered.
-                </p>
-
-                <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                  {benefitList.map((benefit, index) => (
-                    <div
-                      key={benefit}
-                      className="flex items-start gap-3 rounded-xl border border-border/70 bg-white/60 px-4 py-4 shadow-sm backdrop-blur-sm dark:bg-card/60"
-                      data-aos="fade-up"
-                      data-aos-delay={index * 70}
-                    >
-                      <CheckCircle2 className="mt-0.5 h-5 w-5 text-wellness" />
-                      <span className="font-body text-sm leading-6 text-foreground/80">{benefit}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <Button asChild size="lg" variant="hero" className="mt-8">
-                  <Link to="/auth">
-                    Join Serenity today
-                    <ArrowRight />
-                  </Link>
-                </Button>
-              </div>
-
-              <div className="grid gap-5" data-aos="fade-left">
-                <Card className="holographic-card rounded-xl border-0 bg-gradient-calm p-8 text-white shadow-sm">
-                  <div className="flex items-start justify-between gap-5">
-                    <div>
-                      <div className="font-soft text-[11px] uppercase tracking-[0.3em] text-white/70">Global context</div>
-                      <div className="mt-3 font-display text-5xl font-semibold">1 in 8</div>
-                    </div>
-                    <div className="glow-effect flex h-16 w-16 items-center justify-center rounded-3xl bg-white/20">
-                      <Heart className="h-8 w-8" />
-                    </div>
-                  </div>
-                  <p className="mt-5 max-w-xl font-body text-lg leading-8 text-white/90">
-                    People globally live with mental health disorders. A polished, accessible product can lower the
-                    barrier to self-awareness and support-seeking.
-                  </p>
-                  <div className="mt-8 grid gap-4 md:grid-cols-2">
-                    <div className="rounded-xl border border-white/20 bg-white/10 p-4">
-                      <div className="font-display text-2xl font-semibold">Gentle onboarding</div>
-                      <div className="mt-2 text-sm text-white/80">Lower pressure for first-time users.</div>
-                    </div>
-                    <div className="rounded-xl border border-white/20 bg-white/10 p-4">
-                      <div className="font-display text-2xl font-semibold">Visible trust cues</div>
-                      <div className="mt-2 text-sm text-white/80">Privacy and safety stay front and center.</div>
-                    </div>
-                  </div>
-                </Card>
-
-                <div className="grid gap-5 md:grid-cols-2">
-                  <Card className="premium-panel rounded-xl border-0 p-6">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                        <Users className="h-6 w-6" />
-                      </div>
-                      <div className="font-display text-2xl font-semibold">Human warmth</div>
-                    </div>
-                    <p className="mt-4 font-body text-sm leading-7 text-muted-foreground">
-                      Softer copy, better hierarchy, and refined motion make the product feel more supportive.
-                    </p>
-                  </Card>
-                  <Card className="premium-panel rounded-xl border-0 p-6">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary/10 text-secondary">
-                        <Activity className="h-6 w-6" />
-                      </div>
-                      <div className="font-display text-2xl font-semibold">Clear action</div>
-                    </div>
-                    <p className="mt-4 font-body text-sm leading-7 text-muted-foreground">
-                      Stronger CTA styling helps users understand where to begin without hesitation.
-                    </p>
-                  </Card>
-                </div>
-              </div>
-            </div>
+            <h2 className="font-display text-3xl font-semibold text-foreground md:text-4xl">How it works</h2>
+            <ol className="mt-10 grid gap-10 md:grid-cols-3">
+              {steps.map((step, i) => (
+                <li key={step.title}>
+                  <img src={step.image} alt="" width={320} height={176} loading="lazy" className="mb-6 h-40 w-full object-contain" />
+                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Step {i + 1}</p>
+                  <h3 className="mt-2 text-xl font-semibold text-foreground">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-foreground/70">{step.copy}</p>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
 
-        <section id="about" className="px-6 py-20">
-          <div className="container mx-auto">
-            <div className="mx-auto max-w-3xl text-center" data-aos="fade-up">
-              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">What makes Serenity different</p>
-              <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
-                A more expressive landing page backed by real product depth.
-              </h2>
-              <p className="mt-4 font-body text-lg leading-8 text-muted-foreground">
-                The carousel now sits inside a cleaner editorial rhythm so each capability has space to breathe.
-              </p>
-            </div>
-
-            <div className="mt-12" data-aos="fade-up" data-aos-delay="120">
-              <InfiniteCarousel />
-            </div>
-
-            <div className="mt-12 text-center" data-aos="fade-up" data-aos-delay="180">
-              <Button asChild variant="outline" size="lg" className="btn-enhanced">
-                <Link to="/about">
-                  Learn more about Serenity
-                  <ArrowRight />
-                </Link>
-              </Button>
-            </div>
+        <section className="px-6 py-10">
+          <div className="container mx-auto rounded-xl border border-border bg-card px-6 py-6 md:flex md:items-center md:justify-between">
+            <p className="text-sm leading-6 text-foreground/80">
+              Serenity supports your wellbeing; it does not replace professional care. If you are in crisis, please reach out now.
+            </p>
+            <a href="/emergency-help" className="mt-3 inline-block text-sm font-semibold text-accent underline underline-offset-4 md:mt-0">
+              Find immediate help
+            </a>
           </div>
         </section>
 
-        <HowItWorksSection />
-
-        <section className="px-6 py-20">
-          <div className="container mx-auto">
-            <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-              <div data-aos="fade-up">
-                <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Built for real routines</p>
-                <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
-                  Serenity is designed to fit into everyday life, not compete with it.
-                </h2>
-                <p className="mt-4 max-w-2xl font-body text-lg leading-8 text-muted-foreground">
-                  The experience is shaped around small repeatable moments: a quick check-in, a clearer view of
-                  progress, and gentle prompts that make returning feel natural instead of heavy.
-                </p>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-1">
-                {routineMoments.map((moment, index) => {
-                  const Icon = moment.icon;
-
-                  return (
-                    <Card
-                      key={moment.title}
-                      className="premium-panel rounded-xl border border-primary/10 p-6"
-                      data-aos="fade-up"
-                      data-aos-delay={100 + index * 80}
-                    >
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                        <Icon className="h-6 w-6" />
-                      </div>
-                      <h3 className="mt-5 font-display text-2xl font-semibold text-foreground">{moment.title}</h3>
-                      <p className="mt-3 font-body text-sm leading-7 text-muted-foreground">{moment.copy}</p>
-                      <div className="mt-5 font-soft text-xs font-semibold uppercase tracking-[0.24em] text-foreground/45">
-                        {moment.note}
-                      </div>
-                    </Card>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="px-6 pb-20">
-          <div className="container mx-auto">
-            <div className="mx-auto max-w-3xl text-center" data-aos="fade-up">
-              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Product principles</p>
-              <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
-                Clear, calm product decisions carry more trust than badges alone.
-              </h2>
-              <p className="mt-4 font-body text-lg leading-8 text-muted-foreground">
-                Serenity now highlights the design choices that matter in day-to-day use: readable guidance, visible
-                privacy cues, and a tone that feels supportive without sounding clinical.
-              </p>
-            </div>
-
-            <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              {productPrinciples.map((principle, index) => {
-                const Icon = principle.icon;
-
-                return (
-                  <Card
-                    key={principle.title}
-                    className="premium-panel rounded-xl border border-border/70 p-6"
-                    data-aos="fade-up"
-                    data-aos-delay={120 + index * 70}
-                  >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary/10 text-secondary">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="mt-5 font-display text-xl font-semibold text-foreground">{principle.title}</h3>
-                    <p className="mt-3 font-body text-sm leading-7 text-muted-foreground">{principle.copy}</p>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-
-        <section className="relative overflow-hidden px-6 py-20">
-          <div className="absolute inset-0 bg-gradient-hero" />
-          <div className="absolute inset-0 bg-hologram opacity-80" />
-          <div className="container relative z-10 mx-auto">
-            <div className="mx-auto max-w-4xl text-center text-white" data-aos="zoom-in">
-              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Ready when your users are</p>
-              <h2 className="font-display text-4xl font-semibold md:text-5xl">
-                Launch a calmer, more elevated first impression for Serenity.
-              </h2>
-              <p className="mx-auto mt-5 max-w-2xl font-body text-lg leading-8 text-white/90">
-                The new page feels more premium, more readable, and more trustworthy without losing warmth. It is a much
-                stronger entry point for sign-up and product exploration.
-              </p>
-
-              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button asChild size="lg" variant="secondary" className="border border-white/20 bg-white text-primary hover:bg-white/90">
-                  <Link to="/auth">
-                    Start free assessment
-                    <ArrowRight />
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="border-white/50 bg-black/20 text-white hover:bg-white/10 hover:text-white">
-                  <Link to="/about">Explore the platform</Link>
-                </Button>
-              </div>
-            </div>
+        <section className="px-6 pb-24 pt-12">
+          <div className="container mx-auto text-center">
+            <h2 className="font-display text-3xl font-semibold text-foreground md:text-4xl">Start with one check-in.</h2>
+            <p className="mx-auto mt-4 max-w-lg text-foreground/70">It takes a few minutes, and you can come back whenever you like.</p>
+            <a href="/auth" className="mt-8 inline-flex items-center rounded-full bg-primary px-7 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+              Create your account
+            </a>
           </div>
         </section>
       </main>
