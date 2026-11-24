@@ -34,7 +34,8 @@ const AssessmentCenter = () => {
       questions: "9 questions",
       color: "text-primary",
       bgColor: "bg-primary/10",
-      image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=300&fit=crop"
+      image: "/illustrations/sn-journal.webp",
+      art: "/illustrations/sn-assess-mood.webp"
     },
     {
       id: "gad7",
@@ -45,7 +46,8 @@ const AssessmentCenter = () => {
       questions: "7 questions",
       color: "text-calm",
       bgColor: "bg-calm/10",
-      image: "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?w=400&h=300&fit=crop"
+      image: "/illustrations/sn-breathing.webp",
+      art: "/illustrations/sn-assess-anxiety.webp"
     },
     {
       id: "pcl5",
@@ -56,7 +58,8 @@ const AssessmentCenter = () => {
       questions: "20 questions",
       color: "text-energy",
       bgColor: "bg-energy/10",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop"
+      image: "/illustrations/sn-help.webp",
+      art: "/illustrations/sn-assess-trauma.webp"
     },
     {
       id: "stress",
@@ -67,7 +70,8 @@ const AssessmentCenter = () => {
       questions: "10 questions",
       color: "text-warning",
       bgColor: "bg-warning/10",
-      image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=300&fit=crop"
+      image: "/illustrations/sn-empty-assessments.webp",
+      art: "/illustrations/sn-assess-stress.webp"
     },
     {
       id: "wellness",
@@ -78,7 +82,8 @@ const AssessmentCenter = () => {
       questions: "10 questions", 
       color: "text-wellness",
       bgColor: "bg-wellness/10",
-      image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=300&fit=crop"
+      image: "/illustrations/sn-carousel-checkin.webp",
+      art: "/illustrations/sn-assess-wellness.webp"
     },
     {
       id: "sleep",
@@ -89,7 +94,8 @@ const AssessmentCenter = () => {
       questions: "8 questions",
       color: "text-focus", 
       bgColor: "bg-focus/10",
-      image: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&h=300&fit=crop"
+      image: "/illustrations/sn-auth-window.webp",
+      art: "/illustrations/sn-assess-sleep.webp"
     }
   ];
 
@@ -242,16 +248,8 @@ const AssessmentCenter = () => {
                   onClick={() => setCurrentAssessment(assessment.id as AssessmentType)}
                 >
                   {/* Image Header */}
-                  <div className="relative h-40 overflow-hidden">
-                    <img 
-                      src={assessment.image} 
-                      alt={assessment.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-black/60" />
-                    <div className={`absolute top-4 left-4 w-12 h-12 ${assessment.bgColor} rounded-xl flex items-center justify-center shadow-sm`}>
-                      <Icon className={`w-6 h-6 ${assessment.color}`} />
-                    </div>
+                  <div className="flex h-40 items-center justify-center bg-secondary/60">
+                    <img src={assessment.art || assessment.image} alt="" width={240} height={171} loading="lazy" onError={(e) => { if (assessment.art && e.currentTarget.src.endsWith(assessment.art)) e.currentTarget.src = assessment.image; }} className="illus h-32 w-auto object-contain" />
                   </div>
 
                   <CardHeader className="pb-4">
