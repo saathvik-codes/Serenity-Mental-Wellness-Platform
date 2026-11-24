@@ -855,6 +855,7 @@ const Dashboard = () => {
                       <CardTitle className="text-sm font-medium text-muted-foreground">
                         {stat.title}
                       </CardTitle>
+                      <stat.icon className="h-4 w-4 text-primary" aria-hidden="true" />
                     </CardHeader>
                     <CardContent className="p-4 pt-0 sm:p-5 sm:pt-0">
                       <motion.div className="text-2xl font-semibold text-foreground sm:text-3xl">
@@ -879,6 +880,7 @@ const Dashboard = () => {
                   <CardContent>
                     <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                       {quickActions.map((action, index) => {
+                        const Icon = action.icon;
                         return (
                           <motion.button
                             key={action.title}
@@ -890,6 +892,7 @@ const Dashboard = () => {
                             className="group rounded-xl border border-border bg-background p-4 text-left transition-colors hover:border-primary/40"
                           >
                             <div>
+                              <Icon className="mb-3 h-5 w-5 text-primary" aria-hidden="true" />
                               <h3 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">{action.title}</h3>
                               <p className="mt-2 text-sm leading-6 text-muted-foreground">{action.description}</p>
                             </div>
