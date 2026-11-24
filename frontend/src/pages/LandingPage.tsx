@@ -799,8 +799,8 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <div className="px-6 pb-4">
-          <img src="/illustrations/sn-hero-landscape.webp" alt="" width={1200} height={220} loading="lazy" className="mx-auto h-44 w-full max-w-6xl rounded-[1.4rem] object-cover" />
+        <div aria-hidden className="pointer-events-none">
+          <img src="/illustrations/sn-hero-landscape.webp" alt="" width={1800} height={260} loading="lazy" className="landscape-band h-52 w-full object-cover" />
         </div>
 
         <section className="relative overflow-hidden px-6 py-20">

@@ -598,3 +598,6 @@
 
 /* Decorative blobs and scroll animations must never create a sideways scrollbar */
 html, body { overflow-x: clip; max-width: 100%; }
+
+/* The landscape is a backdrop, not a picture: it fades in and out so no edge shows */
+.landscape-band { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 32%, #000 68%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 32%, #000 68%, transparent); }
