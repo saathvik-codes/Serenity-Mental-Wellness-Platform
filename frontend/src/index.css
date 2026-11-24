@@ -658,3 +658,16 @@ body { background-image: none !important; }
 }
 .bg-card, .premium-panel, .shadow-medium, .shadow-soft { box-shadow: none !important; }
 [role="progressbar"] { height: 6px !important; }
+
+/* ── Signed-in screens follow the website: serif titles, no duplicate navigation ── */
+@media (min-width: 1024px) {
+  /* the sidebar replaces each page's own back button */
+  [data-shell] :is(button, a):has(> svg.lucide-arrow-left) { display: none !important; }
+}
+[data-shell] h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: hsl(var(--foreground));
+}
+[data-shell] h1 > div.rounded-full { display: none; }   /* old icon badges inside titles */

@@ -46,7 +46,7 @@ export default function AppShell() {
     }`;
 
   return (
-    <div className="min-h-screen bg-background lg:pl-60">
+    <div data-shell className="min-h-screen bg-background lg:pl-60">
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-border bg-background lg:flex">
         <div className="flex items-center justify-between px-5 py-5">
           <NavLink to="/dashboard" className="font-display text-2xl text-foreground">Serenity</NavLink>
