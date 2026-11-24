@@ -92,9 +92,7 @@ export default function About() {
         <div className="container mx-auto">
           <section className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
             <div data-hero className="max-w-3xl">
-              <Badge className="rounded-full border-primary/20 bg-primary/10 px-4 py-2 text-primary">
-                Built with personal ownership
-              </Badge>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Built with personal ownership</p>
               <h1 className="mt-6 font-display text-5xl font-semibold leading-[0.94] text-foreground sm:text-6xl">
                 Serenity is being shaped by
                 <span className="mt-2 block font-cursive text-gradient-primary">Saathvik Kalepu.</span>
@@ -122,7 +120,7 @@ export default function About() {
 
               <div className="mt-10 grid gap-4 md:grid-cols-3">
                 {focusMoments.map((item) => (
-                  <div key={item.label} className="premium-panel rounded-[1.4rem] px-5 py-4 shadow-soft" data-float-card>
+                  <div key={item.label} className="premium-panel rounded-xl px-5 py-4 shadow-soft" data-float-card>
                     <div className="font-soft text-[11px] uppercase tracking-[0.28em] text-foreground/48">{item.label}</div>
                     <div className="mt-3 font-display text-xl font-semibold text-foreground">{item.value}</div>
                   </div>
@@ -131,19 +129,17 @@ export default function About() {
             </div>
 
             <div data-hero className="relative">
-              <Card className="premium-panel overflow-hidden rounded-[2rem] border-0 p-0 shadow-[0_34px_90px_hsl(var(--secondary)/0.16)]">
+              <Card className="premium-panel overflow-hidden rounded-xl border-0 p-0 shadow-sm">
                 <div className="relative overflow-hidden p-7">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.16),transparent_38%),radial-gradient(circle_at_bottom_right,hsl(var(--secondary)/0.18),transparent_38%)]" />
+                  <div className="absolute inset-0 " />
                   <div className="relative">
                     <div className="mb-6 flex items-center justify-between">
-                      <Badge className="rounded-full border-secondary/20 bg-secondary/10 px-4 py-2 text-secondary">
-                        Personal profile
-                      </Badge>
+                      <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Personal profile</p>
                       <Sparkles className="h-5 w-5 text-primary" />
                     </div>
 
                     <div className="grid gap-6 md:grid-cols-[0.84fr_1.16fr]">
-                      <div className="flex min-h-[320px] flex-col justify-between rounded-[1.7rem] border border-border/60 bg-[linear-gradient(145deg,hsl(var(--primary)),hsl(var(--secondary)))] p-6 text-white shadow-[0_24px_70px_rgba(0,0,0,0.18)]">
+                      <div className="flex min-h-[320px] flex-col justify-between rounded-xl border border-border/60 bg-primary p-6 text-white shadow-sm">
                         <div>
                           <div className="font-soft text-[11px] uppercase tracking-[0.36em] text-white/72">Creative profile</div>
                           <div className="mt-4 max-w-[180px] rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.26em] text-white/80">
@@ -184,7 +180,7 @@ export default function About() {
                           ))}
                         </div>
 
-                        <div className="rounded-[1.5rem] border border-primary/12 bg-primary/8 p-5">
+                        <div className="rounded-xl border border-primary/12 bg-primary/8 p-5">
                           <div className="flex items-start gap-3">
                             <HeartHandshake className="mt-1 h-5 w-5 text-primary" />
                             <p className="font-body text-sm leading-7 text-foreground/78">
@@ -203,9 +199,7 @@ export default function About() {
 
           <section className="mt-20" data-reveal>
             <div className="mx-auto max-w-3xl text-center">
-              <Badge className="rounded-full border-accent/20 bg-accent/10 px-4 py-2 text-foreground">
-                What is being refined
-              </Badge>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">What is being refined</p>
               <h2 className="mt-5 font-display text-4xl font-semibold text-foreground md:text-5xl">
                 Serenity is being rebuilt to feel more human, more composed, and more intentional.
               </h2>
@@ -221,11 +215,11 @@ export default function About() {
                 return (
                   <Card
                     key={promise.title}
-                    className="premium-panel group rounded-[1.7rem] border-0 p-0 shadow-soft transition-transform duration-300 hover:-translate-y-1"
+                    className="premium-panel group rounded-xl border-0 p-0 shadow-soft transition-transform duration-300 hover:-translate-y-1"
                     data-float-card
                   >
                     <CardHeader className="pb-4">
-                      <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/16 to-secondary/14 text-primary glow-effect">
+                      <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/16 text-primary glow-effect">
                         <Icon className="h-7 w-7" />
                       </div>
                       <CardTitle className="font-display text-2xl">{promise.title}</CardTitle>
@@ -240,10 +234,8 @@ export default function About() {
           </section>
 
           <section className="mt-20 grid gap-8 lg:grid-cols-[0.92fr_1.08fr]" data-reveal>
-            <Card className="premium-panel rounded-[1.9rem] border-0 p-7 shadow-[0_26px_70px_hsl(var(--primary)/0.12)]">
-              <Badge className="rounded-full border-secondary/20 bg-secondary/10 px-4 py-2 text-secondary">
-                Working principles
-              </Badge>
+            <Card className="premium-panel rounded-xl border-0 p-7 shadow-sm">
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Working principles</p>
               <h3 className="mt-5 font-display text-3xl font-semibold text-foreground">
                 The aesthetic is meant to support trust, not just decoration.
               </h3>
@@ -252,7 +244,7 @@ export default function About() {
                 without becoming cold. The interface should lower tension, not add to it.
               </p>
 
-              <div className="mt-8 rounded-[1.6rem] border border-border/70 bg-background/72 p-5">
+              <div className="mt-8 rounded-xl border border-border/70 bg-background/72 p-5">
                 <div className="font-soft text-[11px] uppercase tracking-[0.32em] text-foreground/48">Current emphasis</div>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {["Brand polish", "Hero storytelling", "Dashboard clarity", "Motion systems"].map((item) => (
@@ -268,7 +260,7 @@ export default function About() {
               {buildPrinciples.map((principle, index) => (
                 <Card
                   key={principle}
-                  className="premium-panel rounded-[1.5rem] border-0 px-6 py-5 shadow-soft transition-transform duration-300 hover:-translate-y-1"
+                  className="premium-panel rounded-xl border-0 px-6 py-5 shadow-soft transition-transform duration-300 hover:-translate-y-1"
                   data-float-card={index % 2 === 0 ? "" : undefined}
                 >
                   <div className="flex items-start gap-4">
@@ -283,12 +275,10 @@ export default function About() {
           </section>
 
           <section className="mt-20" data-reveal>
-            <Card className="overflow-hidden rounded-[2rem] border-0 bg-gradient-hero p-8 text-white shadow-[0_34px_90px_hsl(var(--primary)/0.24)] md:p-10">
+            <Card className="overflow-hidden rounded-xl border-0 bg-gradient-hero p-8 text-white shadow-sm md:p-10">
               <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
                 <div>
-                  <Badge className="rounded-full border-white/20 bg-white/10 px-4 py-2 text-white">
-                    Continue to contact
-                  </Badge>
+                  <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Continue to contact</p>
                   <h3 className="mt-5 font-display text-4xl font-semibold">
                     If the about page earns your attention, the contact page should earn your curiosity.
                   </h3>

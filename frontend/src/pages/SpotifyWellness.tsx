@@ -167,7 +167,7 @@ const SpotifyWellness = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,#0d1110,#111915,#1b291f)] pb-16 lg:pb-0">
+    <div className="relative min-h-screen overflow-hidden  pb-16 lg:pb-0">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-16 top-10 h-64 w-64 rounded-full bg-green-500/15 blur-3xl" />
         <div className="absolute right-0 top-1/4 h-72 w-72 rounded-full bg-emerald-300/10 blur-3xl" />
@@ -213,14 +213,14 @@ const SpotifyWellness = () => {
           </div>
         </div>
 
-        <div className="mb-8 overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-[0_24px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:mb-12 sm:p-8">
+        <div className="mb-8 overflow-hidden rounded-xl border border-white/10 bg-white/5 p-6 shadow-sm backdrop-blur-xl sm:mb-12 sm:p-8">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-green-400/20 bg-green-400/10 px-4 py-2 text-sm font-medium text-green-200">
                 <Music className="h-4 w-4" />
                 Spotify wellness space
               </div>
-              <h1 className="mt-5 bg-gradient-to-r from-green-200 via-green-400 to-emerald-300 bg-clip-text text-3xl font-semibold text-transparent sm:text-5xl">
+              <h1 className="mt-5 bg-green-200 bg-clip-text text-3xl font-semibold text-transparent sm:text-5xl">
                 Music for calmer routines, focus resets, and slower evenings.
               </h1>
               <p className="mt-4 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
@@ -229,12 +229,12 @@ const SpotifyWellness = () => {
             </div>
 
             <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-              <div className="rounded-[1.5rem] border border-white/10 bg-black/20 p-4">
+              <div className="rounded-xl border border-white/10 bg-black/20 p-4">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Live search</div>
                 <div className="mt-3 text-2xl font-semibold text-white">Spotify-backed</div>
                 <p className="mt-2 text-sm text-slate-300">Search runs through your backend so the client secret stays out of the browser bundle.</p>
               </div>
-              <div className="rounded-[1.5rem] border border-white/10 bg-black/20 p-4">
+              <div className="rounded-xl border border-white/10 bg-black/20 p-4">
                 <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Fallback playlists</div>
                 <div className="mt-3 text-2xl font-semibold text-white">Always something to open</div>
                 <p className="mt-2 text-sm text-slate-300">If Spotify search is unavailable, curated wellness playlists still populate the experience.</p>
@@ -277,9 +277,9 @@ const SpotifyWellness = () => {
               {categories.map((category) => (
                 <Card
                   key={category.id}
-                  className={`cursor-pointer overflow-hidden rounded-[1.6rem] border transition-all duration-300 ${
+                  className={`cursor-pointer overflow-hidden rounded-xl border transition-all duration-300 ${
                     selectedCategory === category.id
-                      ? "border-green-400/60 bg-green-500/15 shadow-[0_18px_40px_rgba(34,197,94,0.24)]"
+                      ? "border-green-400/60 bg-green-500/15 shadow-sm"
                       : "border-white/10 bg-white/5 hover:border-green-400/30 hover:bg-white/10"
                   }`}
                   onClick={() => setSelectedCategory(category.id)}
@@ -313,7 +313,7 @@ const SpotifyWellness = () => {
             {isLoading ? (
               <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {[1, 2, 3, 4].map((i) => (
-                  <Card key={i} className="animate-pulse rounded-[1.6rem] border-white/10 bg-white/5">
+                  <Card key={i} className="animate-pulse rounded-xl border-white/10 bg-white/5">
                     <div className="h-48 rounded-t-[1.6rem] bg-white/10" />
                     <CardContent className="p-4">
                       <div className="mb-2 h-4 rounded bg-white/10" />
@@ -327,7 +327,7 @@ const SpotifyWellness = () => {
                 {playlists.map((playlist) => (
                   <Card
                     key={playlist.id}
-                    className="group cursor-pointer overflow-hidden rounded-[1.6rem] border border-white/10 bg-white/5 transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_18px_40px_rgba(34,197,94,0.18)]"
+                    className="group cursor-pointer overflow-hidden rounded-xl border border-white/10 bg-white/5 transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:shadow-sm"
                     onClick={() => handlePlaylistClick(playlist)}
                   >
                     <div className="relative h-48 overflow-hidden">
@@ -336,7 +336,7 @@ const SpotifyWellness = () => {
                         alt={playlist.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                      <div className="absolute inset-0 bg-black/80" />
                       <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
                           <Play className="w-6 h-6 text-black ml-1" />
@@ -379,7 +379,7 @@ const SpotifyWellness = () => {
 
             <div className="grid md:grid-cols-3 gap-8 mb-8">
               <div className="md:col-span-1">
-                <Card className="overflow-hidden rounded-[1.8rem] border border-green-500/20 bg-gradient-to-br from-white/10 to-green-900/20 backdrop-blur-xl">
+                <Card className="overflow-hidden rounded-xl border border-green-500/20 bg-white/10 backdrop-blur-xl">
                   <img
                     src={selectedPlaylist.image}
                     alt={selectedPlaylist.name}
@@ -427,7 +427,7 @@ const SpotifyWellness = () => {
               </div>
 
               <div className="md:col-span-2">
-                <Card className="rounded-[1.8rem] border border-white/10 bg-white/5 backdrop-blur-xl">
+                <Card className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-xl">
                   <CardHeader>
                     <CardTitle className="text-white flex items-center gap-2">
                       <Music className="w-5 h-5 text-green-500" />
@@ -453,7 +453,7 @@ const SpotifyWellness = () => {
                           {tracks.map((track, index) => (
                             <div
                               key={track.id}
-                            className="group flex cursor-pointer items-center gap-3 rounded-[1.2rem] p-3 transition-colors hover:bg-white/5"
+                            className="group flex cursor-pointer items-center gap-3 rounded-xl p-3 transition-colors hover:bg-white/5"
                               onClick={() => handlePlayOnSpotify(track.externalUrl)}
                             >
                               <span className="text-gray-500 w-6 text-sm">{index + 1}</span>
@@ -522,7 +522,7 @@ const SpotifyWellness = () => {
         )}
 
         {/* Info Banner */}
-        <Card className="mt-12 rounded-[1.8rem] border border-green-500/20 bg-gradient-to-r from-green-950/50 to-black/30 backdrop-blur-xl">
+        <Card className="mt-12 rounded-xl border border-green-500/20 bg-green-950/50 backdrop-blur-xl">
           <CardContent className="p-6">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">

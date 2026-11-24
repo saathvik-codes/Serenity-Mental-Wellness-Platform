@@ -309,7 +309,7 @@ ${new Date().toLocaleString()}`;
             </Button>
             <div>
               <h1 className="text-3xl font-bold flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center shadow-glow">
+                <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center shadow-glow">
                   <Heart className="w-6 h-6 text-white" />
                 </div>
                 Emergency Support
@@ -410,7 +410,7 @@ ${new Date().toLocaleString()}`;
                                   e.stopPropagation();
                                   handleCall(hotline.phone);
                                 }}
-                                className="bg-gradient-to-br from-indigo-600 to-rose-500 text-white"
+                                className=" bg-indigo-600 text-white"
                                 size="sm"
                               >
                                 <Phone className="w-4 h-4 mr-2" />
@@ -535,7 +535,7 @@ ${new Date().toLocaleString()}`;
               </Alert>
 
               <Button 
-                className="w-full lg:w-auto bg-gradient-to-br from-indigo-600 to-rose-500 text-white mt-4"
+                className="w-full lg:w-auto bg-indigo-600 text-white mt-4"
                 onClick={() => navigate("/ai-therapist")}
               >
                 <MessageCircle className="w-4 h-4 mr-2" />

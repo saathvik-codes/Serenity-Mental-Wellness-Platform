@@ -182,7 +182,7 @@ const AssessmentCenter = () => {
     };
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 cyber-grid p-4 sm:p-6 pb-20 lg:pb-6">
+      <div className="min-h-screen bg-background cyber-grid p-4 sm:p-6 pb-20 lg:pb-6">
         <div className="container mx-auto py-8">
           {currentAssessment === "phq9" && <PHQ9Assessment {...props} />}
           {currentAssessment === "gad7" && <GAD7Assessment {...props} />}
@@ -196,7 +196,7 @@ const AssessmentCenter = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 cyber-grid pb-16 lg:pb-0">
+    <div className="min-h-screen bg-background cyber-grid pb-16 lg:pb-0">
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
         <div className="flex items-center justify-between mb-8">
           <Button 
@@ -238,7 +238,7 @@ const AssessmentCenter = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 <Card 
-                  className="hover:shadow-xl transition-all duration-300 cursor-pointer group overflow-hidden h-full border-2 hover:border-primary/30"
+                  className="hover:shadow-sm transition-all duration-300 cursor-pointer group overflow-hidden h-full border-2 hover:border-primary/30"
                   onClick={() => setCurrentAssessment(assessment.id as AssessmentType)}
                 >
                   {/* Image Header */}
@@ -248,7 +248,7 @@ const AssessmentCenter = () => {
                       alt={assessment.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div className="absolute inset-0 bg-black/60" />
                     <div className={`absolute top-4 left-4 w-12 h-12 ${assessment.bgColor} backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg`}>
                       <Icon className={`w-6 h-6 ${assessment.color}`} />
                     </div>

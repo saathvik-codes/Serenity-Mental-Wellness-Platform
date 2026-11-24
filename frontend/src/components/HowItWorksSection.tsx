@@ -49,7 +49,7 @@ const features = [
 
 export default function HowItWorksSection() {
   return (
-    <section className="bg-gradient-to-br from-background to-wellness/5 px-6 py-20 dark:to-wellness/10">
+    <section className=" bg-background px-6 py-20">
       <div className="container mx-auto">
         <div className="mb-16 text-center" data-aos="fade-up">
           <Badge
@@ -87,7 +87,7 @@ export default function HowItWorksSection() {
                   </div>
 
                   <div
-                    className={`mx-auto mb-4 mt-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/15 to-secondary/15 ${step.color}`}
+                    className={`mx-auto mb-4 mt-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/15 ${step.color}`}
                   >
                     <step.icon className="h-8 w-8" />
                   </div>
@@ -138,7 +138,7 @@ export default function HowItWorksSection() {
           </div>
 
           <div className="relative" data-aos="fade-left">
-            <Card className="border-0 bg-gradient-to-br from-primary/10 to-secondary/10 p-8 shadow-strong">
+            <Card className="border-0 bg-primary/10 p-8 shadow-strong">
               <div className="text-center">
                 <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-primary">
                   <Brain className="h-10 w-10 text-white" />

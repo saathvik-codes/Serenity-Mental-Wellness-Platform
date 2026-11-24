@@ -26,7 +26,7 @@ const WelcomeGreeting = ({ userName, onDismiss }: WelcomeGreetingProps) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-      <Card className={`max-w-lg w-full p-8 text-center welcome-animation sparkle-effect bg-gradient-to-br from-card/95 to-primary/5 border-primary/20 shadow-glow ${show ? 'opacity-100' : 'opacity-0'}`}>
+      <Card className={`max-w-lg w-full p-8 text-center welcome-animation sparkle-effect bg-card/95 border-primary/20 shadow-glow ${show ? 'opacity-100' : 'opacity-0'}`}>
         <div className="absolute top-4 right-4">
           <Button
             variant="ghost"

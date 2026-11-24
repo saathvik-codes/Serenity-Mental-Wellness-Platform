@@ -71,8 +71,8 @@ export default function InfiniteCarousel() {
   return (
     <div className="w-full overflow-hidden py-8 relative">
       {/* Gradient overlays for fade effect */}
-      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 bottom-0 w-32 bg-background z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-32 bg-background z-10 pointer-events-none" />
       
       <div 
         ref={scrollerRef}
@@ -87,7 +87,7 @@ export default function InfiniteCarousel() {
             className="flex-shrink-0 w-80 group hover:shadow-lg transition-all duration-300 border-0 bg-card/70 backdrop-blur-sm hover:-translate-y-1"
           >
             <CardContent className="p-6">
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-secondary/15 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 ${item.color}`}>
+              <div className={`w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 ${item.color}`}>
                 <item.icon className="w-6 h-6" />
               </div>
               <h3 className="text-lg font-semibold mb-2">{item.title}</h3>

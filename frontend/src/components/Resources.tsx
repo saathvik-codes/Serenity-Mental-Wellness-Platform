@@ -319,7 +319,7 @@ const Resources = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 cyber-grid">
+    <div className="min-h-screen bg-background cyber-grid">
       <div className="container mx-auto px-6 py-8">
         {/* Back Button */}
         <div className="mb-6">
@@ -404,7 +404,7 @@ const Resources = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.03, y: -5 }}
               >
-                <Card className="hover:shadow-xl transition-all duration-300 group h-full border-2 hover:border-primary/30">
+                <Card className="hover:shadow-sm transition-all duration-300 group h-full border-2 hover:border-primary/30">
                   <CardHeader>
                     <div className="flex items-start justify-between mb-2">
                       <div className={`p-2 rounded-lg ${getTypeColor(resource.type)}`}>

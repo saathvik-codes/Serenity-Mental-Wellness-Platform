@@ -57,7 +57,7 @@ const clinicalTools = [
 
 export default function ResearchSection() {
   return (
-    <section className="py-20 px-6 bg-gradient-to-br from-secondary/5 to-accent/5 dark:from-secondary/10 dark:to-accent/10">
+    <section className="py-20 px-6 bg-secondary/5 dark:bg-secondary/10">
       <div className="container mx-auto">
         {/* Research & Evidence */}
         <div className="text-center mb-16" data-aos="fade-up">

@@ -469,7 +469,7 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-16 lg:pb-0">
+    <div className="min-h-screen bg-background pb-16 lg:pb-0">
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-4xl">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
@@ -482,7 +482,7 @@ const SettingsPage = () => {
             <ArrowLeft className="w-4 h-4" />
           </Button>
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold bg-primary bg-clip-text text-transparent">
               Settings
             </h1>
             <p className="text-muted-foreground">Manage your account and preferences</p>

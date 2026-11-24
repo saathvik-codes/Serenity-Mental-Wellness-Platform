@@ -11,28 +11,28 @@ const impactStats = [
     label: "Accuracy Rate",
     description: "Clinical assessment precision",
     icon: Brain,
-    color: "from-primary to-primary/60"
+    color: "bg-primary"
   },
   {
     number: "50K+",
     label: "Lives Improved",
     description: "Users worldwide",
     icon: Users,
-    color: "from-secondary to-secondary/60"
+    color: "bg-secondary"
   },
   {
     number: "24/7",
     label: "Support Available",
     description: "Round-the-clock care",
     icon: Heart,
-    color: "from-wellness to-wellness/60"
+    color: "bg-wellness"
   },
   {
     number: "99.9%",
     label: "Uptime Guarantee",
     description: "Reliable service",
     icon: Shield,
-    color: "from-focus to-focus/60"
+    color: "bg-focus"
   }
 ];
 
@@ -91,11 +91,11 @@ export default function UniqueImpactSection() {
     <section className="py-20 px-6 relative overflow-hidden">
       {/* Unique Background with Morphing Shapes */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-energy/5 via-background to-wellness/5" />
+        <div className="absolute inset-0 bg-energy/5" />
         
         {/* Morphing Background Shapes */}
         <motion.div
-          className="absolute top-20 left-20 w-64 h-64 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-3xl"
+          className="absolute top-20 left-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 0.8, 1],
             x: [0, 50, -30, 0],
@@ -104,7 +104,7 @@ export default function UniqueImpactSection() {
           transition={{ duration: 15, repeat: Infinity }}
         />
         <motion.div
-          className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-br from-accent/10 to-wellness/10 rounded-full blur-3xl"
+          className="absolute bottom-20 right-20 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
           animate={{
             scale: [0.8, 1.3, 1, 0.8],
             x: [0, -40, 20, 0],
@@ -124,7 +124,7 @@ export default function UniqueImpactSection() {
             🎯 Impact & Benefits
           </Badge>
           <h2 className="text-5xl md:text-7xl font-bold mb-8">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-energy via-wellness to-primary">
+            <span className="text-transparent bg-clip-text bg-energy">
               Transforming Lives
             </span>
             <br />
@@ -142,7 +142,7 @@ export default function UniqueImpactSection() {
               onHoverEnd={() => setHoveredStat(null)}
               whileHover={{ scale: 1.05, y: -10 }}
             >
-              <Card className="h-full border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm shadow-xl overflow-hidden">
+              <Card className="h-full border-0 bg-card/80 backdrop-blur-sm shadow-sm overflow-hidden">
                 <CardContent className="p-6 text-center relative">
                   {/* Background Icon */}
                   <motion.div
@@ -155,7 +155,7 @@ export default function UniqueImpactSection() {
                   
                   {/* Content */}
                   <div className="relative z-10">
-                    <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
+                    <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl ${stat.color} flex items-center justify-center`}>
                       <stat.icon className="w-8 h-8 text-white" />
                     </div>
                     
@@ -189,7 +189,7 @@ export default function UniqueImpactSection() {
                 key={index}
                 className={`relative p-6 rounded-2xl cursor-pointer transition-all duration-500 ${
                   activeIndex === index 
-                    ? 'bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/30' 
+                    ? ' bg-primary/10 border-2 border-primary/30' 
                     : 'bg-card/50 border border-border/50 hover:bg-card/80'
                 }`}
                 onClick={() => setActiveIndex(index)}
@@ -230,7 +230,7 @@ export default function UniqueImpactSection() {
                 
                 {/* Active Indicator */}
                 <motion.div
-                  className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary to-secondary rounded-r-full"
+                  className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full"
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: activeIndex === index ? 1 : 0 }}
                   transition={{ duration: 0.3 }}
@@ -255,7 +255,7 @@ export default function UniqueImpactSection() {
                   alt={benefits[activeIndex].title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-black/60" />
               </motion.div>
 
               {/* Floating Content */}
@@ -307,12 +307,12 @@ export default function UniqueImpactSection() {
 
             {/* Decorative Elements */}
             <motion.div
-              className="absolute -top-8 -right-8 w-24 h-24 bg-gradient-to-br from-primary/30 to-secondary/30 rounded-full blur-xl"
+              className="absolute -top-8 -right-8 w-24 h-24 bg-primary/30 rounded-full blur-xl"
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 4, repeat: Infinity }}
             />
             <motion.div
-              className="absolute -bottom-8 -left-8 w-32 h-32 bg-gradient-to-br from-wellness/30 to-energy/30 rounded-full blur-xl"
+              className="absolute -bottom-8 -left-8 w-32 h-32 bg-wellness/30 rounded-full blur-xl"
               animate={{ scale: [1.2, 1, 1.2] }}
               transition={{ duration: 5, repeat: Infinity }}
             />
@@ -337,7 +337,7 @@ export default function UniqueImpactSection() {
               <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-2 transition-transform" />
             </span>
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-secondary/0 via-white/20 to-secondary/0"
+              className="absolute inset-0 bg-secondary/0"
               initial={{ x: "-100%" }}
               whileHover={{ x: "100%" }}
               transition={{ duration: 0.8 }}

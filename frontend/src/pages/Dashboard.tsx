@@ -138,7 +138,7 @@ const NotificationSystem = ({
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
-    <Card className="premium-panel overflow-hidden rounded-[1.8rem] border border-primary/10 shadow-medium">
+    <Card className="premium-panel overflow-hidden rounded-xl border border-primary/10 shadow-medium">
       <CardHeader className="border-b border-border/60 pb-4">
         <CardTitle className="flex items-center gap-2 font-display text-xl">
           <Bell className="w-5 h-5 text-primary" />
@@ -231,7 +231,7 @@ const Sidebar = ({
       "relative hidden flex-col border-r border-primary/10 bg-background/80 backdrop-blur-xl transition-all duration-300 lg:flex",
       isCollapsed ? "w-20" : "w-72"
     )}>
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.16),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 " />
       {/* Header */}
       <div className="flex items-center justify-between border-b border-primary/10 px-4 py-5">
         <BrandLogo size="sm" showText={!isCollapsed} subtitle={false} />
@@ -260,7 +260,7 @@ const Sidebar = ({
                   "h-12 w-full justify-start rounded-2xl transition-all duration-200",
                   isCollapsed ? "px-3" : "px-4",
                   isActive
-                    ? "border border-primary/20 bg-primary/10 shadow-[0_12px_30px_hsl(var(--primary)/0.10)]"
+                    ? "border border-primary/20 bg-primary/10 shadow-sm"
                     : "hover:bg-primary/5"
                 )}
                 onClick={() => navigate(item.path)}
@@ -628,7 +628,7 @@ const Dashboard = () => {
       icon: Heart,
       path: "/mood-tracker",
       iconColor: "text-energy",
-      accent: "from-energy/18 via-energy/8 to-transparent",
+      accent: "bg-energy/18",
     },
     {
       title: "Mindfulness",
@@ -636,7 +636,7 @@ const Dashboard = () => {
       icon: Sparkles,
       path: "/mindfulness",
       iconColor: "text-wellness",
-      accent: "from-wellness/18 via-wellness/8 to-transparent",
+      accent: "bg-wellness/18",
     },
     {
       title: "Achievements",
@@ -644,7 +644,7 @@ const Dashboard = () => {
       icon: Target,
       path: "/gamification",
       iconColor: "text-focus",
-      accent: "from-focus/18 via-focus/8 to-transparent",
+      accent: "bg-focus/18",
     },
     {
       title: "Assessments",
@@ -652,7 +652,7 @@ const Dashboard = () => {
       icon: BarChart3,
       path: "/assessment-center",
       iconColor: "text-primary",
-      accent: "from-primary/18 via-primary/8 to-transparent",
+      accent: "bg-primary/18",
     },
     {
       title: "Focus Games",
@@ -660,7 +660,7 @@ const Dashboard = () => {
       icon: Target,
       path: "/wellness-games",
       iconColor: "text-green-600",
-      accent: "from-green-500/18 via-green-500/8 to-transparent",
+      accent: "bg-green-500/18",
     },
     {
       title: "Spotify Wellness",
@@ -668,7 +668,7 @@ const Dashboard = () => {
       icon: Music,
       path: "/spotify-wellness",
       iconColor: "text-green-500",
-      accent: "from-green-500/20 via-green-500/10 to-transparent",
+      accent: "bg-green-500/20",
     },
     {
       title: "Need Help?",
@@ -676,7 +676,7 @@ const Dashboard = () => {
       icon: Heart,
       path: "/emergency-help",
       iconColor: "text-red-500",
-      accent: "from-red-500/18 via-red-500/8 to-transparent",
+      accent: "bg-red-500/18",
     },
     {
       title: "AI Companion",
@@ -684,12 +684,12 @@ const Dashboard = () => {
       icon: Brain,
       path: "/ai-therapist",
       iconColor: "text-primary",
-      accent: "from-secondary/18 via-primary/8 to-transparent",
+      accent: "bg-secondary/18",
     },
   ] as const;
 
   return (
-    <div className="relative flex min-h-screen overflow-hidden bg-[linear-gradient(135deg,hsl(var(--background)),hsl(var(--background)),hsl(var(--primary)/0.05))] pb-16 lg:pb-0">
+    <div className="relative flex min-h-screen overflow-hidden  pb-16 lg:pb-0">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-20 top-10 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
         <div className="absolute right-0 top-1/4 h-72 w-72 rounded-full bg-secondary/12 blur-3xl" />
@@ -795,18 +795,14 @@ const Dashboard = () => {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45 }}
-                className="premium-panel relative overflow-hidden rounded-[2rem] border border-primary/15 p-5 sm:p-8"
+                className="premium-panel relative overflow-hidden rounded-xl border border-primary/15 p-5 sm:p-8"
               >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.12),transparent_34%),radial-gradient(circle_at_bottom_right,hsl(var(--secondary)/0.12),transparent_36%)]" />
+                <div className="absolute inset-0 " />
                 <div className="relative z-10 flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
                   <div className="max-w-2xl">
                     <div className="flex flex-wrap items-center gap-3">
-                      <Badge className="rounded-full border-primary/20 bg-primary/10 px-4 py-1.5 text-primary">
-                        Personal dashboard
-                      </Badge>
-                      <Badge className="rounded-full border-secondary/20 bg-secondary/10 px-4 py-1.5 text-secondary">
-                        {moodLoggedToday ? "Mood checked in today" : "Mood check-in waiting"}
-                      </Badge>
+                      <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Personal dashboard</p>
+                      <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">{moodLoggedToday ? "Mood checked in today" : "Mood check-in waiting"}</p>
                     </div>
 
                     <h1 className="mt-5 font-display text-3xl font-semibold text-foreground sm:text-4xl lg:text-5xl">
@@ -849,21 +845,21 @@ const Dashboard = () => {
                 </div>
 
                 <div className="relative z-10 mt-8 grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-[1.5rem] border border-primary/10 bg-background/65 p-4 backdrop-blur-sm">
+                  <div className="rounded-xl border border-primary/10 bg-background/65 p-4 backdrop-blur-sm">
                     <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Current streak</div>
                     <div className="mt-3 text-3xl font-semibold text-foreground">{userData?.streak || 0}</div>
                     <p className="mt-2 text-sm text-muted-foreground">
                       {userData?.streak ? "Consistency is compounding." : "Start a rhythm one day at a time."}
                     </p>
                   </div>
-                  <div className="rounded-[1.5rem] border border-primary/10 bg-background/65 p-4 backdrop-blur-sm">
+                  <div className="rounded-xl border border-primary/10 bg-background/65 p-4 backdrop-blur-sm">
                     <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Weekly rhythm</div>
                     <div className="mt-3 text-3xl font-semibold text-foreground">{weeklyCheckIns}/7</div>
                     <p className="mt-2 text-sm text-muted-foreground">
                       {weeklyGoalPercent >= 70 ? "Your week already has momentum." : "A few small check-ins can shift the week."}
                     </p>
                   </div>
-                  <div className="rounded-[1.5rem] border border-primary/10 bg-background/65 p-4 backdrop-blur-sm">
+                  <div className="rounded-xl border border-primary/10 bg-background/65 p-4 backdrop-blur-sm">
                     <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Today</div>
                     <div className="mt-3 text-2xl font-semibold text-foreground">
                       {moodLoggedToday ? "Checked in" : "Needs a reset"}
@@ -887,7 +883,7 @@ const Dashboard = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, delay: index * 0.08 }}
                 >
-                  <Card className="premium-panel h-full rounded-[1.6rem] border border-primary/10 shadow-medium transition-transform duration-300 hover:-translate-y-1">
+                  <Card className="premium-panel h-full rounded-xl border border-primary/10 shadow-medium transition-transform duration-300 hover:-translate-y-1">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-2 sm:p-5">
                       <CardTitle className="text-xs font-medium uppercase tracking-[0.18em] text-foreground/55 sm:text-sm">
                         {stat.title}
@@ -912,7 +908,7 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-6">
                 {/* Quick Actions - Enhanced */}
-                <Card className="premium-panel rounded-[1.8rem] border border-primary/10 shadow-medium">
+                <Card className="premium-panel rounded-xl border border-primary/10 shadow-medium">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 font-display text-2xl">
                       <Sparkles className="w-5 h-5 text-primary" />
@@ -935,9 +931,9 @@ const Dashboard = () => {
                             initial={{ opacity: 0, y: 14 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.35, delay: index * 0.04 }}
-                            className={`group relative overflow-hidden rounded-[1.5rem] border border-primary/10 bg-background/80 p-4 text-left transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-[0_18px_40px_hsl(var(--primary)/0.10)]`}
+                            className={`group relative overflow-hidden rounded-xl border border-primary/10 bg-background/80 p-4 text-left transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-sm`}
                           >
-                            <div className={`absolute inset-0 bg-gradient-to-br ${action.accent} opacity-80 transition-opacity duration-300 group-hover:opacity-100`} />
+                            <div className={`absolute inset-0 ${action.accent} opacity-80 transition-opacity duration-300 group-hover:opacity-100`} />
                             <div className="relative z-10">
                               <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-background/90 ${action.iconColor}`}>
                                 <Icon className="h-5 w-5" />
@@ -953,7 +949,7 @@ const Dashboard = () => {
                 </Card>
 
                 {/* Daily Mood Check */}
-                <Card className="premium-panel rounded-[1.8rem] border border-primary/10 shadow-medium">
+                <Card className="premium-panel rounded-xl border border-primary/10 shadow-medium">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 font-display text-2xl">
                       <Heart className="w-5 h-5 text-energy" />
@@ -967,7 +963,7 @@ const Dashboard = () => {
                         <button
                           key={mood}
                           onClick={() => handleMoodSelection(mood)}
-                          className={`rounded-[1.3rem] border p-4 transition-all duration-300 hover:-translate-y-1 ${
+                          className={`rounded-xl border p-4 transition-all duration-300 hover:-translate-y-1 ${
                             currentMood === mood
                               ? "border-primary bg-primary/10 shadow-glow"
                               : "border-border/70 bg-background/75 hover:border-primary/40 hover:bg-primary/5"
@@ -994,7 +990,7 @@ const Dashboard = () => {
                     </div>
 
                     {currentMood && (
-                      <div className="rounded-[1.3rem] bg-primary/5 p-4">
+                      <div className="rounded-xl bg-primary/5 p-4">
                         <p className="text-sm text-muted-foreground">
                           Thanks for sharing! You selected:{" "}
                           <strong>{getMoodLabel(currentMood)}</strong>
@@ -1006,7 +1002,7 @@ const Dashboard = () => {
 
 
                 {/* Recent Assessments */}
-                <Card className="premium-panel rounded-[1.8rem] border border-primary/10 shadow-medium">
+                <Card className="premium-panel rounded-xl border border-primary/10 shadow-medium">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 font-display text-2xl">
                       <Activity className="w-5 h-5 text-focus" />
@@ -1032,7 +1028,7 @@ const Dashboard = () => {
                         {recentAssessments.map((assessment, index) => (
                           <div
                             key={index}
-                            className="flex items-center justify-between rounded-[1.3rem] border border-border/70 bg-background/70 p-4"
+                            className="flex items-center justify-between rounded-xl border border-border/70 bg-background/70 p-4"
                           >
                             <div>
                               <h4 className="font-medium">
@@ -1066,7 +1062,7 @@ const Dashboard = () => {
                 />
 
                 {/* Progress Overview */}
-                <Card className="premium-panel rounded-[1.8rem] border border-primary/10 shadow-medium">
+                <Card className="premium-panel rounded-xl border border-primary/10 shadow-medium">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 font-display text-xl">
                       <TrendingUp className="w-5 h-5 text-wellness" />

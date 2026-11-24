@@ -172,23 +172,23 @@ const WellnessGames = () => {
 
   const games: any[] = [
     { 
-      id: "forest", title: "Focus Forest 🌳", desc: "Grow trees by staying focused", icon: TreePine, color: "from-green-400 to-emerald-600", points: stats.forestMinutes,
+      id: "forest", title: "Focus Forest 🌳", desc: "Grow trees by staying focused", icon: TreePine, color: "bg-green-400", points: stats.forestMinutes,
       instructions: "Select a duration (15-60 mins). Click 'Start Focus' and a tree will grow. If you leave the page, the tree dies. Complete the session to plant the tree and earn points."
     },
     { 
-      id: "memory", title: "Memory Match 🎴", desc: "Match pairs & boost memory", icon: Brain, color: "from-purple-400 to-pink-600", points: stats.memoryHighScore,
+      id: "memory", title: "Memory Match 🎴", desc: "Match pairs & boost memory", icon: Brain, color: "bg-purple-400", points: stats.memoryHighScore,
       instructions: "Click on cards to reveal them. Find all matching pairs to complete the game. The fewer moves you make, the higher your score!"
     },
     { 
-      id: "breathing", title: "Calm Bubbles 🫧", desc: "Breathe with floating bubbles", icon: Cloud, color: "from-blue-400 to-cyan-600", points: stats.breathingSessions,
+      id: "breathing", title: "Calm Bubbles 🫧", desc: "Breathe with floating bubbles", icon: Cloud, color: "bg-blue-400", points: stats.breathingSessions,
       instructions: "Click 'Start Breathing' and follow the on-screen guide. Breathe in as the bubble grows, hold, and breathe out as it shrinks. Complete 5 cycles to feel calmer."
     },
     { 
-      id: "gratitude", title: "Gratitude Garden 🌸", desc: "Plant flowers of gratitude", icon: Flower2, color: "from-pink-400 to-rose-600", points: stats.gratitudeCount,
+      id: "gratitude", title: "Gratitude Garden 🌸", desc: "Plant flowers of gratitude", icon: Flower2, color: "bg-pink-400", points: stats.gratitudeCount,
       instructions: "Type something you're grateful for in the input box and press the flower button. Each entry plants a flower in your garden, helping you cultivate positivity."
     },
     { 
-      id: "whack", title: "Whack-a-Stress 🎯", desc: "Smash away your worries!", icon: Zap, color: "from-orange-400 to-red-600", points: stats.whackScore,
+      id: "whack", title: "Whack-a-Stress 🎯", desc: "Smash away your worries!", icon: Zap, color: "bg-orange-400", points: stats.whackScore,
       instructions: "When the game starts, anxious faces (😰) will pop up. Click them as fast as you can to score points before the 30-second timer runs out. Avoid the calm faces (💤)!"
     }
   ];
@@ -410,7 +410,7 @@ const WellnessGames = () => {
 
   if (currentGame === "menu") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-950 dark:to-gray-900 pb-16 lg:pb-0">
+      <div className="min-h-screen bg-purple-50 dark:bg-gray-900 pb-16 lg:pb-0">
         <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-6xl">
           <div className="flex items-center justify-between mb-6">
             <Button variant="ghost" onClick={() => navigate("/dashboard")}><ArrowLeft className="w-4 h-4 mr-2" />Back</Button>
@@ -423,7 +423,7 @@ const WellnessGames = () => {
           </div>
 
           <motion.div initial={{y:-20,opacity:0}} animate={{y:0,opacity:1}} className="text-center mb-8">
-            <h1 className="text-4xl sm:text-5xl font-bold mb-3 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-5xl font-bold mb-3 bg-purple-600 bg-clip-text text-transparent">
               🎮 Wellness Arcade
             </h1>
             <p className="text-lg text-muted-foreground">Choose your game & boost your mental health!</p>
@@ -434,8 +434,8 @@ const WellnessGames = () => {
               const Icon = game.icon;
               return (
                 <motion.div key={game.id} initial={{scale:0,rotate:-10}} animate={{scale:1,rotate:0}} transition={{delay:i*0.1}}>
-                  <Card className="cursor-pointer hover:scale-105 transition-all hover:shadow-2xl border-2 hover:border-primary" onClick={() => handlePlayClick(game)}>
-                    <CardHeader className={`bg-gradient-to-br ${game.color} text-white rounded-t-lg`}>
+                  <Card className="cursor-pointer hover:scale-105 transition-all hover:shadow-sm border-2 hover:border-primary" onClick={() => handlePlayClick(game)}>
+                    <CardHeader className={` ${game.color} text-white rounded-t-lg`}>
                       <div className="flex items-center justify-between">
                         <Icon className="w-12 h-12" />
                         <Badge variant="secondary" className="text-lg">{game.points}</Badge>
@@ -489,7 +489,7 @@ const WellnessGames = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-16 lg:pb-0">
+    <div className="min-h-screen bg-background pb-16 lg:pb-0">
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-4xl">
         <GameHeader title={games.find(g=>g.id===currentGame)?.title || ""} onBack={() => setCurrentGame("menu")} />
         
@@ -519,7 +519,7 @@ const WellnessGames = () => {
               {memoryCards.map((card,i) => (
                 <motion.div key={i} whileTap={{scale:0.9}} onClick={()=>flipMemoryCard(i)}
                   className={cn("aspect-square rounded-xl flex items-center justify-center text-4xl cursor-pointer transition-all",
-                    card.flipped||card.matched?"bg-white dark:bg-gray-800 border-4 border-primary":"bg-gradient-to-br from-purple-400 to-pink-400")}>
+                    card.flipped||card.matched?"bg-white dark:bg-gray-800 border-4 border-primary":" bg-purple-400")}>
                   {card.flipped||card.matched?card.emoji:"?"}
                 </motion.div>
               ))}
@@ -553,7 +553,7 @@ const WellnessGames = () => {
                 <AnimatePresence>
                   {gratitudeList.map((item,i) => (
                     <motion.div key={i} initial={{scale:0,rotate:-20}} animate={{scale:1,rotate:0}} exit={{scale:0}}
-                      className="p-4 bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-950 dark:to-rose-950 rounded-xl text-center">
+                      className="p-4 bg-pink-100 dark:bg-pink-950 rounded-xl text-center">
                       <div className="text-4xl mb-2">🌸</div>
                       <p className="text-sm font-medium">{item}</p>
                     </motion.div>
@@ -575,7 +575,7 @@ const WellnessGames = () => {
                 {whackMoles.map((active,i) => (
                   <motion.div key={i} whileTap={{scale:0.8}} onClick={()=>whackMole(i)}
                     className={cn("aspect-square rounded-2xl flex items-center justify-center text-6xl cursor-pointer transition-all",
-                      active?"bg-gradient-to-br from-red-400 to-orange-400":"bg-gray-200 dark:bg-gray-800")}>
+                      active?" bg-red-400":"bg-gray-200 dark:bg-gray-800")}>
                     {active?"😰":"💤"}
                   </motion.div>
                 ))}

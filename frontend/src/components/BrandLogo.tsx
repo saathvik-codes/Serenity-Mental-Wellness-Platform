@@ -17,12 +17,12 @@ const sizeStyles = {
     subtitle: "text-[9px] tracking-[0.28em]",
   },
   md: {
-    frame: "h-12 w-12 rounded-[1.1rem] p-1.5",
+    frame: "h-12 w-12 rounded-xl p-1.5",
     title: "text-2xl",
     subtitle: "text-[10px] tracking-[0.32em]",
   },
   lg: {
-    frame: "h-16 w-16 rounded-[1.4rem] p-2",
+    frame: "h-16 w-16 rounded-xl p-2",
     title: "text-3xl",
     subtitle: "text-[11px] tracking-[0.34em]",
   },

@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import BrandLogo from "@/components/BrandLogo";
 
 const fieldClassName =
-  "h-11 rounded-xl border-border/70 bg-background/85 pl-10 shadow-[0_10px_24px_hsl(var(--secondary)/0.06)] focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0";
+  "h-11 rounded-xl border-border/70 bg-background/85 pl-10 shadow-sm focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0";
 const fieldWithRightIconClassName = `${fieldClassName} pr-10`;
 const fieldLabelClassName = "font-soft text-sm font-semibold text-foreground/78";
 const leftIconClassName = "pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-foreground/35";
@@ -431,7 +431,7 @@ const AuthPage = () => {
           }
         }}
       >
-        <Card className="premium-panel w-full max-w-md rounded-[1.6rem] border-0 shadow-[0_24px_60px_hsl(var(--secondary)/0.12)]" onClick={(e) => e.stopPropagation()}>
+        <Card className="premium-panel w-full max-w-md rounded-xl border-0 shadow-sm" onClick={(e) => e.stopPropagation()}>
           <CardHeader>
             <CardTitle className="font-display text-2xl">Reset Your Password</CardTitle>
             <CardDescription>
@@ -499,9 +499,9 @@ const AuthPage = () => {
     
     return (
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-        <Card className="premium-panel w-full max-w-md rounded-[1.6rem] border-0 shadow-[0_24px_60px_hsl(var(--secondary)/0.12)]" onClick={(e) => e.stopPropagation()}>
+        <Card className="premium-panel w-full max-w-md rounded-xl border-0 shadow-sm" onClick={(e) => e.stopPropagation()}>
           <CardHeader>
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 shadow-[0_14px_34px_hsl(var(--primary)/0.18)]">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 shadow-sm">
               <Mail className="h-8 w-8 text-primary" />
             </div>
             <CardTitle className="text-center font-display text-2xl">Verify Your Email</CardTitle>
@@ -514,7 +514,7 @@ const AuthPage = () => {
               <p className="font-semibold text-primary">{verificationEmail}</p>
             </div>
             
-            <div className="rounded-xl border border-border/70 bg-background/70 p-4 text-sm shadow-[0_10px_28px_hsl(var(--secondary)/0.08)]">
+            <div className="rounded-xl border border-border/70 bg-background/70 p-4 text-sm shadow-sm">
               <p className="font-medium">Next steps:</p>
               <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
                 <li>Check your inbox for the verification email</li>
@@ -567,7 +567,7 @@ const AuthPage = () => {
     >
       <div id="recaptcha-container"></div>
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.16),transparent_26%),radial-gradient(circle_at_top_right,hsl(var(--secondary)/0.16),transparent_24%),linear-gradient(180deg,hsl(var(--background)),hsl(var(--muted)/0.52))]" />
+        <div className="absolute inset-0 " />
         <div className="absolute -top-28 -right-28 h-80 w-80 rounded-full bg-primary/14 blur-3xl"></div>
         <div className="absolute -bottom-28 -left-24 h-80 w-80 rounded-full bg-secondary/16 blur-3xl"></div>
         <div className="absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full border border-primary/10"></div>
@@ -604,7 +604,7 @@ const AuthPage = () => {
         </div>
 
         <Card 
-          className="premium-panel rounded-[2rem] border-0 shadow-[0_30px_80px_hsl(var(--secondary)/0.12)]"
+          className="premium-panel rounded-xl border-0 shadow-sm"
           data-aos="fade-up"
           data-aos-delay="300"
         >
@@ -632,7 +632,7 @@ const AuthPage = () => {
                   value="signin" 
                   className={cn(
                     "rounded-xl py-2.5 font-soft text-sm font-semibold transition-all",
-                    "data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-[0_10px_22px_hsl(var(--secondary)/0.08)]"
+                    "data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
                   )}
                 >
                   Sign In
@@ -641,7 +641,7 @@ const AuthPage = () => {
                   value="signup" 
                   className={cn(
                     "rounded-xl py-2.5 font-soft text-sm font-semibold transition-all",
-                    "data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-[0_10px_22px_hsl(var(--secondary)/0.08)]"
+                    "data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
                   )}
                 >
                   Sign Up

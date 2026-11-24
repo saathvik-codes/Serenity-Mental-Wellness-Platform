@@ -112,9 +112,7 @@ export default function Contact() {
         <div className="container mx-auto">
           <section className="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]">
             <div data-hero className="max-w-3xl">
-              <Badge className="rounded-full border-primary/20 bg-primary/10 px-4 py-2 text-primary">
-                Personal contact page
-              </Badge>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Personal contact page</p>
               <h1 className="mt-6 font-display text-5xl font-semibold leading-[0.94] text-foreground sm:text-6xl">
                 A cleaner contact experience,
                 <span className="mt-2 block font-cursive text-gradient-primary">centered on one person.</span>
@@ -144,19 +142,17 @@ export default function Contact() {
             </div>
 
             <div data-hero className="relative">
-              <Card className="premium-panel overflow-hidden rounded-[2rem] border-0 p-0 shadow-[0_34px_90px_hsl(var(--secondary)/0.16)]">
+              <Card className="premium-panel overflow-hidden rounded-xl border-0 p-0 shadow-sm">
                 <div className="relative overflow-hidden p-7">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.16),transparent_38%),radial-gradient(circle_at_bottom_right,hsl(var(--secondary)/0.18),transparent_38%)]" />
+                  <div className="absolute inset-0 " />
                   <div className="relative">
                     <div className="mb-6 flex items-center justify-between">
-                      <Badge className="rounded-full border-secondary/20 bg-secondary/10 px-4 py-2 text-secondary">
-                        Available to connect
-                      </Badge>
+                      <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Available to connect</p>
                       <Sparkles className="h-5 w-5 text-primary" />
                     </div>
 
                     <div className="grid gap-6 md:grid-cols-[0.86fr_1.14fr]">
-                      <div className="flex min-h-[320px] flex-col justify-between rounded-[1.7rem] border border-border/60 bg-[linear-gradient(145deg,hsl(var(--primary)),hsl(var(--secondary)))] p-6 text-white shadow-[0_24px_70px_rgba(0,0,0,0.18)]">
+                      <div className="flex min-h-[320px] flex-col justify-between rounded-xl border border-border/60 bg-primary p-6 text-white shadow-sm">
                         <div>
                           <div className="font-soft text-[11px] uppercase tracking-[0.36em] text-white/72">Contact focus</div>
                           <div className="mt-4 max-w-[190px] rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.26em] text-white/80">
@@ -196,7 +192,7 @@ export default function Contact() {
                           ))}
                         </div>
 
-                        <div className="rounded-[1.5rem] border border-primary/12 bg-primary/8 p-5">
+                        <div className="rounded-xl border border-primary/12 bg-primary/8 p-5">
                           <div className="flex items-start gap-3">
                             <MessageSquare className="mt-1 h-5 w-5 text-primary" />
                             <p className="font-body text-sm leading-7 text-foreground/78">
@@ -215,9 +211,7 @@ export default function Contact() {
 
           <section className="mt-20" data-reveal>
             <div className="mx-auto max-w-3xl text-center">
-              <Badge className="rounded-full border-accent/20 bg-accent/10 px-4 py-2 text-foreground">
-                Reach out directly
-              </Badge>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Reach out directly</p>
               <h2 className="mt-5 font-display text-4xl font-semibold text-foreground md:text-5xl">
                 Every route here is designed to make contacting Saathvik feel simple and intentional.
               </h2>
@@ -236,9 +230,9 @@ export default function Contact() {
                     className="group block"
                     data-float-card={index % 2 === 0 ? "" : undefined}
                   >
-                    <Card className="premium-panel h-full rounded-[1.7rem] border-0 p-0 shadow-soft transition-transform duration-300 group-hover:-translate-y-1">
+                    <Card className="premium-panel h-full rounded-xl border-0 p-0 shadow-soft transition-transform duration-300 group-hover:-translate-y-1">
                       <CardHeader>
-                        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/16 to-secondary/14 text-primary glow-effect">
+                        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/16 text-primary glow-effect">
                           <Icon className="h-7 w-7" />
                         </div>
                         <div className="font-soft text-[11px] uppercase tracking-[0.28em] text-foreground/48">{route.label}</div>
@@ -260,9 +254,9 @@ export default function Contact() {
                 const Icon = point.icon;
 
                 return (
-                  <Card key={point.title} className="premium-panel rounded-[1.7rem] border-0 px-6 py-5 shadow-soft" data-float-card>
+                  <Card key={point.title} className="premium-panel rounded-xl border-0 px-6 py-5 shadow-soft" data-float-card>
                     <div className="flex items-start gap-4">
-                      <div className="mt-1 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/16 to-secondary/14 text-primary glow-effect">
+                      <div className="mt-1 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/16 text-primary glow-effect">
                         <Icon className="h-6 w-6" />
                       </div>
                       <div>
@@ -275,10 +269,8 @@ export default function Contact() {
               })}
             </div>
 
-            <Card className="premium-panel rounded-[1.9rem] border-0 p-7 shadow-[0_26px_70px_hsl(var(--primary)/0.12)]">
-              <Badge className="rounded-full border-secondary/20 bg-secondary/10 px-4 py-2 text-secondary">
-                Working style
-              </Badge>
+            <Card className="premium-panel rounded-xl border-0 p-7 shadow-sm">
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Working style</p>
               <h3 className="mt-5 font-display text-3xl font-semibold text-foreground">
                 What makes this contact page more worth reading
               </h3>
@@ -289,7 +281,7 @@ export default function Contact() {
 
               <div className="mt-8 grid gap-4">
                 {workingStyle.map((item, index) => (
-                  <div key={item} className="rounded-[1.4rem] border border-border/70 bg-background/72 px-5 py-4">
+                  <div key={item} className="rounded-xl border border-border/70 bg-background/72 px-5 py-4">
                     <div className="flex items-start gap-4">
                       <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 font-display text-base font-semibold text-primary">
                         {index + 1}
@@ -303,12 +295,10 @@ export default function Contact() {
           </section>
 
           <section className="mt-20" data-reveal>
-            <Card className="overflow-hidden rounded-[2rem] border-0 bg-gradient-hero p-8 text-white shadow-[0_34px_90px_hsl(var(--primary)/0.24)] md:p-10">
+            <Card className="overflow-hidden rounded-xl border-0 bg-gradient-hero p-8 text-white shadow-sm md:p-10">
               <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
                 <div>
-                  <Badge className="rounded-full border-white/20 bg-white/10 px-4 py-2 text-white">
-                    Keep exploring
-                  </Badge>
+                  <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Keep exploring</p>
                   <h3 className="mt-5 font-display text-4xl font-semibold">
                     If the contact page feels better, the rest of the product should rise to that level too.
                   </h3>

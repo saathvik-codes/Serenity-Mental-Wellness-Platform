@@ -204,7 +204,7 @@ export const HelpCenterMap = () => {
       </div>
 
       <div className="lg:w-1/3 space-y-3">
-        <Card className="p-4 bg-gradient-to-b from-slate-800 to-slate-900 text-white border-0">
+        <Card className="p-4 bg-slate-800 text-white border-0">
           <CardHeader className="p-0 mb-2">
             <CardTitle className="flex items-center gap-2 text-lg">
               <MapPin /> Nearby Services
@@ -214,7 +214,7 @@ export const HelpCenterMap = () => {
             <div className="flex items-center justify-between mb-2">
               <div className="text-sm text-slate-300">Showing nearby hospitals, clinics and welfare centres</div>
               <div>
-                <Button size="sm" onClick={requestLocation} className="bg-gradient-to-r from-primary to-emerald-500 text-white">
+                <Button size="sm" onClick={requestLocation} className=" bg-primary text-white">
                   <Navigation className="w-4 h-4 mr-1" />
                   {isLoading ? "Locating..." : "Use My Location"}
                 </Button>

@@ -359,7 +359,7 @@ const Achievements = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 cyber-grid pb-16 lg:pb-0">
+      <div className="min-h-screen bg-background cyber-grid pb-16 lg:pb-0">
         <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
@@ -371,7 +371,7 @@ const Achievements = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 cyber-grid pb-16 lg:pb-0">
+    <div className="min-h-screen bg-background cyber-grid pb-16 lg:pb-0">
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Header */}
         <div className="text-center mb-12">

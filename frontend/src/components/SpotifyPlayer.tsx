@@ -118,7 +118,7 @@ const SpotifyPlayer = ({ playlist, tracks, onClose }: SpotifyPlayerProps) => {
         onLoadedMetadata={handleTimeUpdate}
       />
 
-      <Card className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-black via-gray-900 to-green-950 border-t-2 border-green-500/30 shadow-2xl">
+      <Card className="fixed bottom-0 left-0 right-0 z-50 bg-black border-t-2 border-green-500/30 shadow-sm">
         <CardContent className="p-4">
           <div className="flex items-center gap-4">
             {/* Track Info */}

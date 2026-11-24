@@ -82,7 +82,7 @@ const resources = [
 
 export default function PartnershipsSection() {
   return (
-    <section className="py-20 px-6 bg-gradient-to-br from-accent/5 to-focus/5 dark:from-accent/10 dark:to-focus/10">
+    <section className="py-20 px-6 bg-accent/5 dark:bg-accent/10">
       <div className="container mx-auto">
         {/* Partnerships */}
         <div className="text-center mb-16" data-aos="fade-up">
@@ -148,7 +148,7 @@ export default function PartnershipsSection() {
         </div>
 
         {/* Emergency Resources */}
-        <div className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950/20 dark:to-orange-950/20 rounded-3xl p-8 border border-red-200/50 dark:border-red-800/50" data-aos="fade-up">
+        <div className=" bg-red-50 dark:bg-red-950/20 rounded-3xl p-8 border border-red-200/50 dark:border-red-800/50" data-aos="fade-up">
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-red-100 dark:bg-red-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
               <Heart className="w-8 h-8 text-red-600 dark:text-red-400" />

@@ -18,7 +18,6 @@ import {
   X,
 } from "lucide-react";
 
-import heroDashboard from "@/assets/hero-dashboard.jpg";
 import BrandLogo from "@/components/BrandLogo";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import InfiniteCarousel from "@/components/InfiniteCarousel";
@@ -156,7 +155,6 @@ const productPrinciples = [
   },
 ] as const;
 
-const LandingHeroScene = lazy(() => import("@/components/LandingHeroScene"));
 
 function VideoModal({ onClose }: { onClose: () => void }) {
   return (
@@ -172,7 +170,7 @@ function VideoModal({ onClose }: { onClose: () => void }) {
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.92, y: 30 }}
         transition={{ type: "spring", stiffness: 280, damping: 28 }}
-        className="relative w-full max-w-5xl overflow-hidden rounded-[1.8rem] border border-white/10 bg-black shadow-2xl"
+        className="relative w-full max-w-5xl overflow-hidden rounded-xl border border-white/10 bg-black shadow-sm"
         onClick={(event) => event.stopPropagation()}
       >
         <button
@@ -327,9 +325,7 @@ const LandingPage = () => {
           <div className="container mx-auto">
             <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
               <div className="max-w-3xl" data-aos="fade-right">
-                <Badge className="mb-6 rounded-full border-primary/20 bg-primary/10 px-4 py-2 text-primary">
-                  Premium mental wellness, made approachable
-                </Badge>
+                <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Premium mental wellness, made approachable</p>
 
                 <div className="mb-5 font-soft text-sm uppercase tracking-[0.3em] text-foreground/60">
                   <TypeAnimation
@@ -365,7 +361,7 @@ const LandingPage = () => {
                   {heroStats.map((stat, index) => (
                     <div
                       key={stat.label}
-                      className="premium-panel rounded-[1.4rem] px-5 py-4 shadow-soft"
+                      className="premium-panel rounded-xl px-5 py-4 shadow-soft"
                       data-aos="fade-up"
                       data-aos-delay={index * 120}
                     >
@@ -379,7 +375,7 @@ const LandingPage = () => {
                   {trustPillars.map((item, index) => (
                     <div
                       key={item}
-                      className="rounded-2xl border border-border/70 bg-white/60 px-4 py-3 text-sm text-foreground/80 shadow-[0_14px_30px_rgba(15,23,42,0.04)] backdrop-blur-sm dark:bg-card/60"
+                      className="rounded-2xl border border-border/70 bg-white/60 px-4 py-3 text-sm text-foreground/80 shadow-sm backdrop-blur-sm dark:bg-card/60"
                       data-aos="fade-up"
                       data-aos-delay={index * 110}
                     >
@@ -389,74 +385,19 @@ const LandingPage = () => {
                 </div>
               </div>
 
-              <motion.div
-                data-aos="fade-left"
-                className="relative"
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              >
-                <div className="premium-panel relative min-h-[640px] overflow-hidden rounded-[2rem] p-5 shadow-[0_35px_100px_rgba(20,20,40,0.12)]">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.18),transparent_34%),radial-gradient(circle_at_bottom_right,hsl(var(--secondary)/0.16),transparent_34%)]" />
-                  <div className="absolute inset-5 overflow-hidden rounded-[1.7rem] bg-[linear-gradient(180deg,#18120f,#100d0c)]">
-                    <Suspense fallback={<div className="absolute inset-0 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.28),transparent_28%),radial-gradient(circle_at_bottom_right,hsl(var(--secondary)/0.2),transparent_30%),linear-gradient(180deg,#17120f,#100d0c)]" />}>
-                      <LandingHeroScene />
-                    </Suspense>
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,8,22,0.08),rgba(4,8,22,0.32))]" />
-                  </div>
-
-                  <motion.div
-                    className="absolute left-6 top-8 hidden max-w-[200px] rounded-[1.4rem] border border-white/20 bg-black/40 p-4 text-white backdrop-blur-xl xl:block"
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <div className="font-soft text-[11px] uppercase tracking-[0.28em] text-white/70">Mood trend</div>
-                    <div className="mt-2 font-display text-3xl font-semibold">+18%</div>
-                    <div className="mt-2 text-sm text-white/80">Steadier weekly check-ins and better routine consistency.</div>
-                  </motion.div>
-
-                  <motion.div
-                    className="absolute right-6 top-24 hidden max-w-[190px] rounded-[1.3rem] border border-white/20 bg-white/95 px-4 py-3 text-sm shadow-2xl dark:bg-[hsl(var(--background)/0.92)] dark:text-white xl:block"
-                    animate={{ y: [0, 12, 0] }}
-                    transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
-                  >
-                    <div className="flex items-center gap-2 text-primary">
-                      <Shield className="h-4 w-4" />
-                      <span className="font-soft font-semibold uppercase tracking-[0.18em]">Private by default</span>
-                    </div>
-                    <div className="mt-2 max-w-[180px] text-foreground/80 dark:text-white/80">
-                      Trust signals stay visible across the experience.
-                    </div>
-                  </motion.div>
-
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <div className="premium-panel rounded-[1.6rem] p-4 shadow-2xl">
-                      <div className="mb-3 flex items-center justify-between gap-4">
-                        <div>
-                          <div className="font-soft text-[11px] uppercase tracking-[0.28em] text-foreground/50">Live product view</div>
-                          <div className="font-display text-xl font-semibold text-foreground">Progress dashboard preview</div>
-                        </div>
-                        <Badge className="rounded-full border-secondary/30 bg-secondary/10 text-secondary">Designed for clarity</Badge>
-                      </div>
-                      <div className="overflow-hidden rounded-[1.1rem] border border-white/60 shadow-[0_18px_40px_rgba(15,23,42,0.12)] dark:border-white/10">
-                        <img src={heroDashboard} alt="Serenity dashboard preview" className="h-full w-full object-cover" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+              <div className="relative" data-aos="fade-left">
+                <img src="/illustrations/sn-hero-landscape.webp" alt="Rolling hills at dawn with a winding path" width={1200} height={600} className="hero-art h-auto w-full" />
+              </div>
             </div>
           </div>
         </section>
 
         <section id="experience" className="px-6 pb-10">
           <div className="container mx-auto">
-            <div className="rounded-[2rem] bg-gradient-hero p-[1px] shadow-[0_26px_70px_hsl(var(--primary)/0.16)]">
-              <div className="grid gap-6 rounded-[calc(2rem-1px)] bg-background/90 p-6 backdrop-blur-xl lg:grid-cols-[1.1fr_0.9fr] lg:p-8">
+            <div className="rounded-xl bg-gradient-hero p-[1px] shadow-sm">
+              <div className="grid gap-6 rounded-xl bg-background/90 p-6 backdrop-blur-xl lg:grid-cols-[1.1fr_0.9fr] lg:p-8">
                 <div data-aos="fade-right">
-                  <Badge className="mb-4 rounded-full border-primary/20 bg-primary/10 px-4 py-2 text-primary">
-                    Designed like a premium wellness product
-                  </Badge>
+                  <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Designed like a premium wellness product</p>
                   <h2 className="font-display text-3xl font-semibold leading-tight text-foreground md:text-4xl">
                     A softer, higher-trust first impression for people who may already be overwhelmed.
                   </h2>
@@ -473,7 +414,7 @@ const LandingPage = () => {
                     { title: "Premium typography", copy: "Outfit, Figtree, and Quicksand create a more editorial look." },
                     { title: "Friendlier CTAs", copy: "Buttons now feel tactile, elevated, and easier to trust." },
                   ].map((item) => (
-                    <div key={item.title} className="premium-panel rounded-[1.5rem] p-5">
+                    <div key={item.title} className="premium-panel rounded-xl p-5">
                       <div className="font-display text-xl font-semibold text-foreground">{item.title}</div>
                       <div className="mt-2 font-body text-sm leading-6 text-muted-foreground">{item.copy}</div>
                     </div>
@@ -487,9 +428,7 @@ const LandingPage = () => {
         <section id="video" className="px-6 py-16">
           <div className="container mx-auto">
             <div className="mx-auto max-w-3xl text-center" data-aos="fade-up">
-              <Badge className="mb-4 rounded-full border-secondary/30 bg-secondary/10 px-4 py-2 text-secondary">
-                Product film
-              </Badge>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Product film</p>
               <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
                 See the experience in motion before users ever sign in.
               </h2>
@@ -508,9 +447,7 @@ const LandingPage = () => {
         <section id="features" className="px-6 py-20">
           <div className="container mx-auto">
             <div className="mx-auto max-w-3xl text-center" data-aos="fade-up">
-              <Badge className="mb-4 rounded-full border-wellness/30 bg-wellness/10 px-4 py-2 text-wellness">
-                Core capabilities
-              </Badge>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Core capabilities</p>
               <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
                 Everything a premium mental wellness product needs, without the clutter.
               </h2>
@@ -521,10 +458,10 @@ const LandingPage = () => {
             </div>
 
             <div className="mt-14 grid gap-8 xl:grid-cols-[0.92fr_1.08fr]">
-              <Card className="premium-panel sticky top-28 h-fit overflow-hidden rounded-[1.8rem] border-0 p-0 shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
-                <div className="bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.15),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.72))] p-8 dark:bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.18),transparent_42%),linear-gradient(180deg,rgba(14,18,32,0.95),rgba(14,18,32,0.82))]">
+              <Card className="premium-panel sticky top-28 h-fit overflow-hidden rounded-xl border-0 p-0 shadow-sm">
+                <div className=" p-8 dark:">
                   <div className="mb-5 flex items-center gap-4">
-                    <div className={`glow-effect flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-primary/10 to-secondary/10 ${featuredCapability.color}`}>
+                    <div className={`glow-effect flex h-16 w-16 items-center justify-center rounded-3xl bg-primary/10 ${featuredCapability.color}`}>
                       <FeaturedIcon className="h-8 w-8" />
                     </div>
                     <div>
@@ -554,8 +491,8 @@ const LandingPage = () => {
                   return (
                     <Card
                       key={feature.title}
-                      className={`premium-panel group cursor-pointer rounded-[1.6rem] border-0 transition-all duration-300 ${
-                        isActive ? "translate-y-[-4px] shadow-[0_26px_70px_hsl(var(--primary)/0.16)]" : "shadow-soft"
+                      className={`premium-panel group cursor-pointer rounded-xl border-0 transition-all duration-300 ${
+                        isActive ? "translate-y-[-4px] shadow-sm" : "shadow-soft"
                       }`}
                       onMouseEnter={() => setActiveFeature(index)}
                       onFocus={() => setActiveFeature(index)}
@@ -564,7 +501,7 @@ const LandingPage = () => {
                       data-aos-delay={index * 80}
                     >
                       <CardHeader>
-                        <div className={`glow-effect mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 transition-transform duration-300 group-hover:scale-105 ${feature.color}`}>
+                        <div className={`glow-effect mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 transition-transform duration-300 group-hover:scale-105 ${feature.color}`}>
                           <Icon className="h-7 w-7" />
                         </div>
                         <CardTitle className="font-display text-2xl">{feature.title}</CardTitle>
@@ -586,7 +523,7 @@ const LandingPage = () => {
           <div className="container mx-auto">
             <div className="grid gap-6 md:grid-cols-3">
               {calmTiles.map((tile) => (
-                <article key={tile.title} className="rounded-[1.4rem] border border-border/60 bg-card/60 p-6" data-aos="fade-up">
+                <article key={tile.title} className="rounded-xl border border-border/60 bg-card/60 p-6" data-aos="fade-up">
                   <img src={tile.image} alt="" width={320} height={176} loading="lazy" className="mx-auto mb-5 h-44 w-full object-contain" />
                   <h3 className="font-display text-xl font-semibold text-foreground">{tile.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-foreground/70">{features.find((f) => f.title === tile.title)?.description}</p>
@@ -600,7 +537,7 @@ const LandingPage = () => {
           <div className="container mx-auto">
             <div className="grid gap-8 xl:grid-cols-[1fr_1.05fr]">
               <div data-aos="fade-right">
-                <Badge className="mb-4 rounded-full border-energy/30 bg-energy/10 px-4 py-2 text-energy">Impact and benefits</Badge>
+                <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Impact and benefits</p>
                 <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
                   Better aesthetics are not cosmetic here. They directly improve trust, clarity, and willingness to engage.
                 </h2>
@@ -613,7 +550,7 @@ const LandingPage = () => {
                   {benefitList.map((benefit, index) => (
                     <div
                       key={benefit}
-                      className="flex items-start gap-3 rounded-[1.3rem] border border-border/70 bg-white/60 px-4 py-4 shadow-[0_12px_26px_rgba(15,23,42,0.04)] backdrop-blur-sm dark:bg-card/60"
+                      className="flex items-start gap-3 rounded-xl border border-border/70 bg-white/60 px-4 py-4 shadow-sm backdrop-blur-sm dark:bg-card/60"
                       data-aos="fade-up"
                       data-aos-delay={index * 70}
                     >
@@ -632,7 +569,7 @@ const LandingPage = () => {
               </div>
 
               <div className="grid gap-5" data-aos="fade-left">
-                <Card className="holographic-card rounded-[1.8rem] border-0 bg-gradient-calm p-8 text-white shadow-[0_28px_80px_hsl(var(--secondary)/0.25)]">
+                <Card className="holographic-card rounded-xl border-0 bg-gradient-calm p-8 text-white shadow-sm">
                   <div className="flex items-start justify-between gap-5">
                     <div>
                       <div className="font-soft text-[11px] uppercase tracking-[0.3em] text-white/70">Global context</div>
@@ -647,11 +584,11 @@ const LandingPage = () => {
                     barrier to self-awareness and support-seeking.
                   </p>
                   <div className="mt-8 grid gap-4 md:grid-cols-2">
-                    <div className="rounded-[1.3rem] border border-white/20 bg-white/10 p-4">
+                    <div className="rounded-xl border border-white/20 bg-white/10 p-4">
                       <div className="font-display text-2xl font-semibold">Gentle onboarding</div>
                       <div className="mt-2 text-sm text-white/80">Lower pressure for first-time users.</div>
                     </div>
-                    <div className="rounded-[1.3rem] border border-white/20 bg-white/10 p-4">
+                    <div className="rounded-xl border border-white/20 bg-white/10 p-4">
                       <div className="font-display text-2xl font-semibold">Visible trust cues</div>
                       <div className="mt-2 text-sm text-white/80">Privacy and safety stay front and center.</div>
                     </div>
@@ -659,7 +596,7 @@ const LandingPage = () => {
                 </Card>
 
                 <div className="grid gap-5 md:grid-cols-2">
-                  <Card className="premium-panel rounded-[1.6rem] border-0 p-6">
+                  <Card className="premium-panel rounded-xl border-0 p-6">
                     <div className="flex items-center gap-3">
                       <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                         <Users className="h-6 w-6" />
@@ -670,7 +607,7 @@ const LandingPage = () => {
                       Softer copy, better hierarchy, and refined motion make the product feel more supportive.
                     </p>
                   </Card>
-                  <Card className="premium-panel rounded-[1.6rem] border-0 p-6">
+                  <Card className="premium-panel rounded-xl border-0 p-6">
                     <div className="flex items-center gap-3">
                       <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary/10 text-secondary">
                         <Activity className="h-6 w-6" />
@@ -690,9 +627,7 @@ const LandingPage = () => {
         <section id="about" className="px-6 py-20">
           <div className="container mx-auto">
             <div className="mx-auto max-w-3xl text-center" data-aos="fade-up">
-              <Badge className="mb-4 rounded-full border-primary/20 bg-primary/10 px-4 py-2 text-primary">
-                What makes Serenity different
-              </Badge>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">What makes Serenity different</p>
               <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
                 A more expressive landing page backed by real product depth.
               </h2>
@@ -722,9 +657,7 @@ const LandingPage = () => {
           <div className="container mx-auto">
             <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
               <div data-aos="fade-up">
-                <Badge className="mb-4 rounded-full border-secondary/20 bg-secondary/10 px-4 py-2 text-secondary">
-                  Built for real routines
-                </Badge>
+                <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Built for real routines</p>
                 <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
                   Serenity is designed to fit into everyday life, not compete with it.
                 </h2>
@@ -741,7 +674,7 @@ const LandingPage = () => {
                   return (
                     <Card
                       key={moment.title}
-                      className="premium-panel rounded-[1.8rem] border border-primary/10 p-6"
+                      className="premium-panel rounded-xl border border-primary/10 p-6"
                       data-aos="fade-up"
                       data-aos-delay={100 + index * 80}
                     >
@@ -764,9 +697,7 @@ const LandingPage = () => {
         <section className="px-6 pb-20">
           <div className="container mx-auto">
             <div className="mx-auto max-w-3xl text-center" data-aos="fade-up">
-              <Badge className="mb-4 rounded-full border-primary/20 bg-primary/10 px-4 py-2 text-primary">
-                Product principles
-              </Badge>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Product principles</p>
               <h2 className="font-display text-4xl font-semibold text-foreground md:text-5xl">
                 Clear, calm product decisions carry more trust than badges alone.
               </h2>
@@ -783,7 +714,7 @@ const LandingPage = () => {
                 return (
                   <Card
                     key={principle.title}
-                    className="premium-panel rounded-[1.6rem] border border-border/70 p-6"
+                    className="premium-panel rounded-xl border border-border/70 p-6"
                     data-aos="fade-up"
                     data-aos-delay={120 + index * 70}
                   >
@@ -799,18 +730,13 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <div aria-hidden className="pointer-events-none">
-          <img src="/illustrations/sn-hero-landscape.webp" alt="" width={1800} height={260} loading="lazy" className="landscape-band h-52 w-full object-cover" />
-        </div>
 
         <section className="relative overflow-hidden px-6 py-20">
           <div className="absolute inset-0 bg-gradient-hero" />
           <div className="absolute inset-0 bg-hologram opacity-80" />
           <div className="container relative z-10 mx-auto">
             <div className="mx-auto max-w-4xl text-center text-white" data-aos="zoom-in">
-              <Badge className="mb-5 rounded-full border-white/20 bg-white/10 px-4 py-2 text-white">
-                Ready when your users are
-              </Badge>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Ready when your users are</p>
               <h2 className="font-display text-4xl font-semibold md:text-5xl">
                 Launch a calmer, more elevated first impression for Serenity.
               </h2>
@@ -837,7 +763,7 @@ const LandingPage = () => {
 
       <footer id="contact" className="px-6 py-16">
         <div className="container mx-auto">
-          <div className="premium-panel rounded-[2rem] p-8 md:p-10">
+          <div className="premium-panel rounded-xl p-8 md:p-10">
             <div className="grid gap-10 md:grid-cols-4">
               <div className="md:col-span-2">
                 <div className="flex items-center gap-3">

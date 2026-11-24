@@ -7,10 +7,10 @@ export default function ProfessionalHeroVideo() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <div className="premium-panel relative overflow-hidden rounded-[2rem] p-3 shadow-[0_30px_90px_hsl(var(--primary)/0.16)]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.14),transparent_45%),radial-gradient(circle_at_bottom_right,hsl(var(--secondary)/0.18),transparent_40%)]" />
+    <div className="premium-panel relative overflow-hidden rounded-xl p-3 shadow-sm">
+      <div className="absolute inset-0 " />
 
-      <div className="relative overflow-hidden rounded-[1.6rem] border border-white/60 dark:border-white/10">
+      <div className="relative overflow-hidden rounded-xl border border-white/60 dark:border-white/10">
         {!isPlaying ? (
           <div className="relative aspect-[16/10] w-full">
             <img
@@ -18,7 +18,7 @@ export default function ProfessionalHeroVideo() {
               alt="Guided wellness conversation in a calm clinical setting"
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,18,0.1),rgba(10,10,18,0.75))]" />
+            <div className="absolute inset-0 " />
 
             <div className="absolute left-5 top-5 rounded-full border border-white/25 bg-black/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-white backdrop-blur-md">
               Guided walkthrough
@@ -28,7 +28,7 @@ export default function ProfessionalHeroVideo() {
               <Button
                 size="lg"
                 onClick={() => setIsPlaying(true)}
-                className="h-20 w-20 rounded-full border border-white/50 bg-white/90 text-primary shadow-[0_20px_50px_rgba(0,0,0,0.25)] hover:bg-white"
+                className="h-20 w-20 rounded-full border border-white/50 bg-white/90 text-primary shadow-sm hover:bg-white"
                 aria-label="Play Serenity product walkthrough"
               >
                 <Play className="ml-1 h-8 w-8" />
@@ -36,7 +36,7 @@ export default function ProfessionalHeroVideo() {
             </div>
 
             <div className="absolute inset-x-5 bottom-5">
-              <div className="flex flex-col gap-4 rounded-[1.4rem] border border-white/20 bg-black/30 p-5 text-white backdrop-blur-xl md:flex-row md:items-end md:justify-between">
+              <div className="flex flex-col gap-4 rounded-xl border border-white/20 bg-black/30 p-5 text-white backdrop-blur-xl md:flex-row md:items-end md:justify-between">
                 <div className="max-w-xl">
                   <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">
                     <Sparkles className="h-3.5 w-3.5" />

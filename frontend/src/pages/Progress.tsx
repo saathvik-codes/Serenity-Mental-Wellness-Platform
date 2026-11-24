@@ -236,7 +236,7 @@ const Progress = () => {
   const insights = generateInsights();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-16 lg:pb-0">
+    <div className="min-h-screen bg-background pb-16 lg:pb-0">
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-7xl">
         {/* Header */}
         <motion.div 
@@ -258,7 +258,7 @@ const Progress = () => {
                 <Sparkles className="w-3 h-3 mr-1" />
                 Your Journey
               </Badge>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-primary bg-clip-text text-transparent">
                 Progress Reports
               </h1>
               <p className="text-sm sm:text-base text-muted-foreground">Comprehensive view of your mental health journey</p>
@@ -299,7 +299,7 @@ const Progress = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.05, y: -5 }}
             >
-              <Card className="shadow-medium hover:shadow-xl transition-all duration-300">
+              <Card className="shadow-medium hover:shadow-sm transition-all duration-300">
                 <CardContent className="p-3 sm:p-6">
                   <div className="flex items-center gap-2 sm:gap-3">
                     <motion.div 

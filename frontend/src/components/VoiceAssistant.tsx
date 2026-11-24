@@ -210,7 +210,7 @@ const VoiceAssistant = () => {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <Button
-            className="fixed bottom-6 right-6 z-40 h-14 w-14 rounded-full border border-primary/20 bg-gradient-to-br from-primary to-secondary text-white shadow-[0_18px_42px_hsl(var(--primary)/0.35)] hover:scale-105 hover:from-primary/90 hover:to-secondary/90"
+            className="fixed bottom-6 right-6 z-40 h-14 w-14 rounded-full border border-primary/20 bg-primary text-white shadow-sm hover:scale-105 hover:bg-primary/90"
             size="icon"
           >
             <MessageCircle className="w-5 h-5 text-white" />
@@ -219,7 +219,7 @@ const VoiceAssistant = () => {
 
         <DialogContent className="flex h-[560px] max-w-md flex-col overflow-hidden border-primary/15 bg-background/95 p-0 backdrop-blur-xl">
           {/* Header */}
-          <div className="border-b border-primary/10 bg-[radial-gradient(circle_at_top_left,hsl(var(--primary)/0.12),transparent_55%)] p-4">
+          <div className="border-b border-primary/10  p-4">
             <div className="flex items-center justify-between">
               <h3 className="flex items-center gap-2 text-lg font-semibold">
                 <MessageCircle className="w-5 h-5 text-primary" />
@@ -240,7 +240,7 @@ const VoiceAssistant = () => {
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-1 space-y-4 overflow-y-auto bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--primary)/0.03))] p-4">
+          <div className="flex-1 space-y-4 overflow-y-auto  p-4">
             {messages.length === 0 && (
               <div className="py-10 text-center text-sm text-muted-foreground">
                 <MessageCircle className="mx-auto mb-3 h-9 w-9 text-primary/60" />
@@ -256,7 +256,7 @@ const VoiceAssistant = () => {
                 <div
                   className={`max-w-[80%] rounded-2xl px-3 py-2.5 shadow-sm ${
                     message.type === 'user'
-                      ? 'bg-gradient-to-br from-primary to-secondary text-white'
+                      ? ' bg-primary text-white'
                       : 'border border-primary/10 bg-card/90 text-foreground'
                   }`}
                 >

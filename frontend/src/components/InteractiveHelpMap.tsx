@@ -225,7 +225,7 @@ export const InteractiveHelpMap = () => {
             <CardContent className="p-0">
                 <div className="flex items-center justify-between p-4">
                 <div className="text-sm text-slate-300">Showing nearby hospitals, clinics and welfare centres</div>
-                <Button size="sm" onClick={requestLocation} className="bg-gradient-to-br from-indigo-600 to-emerald-400 text-white hover:opacity-95">{isLoading? 'Locating...' : 'Use My Location'}</Button>
+                <Button size="sm" onClick={requestLocation} className=" bg-indigo-600 text-white hover:opacity-95">{isLoading? 'Locating...' : 'Use My Location'}</Button>
               </div>
               <div className="max-h-[420px] overflow-auto p-4 space-y-2">
                 {isLoading && <div className="flex items-center gap-2 text-sm text-slate-300"><Loader2 className="animate-spin" /> Searching nearby...</div>}

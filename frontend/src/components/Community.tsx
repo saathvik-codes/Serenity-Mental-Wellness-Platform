@@ -316,7 +316,7 @@ const Community = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 cyber-grid pb-16 lg:pb-0">
+    <div className="min-h-screen bg-background cyber-grid pb-16 lg:pb-0">
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Back Button */}
         <div className="mb-6">
@@ -341,7 +341,7 @@ const Community = () => {
             <Users className="w-4 h-4 mr-2" />
             Community Hub
           </Badge>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-green-400 bg-clip-text text-transparent">
             Mental Wellness Community
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -463,7 +463,7 @@ const Community = () => {
                 {filteredNews.map((article) => (
                   <Card
                     key={article.id}
-                    className="hover:shadow-xl transition-all duration-300 cursor-pointer group overflow-hidden"
+                    className="hover:shadow-sm transition-all duration-300 cursor-pointer group overflow-hidden"
                     onClick={() => window.open(article.url, "_blank")}
                   >
                     <div className="relative h-48 overflow-hidden">
@@ -624,7 +624,7 @@ const Community = () => {
                 {liveStreams.map(stream => (
                   <Card 
                     key={stream.id} 
-                    className="hover:shadow-xl transition-all duration-300 cursor-pointer group overflow-hidden"
+                    className="hover:shadow-sm transition-all duration-300 cursor-pointer group overflow-hidden"
                     onClick={() => window.open(stream.url, "_blank")}
                   >
                     <div className="relative h-48 overflow-hidden">
@@ -680,7 +680,7 @@ const Community = () => {
                   {filteredVideos.map(video => (
                   <Card 
                     key={video.id} 
-                    className="hover:shadow-xl transition-all duration-300 cursor-pointer group overflow-hidden"
+                    className="hover:shadow-sm transition-all duration-300 cursor-pointer group overflow-hidden"
                     onClick={() => window.open(video.url, "_blank")}
                   >
                     <div className="relative h-48 overflow-hidden">

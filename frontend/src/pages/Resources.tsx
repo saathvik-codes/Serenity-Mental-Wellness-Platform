@@ -175,7 +175,7 @@ const Resources = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,hsl(var(--background)),hsl(var(--background)),hsl(var(--secondary)/0.06))] pb-16 lg:pb-0">
+    <div className="relative min-h-screen overflow-hidden  pb-16 lg:pb-0">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-20 top-12 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
         <div className="absolute right-0 top-1/4 h-72 w-72 rounded-full bg-secondary/12 blur-3xl" />
@@ -189,7 +189,7 @@ const Resources = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="premium-panel overflow-hidden rounded-[2rem] border border-primary/15 p-5 sm:p-8">
+          <div className="premium-panel overflow-hidden rounded-xl border border-primary/15 p-5 sm:p-8">
             <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
               <div>
                 <div className="flex items-center gap-4">
@@ -201,10 +201,8 @@ const Resources = () => {
                   >
                     <ArrowLeft className="w-4 h-4" />
                   </Button>
-                  <Badge className="rounded-full border-primary/20 bg-primary/10 px-4 py-1.5 text-primary">
-                    <BookOpen className="mr-2 h-3.5 w-3.5" />
-                    Learning hub
-                  </Badge>
+                  <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground"><BookOpen className="mr-2 h-3.5 w-3.5" />
+                    Learning hub</p>
                 </div>
                 <h1 className="mt-5 font-display text-3xl font-semibold text-foreground sm:text-4xl lg:text-5xl">
                   Resources that are easier to scan, save, and return to.
@@ -216,12 +214,12 @@ const Resources = () => {
               </div>
 
               <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-                <div className="rounded-[1.5rem] border border-primary/10 bg-background/70 p-4">
+                <div className="rounded-xl border border-primary/10 bg-background/70 p-4">
                   <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Catalog</div>
                   <div className="mt-3 text-3xl font-semibold text-foreground">{resources.length}</div>
                   <p className="mt-2 text-sm text-muted-foreground">Curated items across tools, audio, articles, and crisis help.</p>
                 </div>
-                <div className="rounded-[1.5rem] border border-primary/10 bg-background/70 p-4">
+                <div className="rounded-xl border border-primary/10 bg-background/70 p-4">
                   <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Filtered view</div>
                   <div className="mt-3 text-3xl font-semibold text-foreground">{filteredResources.length}</div>
                   <p className="mt-2 text-sm text-muted-foreground">Live results update as users search, sort, and narrow the list.</p>
@@ -233,7 +231,7 @@ const Resources = () => {
 
         {/* Search and Filters */}
         <motion.div 
-          className="premium-panel mb-8 space-y-4 rounded-[1.8rem] border border-primary/10 p-5"
+          className="premium-panel mb-8 space-y-4 rounded-xl border border-primary/10 p-5"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -249,7 +247,7 @@ const Resources = () => {
           </div>
 
           <Tabs defaultValue="all" className="w-full">
-            <TabsList className="grid h-auto w-full grid-cols-3 rounded-[1.4rem] bg-background/80 sm:grid-cols-6">
+            <TabsList className="grid h-auto w-full grid-cols-3 rounded-xl bg-background/80 sm:grid-cols-6">
               <TabsTrigger 
                 value="all" 
                 className="text-xs sm:text-sm px-2 sm:px-4 py-2"
@@ -338,7 +336,7 @@ const Resources = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.02, y: -5 }}
               >
-                <Card className="premium-panel h-full cursor-pointer rounded-[1.6rem] border border-primary/10 transition-all duration-300 group hover:-translate-y-1 hover:shadow-[0_18px_40px_hsl(var(--primary)/0.10)]">
+                <Card className="premium-panel h-full cursor-pointer rounded-xl border border-primary/10 transition-all duration-300 group hover:-translate-y-1 hover:shadow-sm">
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <Badge className={`${getTypeColor(resource.type)} text-xs`}>
@@ -422,7 +420,7 @@ const Resources = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          <Card className="rounded-[1.8rem] border border-red-200 bg-gradient-to-r from-red-50 to-red-100 dark:border-red-800 dark:from-red-950/20 dark:to-red-900/20">
+          <Card className="rounded-xl border border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center flex-shrink-0">

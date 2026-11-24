@@ -272,7 +272,7 @@ const RewardItem = ({
   const isUnlocked = userLevel >= reward.level;
   const Icon = reward.icon;
   return (
-    <div className={cn("flex items-center gap-4 rounded-[1.4rem] border p-4", isUnlocked ? "border-primary/30 bg-primary/5" : "border-border bg-muted/50 opacity-60")}>
+    <div className={cn("flex items-center gap-4 rounded-xl border p-4", isUnlocked ? "border-primary/30 bg-primary/5" : "border-border bg-muted/50 opacity-60")}>
       <div className={cn("w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0", isUnlocked ? "bg-primary text-white" : "bg-muted-foreground/20 text-muted-foreground")}>
         <Icon className="w-5 h-5" />
       </div>
@@ -587,7 +587,7 @@ const Gamification = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[linear-gradient(135deg,hsl(var(--background)),hsl(var(--background)),hsl(var(--primary)/0.06))] pb-16 lg:pb-0">
+    <div className="relative min-h-screen overflow-hidden  pb-16 lg:pb-0">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-16 top-12 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
         <div className="absolute right-0 top-1/4 h-72 w-72 rounded-full bg-secondary/10 blur-3xl" />
@@ -595,7 +595,7 @@ const Gamification = () => {
       </div>
       <div className="relative z-10 container mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8">
         {/* Header */}
-        <div className="premium-panel mb-8 overflow-hidden rounded-[2rem] border border-primary/15 p-5 sm:p-8">
+        <div className="premium-panel mb-8 overflow-hidden rounded-xl border border-primary/15 p-5 sm:p-8">
           <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
             <div className="flex items-start space-x-4">
             <Button
@@ -607,9 +607,7 @@ const Gamification = () => {
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div>
-              <Badge className="mb-3 rounded-full border-primary/20 bg-primary/10 px-4 py-1.5 text-primary">
-                Level system
-              </Badge>
+              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Level system</p>
               <h1 className="font-display text-3xl font-semibold flex items-center gap-3 sm:text-4xl lg:text-5xl">
                 <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
                   <Trophy className="w-6 h-6 text-white" />
@@ -622,12 +620,12 @@ const Gamification = () => {
             </div>
           </div>
             <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-              <div className="rounded-[1.5rem] border border-primary/10 bg-background/70 p-4">
+              <div className="rounded-xl border border-primary/10 bg-background/70 p-4">
                 <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Current level</div>
                 <div className="mt-3 text-3xl font-semibold text-foreground">{userStats.level}</div>
                 <p className="mt-2 text-sm text-muted-foreground">{userStats.rank} rank</p>
               </div>
-              <div className="rounded-[1.5rem] border border-primary/10 bg-background/70 p-4">
+              <div className="rounded-xl border border-primary/10 bg-background/70 p-4">
                 <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Claimed rewards</div>
                 <div className="mt-3 text-3xl font-semibold text-foreground">{(userDBData?.claimedRewards || []).length}</div>
                 <p className="mt-2 text-sm text-muted-foreground">Reward milestones you have already collected.</p>
@@ -637,7 +635,7 @@ const Gamification = () => {
         </div>
 
         {/* User Stats Card */}
-        <Card className="premium-panel mb-8 rounded-[1.8rem] border border-primary/10 bg-gradient-to-br from-primary/5 to-primary/10 shadow-medium">
+        <Card className="premium-panel mb-8 rounded-xl border border-primary/10 bg-primary/5 shadow-medium">
           <CardContent className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="text-center">
@@ -705,7 +703,7 @@ const Gamification = () => {
         />
 
         <Tabs defaultValue="challenges" className="w-full">
-          <TabsList className="mb-6 grid w-full grid-cols-2 rounded-[1.4rem] bg-background/80">
+          <TabsList className="mb-6 grid w-full grid-cols-2 rounded-xl bg-background/80">
             <TabsTrigger value="challenges">Active Challenges</TabsTrigger>
             <TabsTrigger value="achievements">Achievements</TabsTrigger>
           </TabsList>
@@ -727,7 +725,7 @@ const Gamification = () => {
                     <Card 
                       key={challenge.id}
                       className={cn(
-                        "premium-panel rounded-[1.6rem] border border-primary/10 shadow-medium",
+                        "premium-panel rounded-xl border border-primary/10 shadow-medium",
                         challenge.completed && "bg-primary/5 border-primary/30"
                       )}
                     >
@@ -798,7 +796,7 @@ const Gamification = () => {
                     <Card 
                       key={challenge.id}
                       className={cn(
-                        "premium-panel rounded-[1.6rem] border border-primary/10 shadow-medium",
+                        "premium-panel rounded-xl border border-primary/10 shadow-medium",
                         challenge.completed && "bg-wellness/5 border-wellness/30"
                       )}
                     >
@@ -865,7 +863,7 @@ const Gamification = () => {
                   <Card 
                     key={achievement.id}
                     className={cn(
-                      "premium-panel rounded-[1.6rem] border-2 shadow-medium transition-all",
+                      "premium-panel rounded-xl border-2 shadow-medium transition-all",
                       achievement.unlocked 
                         ? `${getRarityBg(achievement.rarity)} ${getRarityColor(achievement.rarity)}`
                         : "border-muted opacity-60"

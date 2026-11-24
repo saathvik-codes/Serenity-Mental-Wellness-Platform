@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Instrument+Sans:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Figtree:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap');
 @import './styles/responsive.css';
 
@@ -10,26 +11,26 @@
 @layer base {
   :root {
     /* Core Brand Colors - Earthy Sage + Warm Clay */
-    --background: 42 30% 95%;
-    --foreground: 26 18% 17%;
+    --background: 40 33% 95%;
+    --foreground: 24 16% 17%;
 
-    --card: 42 24% 98%;
-    --card-foreground: 26 18% 17%;
+    --card: 40 40% 98%;
+    --card-foreground: 24 16% 17%;
 
-    --popover: 42 24% 98%;
-    --popover-foreground: 26 18% 17%;
+    --popover: 40 40% 98%;
+    --popover-foreground: 24 16% 17%;
 
-    --primary: 146 27% 38%;
-    --primary-foreground: 42 34% 96%;
+    --primary: 140 16% 38%;
+    --primary-foreground: 40 40% 98%;
     --primary-light: 146 28% 48%;
     --primary-dark: 146 28% 30%;
 
-    --secondary: 27 32% 52%;
-    --secondary-foreground: 42 34% 96%;
+    --secondary: 38 30% 89%;
+    --secondary-foreground: 24 16% 22%;
     --secondary-light: 27 34% 62%;
 
-    --accent: 82 22% 58%;
-    --accent-foreground: 26 18% 17%;
+    --accent: 20 62% 44%;
+    --accent-foreground: 40 40% 98%;
 
     --wellness: 142 29% 46%;
     --wellness-foreground: 42 34% 96%;
@@ -37,17 +38,17 @@
     --energy: 31 72% 58%;
     --focus: 28 25% 42%;
 
-    --muted: 40 18% 89%;
-    --muted-foreground: 27 14% 42%;
+    --muted: 38 28% 91%;
+    --muted-foreground: 28 9% 40%;
 
     --destructive: 0 75% 60%;
     --destructive-foreground: 240 15% 99%;
 
-    --border: 34 18% 82%;
-    --input: 40 22% 94%;
-    --ring: 146 27% 38%;
+    --border: 36 22% 82%;
+    --input: 36 22% 82%;
+    --ring: 140 16% 38%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
@@ -76,26 +77,26 @@
   }
 
   .dark {
-    --background: 28 18% 9%;
-    --foreground: 42 26% 92%;
+    --background: 28 12% 9%;
+    --foreground: 38 25% 90%;
 
-    --card: 28 18% 12%;
-    --card-foreground: 42 26% 92%;
+    --card: 28 11% 12%;
+    --card-foreground: 38 25% 90%;
 
-    --popover: 28 18% 12%;
-    --popover-foreground: 42 26% 92%;
+    --popover: 28 11% 12%;
+    --popover-foreground: 38 25% 90%;
 
-    --primary: 146 24% 62%;
-    --primary-foreground: 28 18% 12%;
+    --primary: 140 22% 58%;
+    --primary-foreground: 28 12% 9%;
     --primary-light: 146 25% 70%;
     --primary-dark: 146 22% 52%;
 
-    --secondary: 28 28% 62%;
-    --secondary-foreground: 28 18% 12%;
+    --secondary: 28 9% 18%;
+    --secondary-foreground: 38 25% 90%;
     --secondary-light: 28 30% 70%;
 
-    --accent: 82 20% 65%;
-    --accent-foreground: 28 18% 12%;
+    --accent: 20 55% 58%;
+    --accent-foreground: 28 12% 9%;
 
     --wellness: 144 26% 58%;
     --wellness-foreground: 28 18% 12%;
@@ -103,15 +104,15 @@
     --energy: 31 70% 64%;
     --focus: 30 24% 68%;
 
-    --muted: 28 10% 18%;
-    --muted-foreground: 40 14% 72%;
+    --muted: 28 9% 17%;
+    --muted-foreground: 36 10% 64%;
 
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 30 12% 24%;
-    --input: 30 12% 18%;
-    --ring: 146 24% 62%;
+    --border: 28 9% 22%;
+    --input: 28 9% 22%;
+    --ring: 140 22% 58%;
     --sidebar-background: 28 18% 10%;
     --sidebar-foreground: 42 26% 92%;
     --sidebar-primary: 146 24% 40%;
@@ -601,3 +602,27 @@ html, body { overflow-x: clip; max-width: 100%; }
 
 /* The landscape is a backdrop, not a picture: it fades in and out so no edge shows */
 .landscape-band { -webkit-mask-image: linear-gradient(to bottom, transparent, #000 32%, #000 68%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 32%, #000 68%, transparent); }
+
+/* ---- Calm editorial restyle: flat surfaces, hairlines, no glow, no glass, no gradients ---- */
+body { font-family: 'Instrument Sans', system-ui, sans-serif; }
+.font-display, .font-serif, h1, h2 { font-family: 'Fraunces', Georgia, serif; letter-spacing: -0.015em; }
+.premium-panel, .glass, .cyber-glass, .holographic-card, .team-card {
+  background: hsl(var(--card)) !important; border: 1px solid hsl(var(--border)) !important;
+  box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+}
+.premium-panel::before, .premium-panel::after, .holographic-card::before, .holographic-card::after,
+.cyber-glass::before, .cyber-glass::after, .neon-border::before, .neon-border::after, .btn-futuristic::before,
+.btn-enhanced::before, .btn-glow::before, .sparkle-effect::before, .sparkle-effect::after { content: none !important; display: none !important; }
+.glow-effect, .shadow-glow, .shadow-neon, .shadow-strong, .neon-border, .pulse-glow, .btn-glow, .btn-pulse, .sparkle-effect,
+.floating-animation, .welcome-animation, .btn-futuristic, .btn-enhanced { box-shadow: none !important; animation: none !important; filter: none !important; }
+.shadow-soft, .shadow-medium { box-shadow: 0 1px 2px hsl(24 16% 17% / 0.06) !important; }
+.bg-gradient-primary { background: hsl(var(--primary)) !important; }
+.bg-gradient-calm, .bg-gradient-glass { background: hsl(var(--secondary)) !important; }
+.bg-gradient-hero { background: hsl(var(--foreground)) !important; }
+.bg-hologram, .particle-network, .particle, .cyber-grid { display: none !important; }
+.text-gradient-primary { background: none !important; -webkit-text-fill-color: currentColor !important; color: hsl(var(--primary)) !important; }
+.blur-3xl, .blur-2xl, .blur-xl { display: none !important; }            /* decorative colour blobs */
+[class*="backdrop-blur"] { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+.hero-art { -webkit-mask-image: radial-gradient(ellipse closest-side, #000 55%, transparent 100%); mask-image: radial-gradient(ellipse closest-side, #000 55%, transparent 100%); }
+body { background-image: none !important; }
+.font-cursive { font-family: 'Fraunces', Georgia, serif !important; font-style: italic; font-weight: 400; }
