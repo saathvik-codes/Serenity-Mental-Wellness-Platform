@@ -28,7 +28,11 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
 });
 
-const OVERPASS_URL = "https://overpass-api.de/api/interpreter";
+const OVERPASS_URLS = [
+  "https://overpass-api.de/api/interpreter",
+  "https://overpass.kumi.systems/api/interpreter",
+  "https://overpass.private.coffee/api/interpreter",
+];
 
 function MapUpdater({ onMove, mapRef }: { onMove: (centerLat: number, centerLng: number, bounds: L.LatLngBounds, zoom: number) => void, mapRef: React.MutableRefObject<any> }) {
   const map = useMapEvents({
@@ -103,8 +107,18 @@ export const InteractiveHelpMap = () => {
       out center 50;`;
 
     try {
-      const resp = await fetch(OVERPASS_URL, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" }, body: `data=${encodeURIComponent(query)}`, signal: ac.signal });
-      if (!resp.ok) throw new Error(`Overpass error ${resp.status}`);
+      // The public Overpass servers are often busy; try each mirror before giving up.
+      let resp: Response | null = null;
+      for (const url of OVERPASS_URLS) {
+        try {
+          resp = await fetch(url, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" }, body: `data=${encodeURIComponent(query)}`, signal: ac.signal });
+          if (resp.ok) break;
+        } catch (e: any) {
+          if (e?.name === "AbortError") throw e;
+          resp = null;
+        }
+      }
+      if (!resp || !resp.ok) throw new Error(`Overpass error ${resp ? resp.status : "network"}`);
       const data = await resp.json();
       const centers: HelpCenter[] = (data.elements || []).map((el: any) => {
         const latVal = el.lat ?? el.center?.lat; const lonVal = el.lon ?? el.center?.lon; if (!latVal || !lonVal) return null;
@@ -220,30 +234,30 @@ export const InteractiveHelpMap = () => {
     <div className="w-full h-full">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-220px)] min-h-[520px]">
         <div className="lg:col-span-1 flex flex-col gap-4 h-full">
-          <Card className="p-4 bg-slate-900 text-white border-0">
+          <Card className="p-4 bg-background text-foreground border-0">
             <CardHeader className="p-0 mb-2"><CardTitle className="flex items-center gap-2"><MapPin /> Nearby Services</CardTitle></CardHeader>
             <CardContent className="p-0">
                 <div className="flex items-center justify-between p-4">
-                <div className="text-sm text-slate-300">Showing nearby hospitals, clinics and welfare centres</div>
-                <Button size="sm" onClick={requestLocation} className=" bg-indigo-600 text-white hover:opacity-95">{isLoading? 'Locating...' : 'Use My Location'}</Button>
+                <div className="text-sm text-muted-foreground">Showing nearby hospitals, clinics and welfare centres</div>
+                <Button size="sm" onClick={requestLocation} className="bg-primary text-white hover:opacity-95">{isLoading? 'Locating...' : 'Use My Location'}</Button>
               </div>
               <div className="max-h-[420px] overflow-auto p-4 space-y-2">
-                {isLoading && <div className="flex items-center gap-2 text-sm text-slate-300"><Loader2 className="animate-spin" /> Searching nearby...</div>}
-                {!isLoading && helpCenters.length===0 && <div className="text-sm text-slate-400">No nearby services found.</div>}
+                {isLoading && <div className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="animate-spin" /> Searching nearby...</div>}
+                {!isLoading && helpCenters.length===0 && <div className="text-sm text-muted-foreground">No nearby services found.</div>}
                 {helpCenters.map(c => (
-                  <div key={c.id} className={`p-3 rounded-lg cursor-pointer border ${selected===c.id? 'border-primary':'border-slate-700'} bg-slate-800`} onClick={() => { setSelected(c.id); mapRef.current?.setView([c.lat,c.lng],16); }}>
+                  <div key={c.id} className={`p-3 rounded-lg cursor-pointer border ${selected===c.id? 'border-primary':'border-slate-700'} bg-card`} onClick={() => { setSelected(c.id); mapRef.current?.setView([c.lat,c.lng],16); }}>
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-semibold text-white">{c.name}</div>
-                        <div className="text-xs text-slate-300">{c.type}</div>
+                        <div className="font-semibold text-foreground">{c.name}</div>
+                        <div className="text-xs text-muted-foreground">{c.type}</div>
                       </div>
-                      <div className="text-xs text-slate-400">{c.distance? `${(c.distance/1000).toFixed(1)} km`:''}</div>
+                      <div className="text-xs text-muted-foreground">{c.distance? `${(c.distance/1000).toFixed(1)} km`:''}</div>
                     </div>
-                    {c.address && <div className="text-xs text-slate-300 mt-1">{c.address}</div>}
+                    {c.address && <div className="text-xs text-muted-foreground mt-1">{c.address}</div>}
                     <div className="mt-2 flex gap-2">
-                      {c.phone && <Button size="sm" onClick={() => window.location.href = `tel:${c.phone}`} className="bg-indigo-600 text-white px-3 py-1 text-sm rounded-md">Call</Button>}
-                      <Button size="sm" variant="outline" onClick={() => openDirections(c)} className="border border-slate-600 text-white px-3 py-1 text-sm rounded-md bg-transparent">Directions</Button>
-                      {c.website && <Button size="sm" variant="outline" onClick={() => window.open(c.website,'_blank')} className="border border-slate-600 text-white px-3 py-1 text-sm rounded-md bg-transparent">Website</Button>}
+                      {c.phone && <Button size="sm" onClick={() => window.location.href = `tel:${c.phone}`} className="bg-primary text-white px-3 py-1 text-sm rounded-md">Call</Button>}
+                      <Button size="sm" variant="outline" onClick={() => openDirections(c)} className="border border-border text-foreground px-3 py-1 text-sm rounded-md bg-transparent">Directions</Button>
+                      {c.website && <Button size="sm" variant="outline" onClick={() => window.open(c.website,'_blank')} className="border border-border text-foreground px-3 py-1 text-sm rounded-md bg-transparent">Website</Button>}
                     </div>
                   </div>
                 ))}
@@ -252,7 +266,7 @@ export const InteractiveHelpMap = () => {
           </Card>
         </div>
 
-        <div className="lg:col-span-2 h-full rounded-lg overflow-hidden shadow-md bg-slate-900">
+        <div className="lg:col-span-2 h-full rounded-lg overflow-hidden shadow-md bg-background">
           <MapContainer 
             center={[defaultCenter.lat, defaultCenter.lng]} 
             zoom={6} 
@@ -288,7 +302,7 @@ export const InteractiveHelpMap = () => {
                         <Button 
                           size="sm" 
                           onClick={() => window.location.href = `tel:${c.phone}`} 
-                          className="bg-indigo-600 text-white px-3 py-1 text-sm rounded-md"
+                          className="bg-primary text-white px-3 py-1 text-sm rounded-md"
                         >
                           Call
                         </Button>
@@ -297,7 +311,7 @@ export const InteractiveHelpMap = () => {
                         size="sm" 
                         variant="outline" 
                         onClick={() => openDirections(c)} 
-                        className="border border-slate-600 text-white px-3 py-1 text-sm rounded-md bg-transparent"
+                        className="border border-border text-foreground px-3 py-1 text-sm rounded-md bg-transparent"
                       >
                         Directions
                       </Button>

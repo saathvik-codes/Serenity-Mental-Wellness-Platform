@@ -393,7 +393,7 @@ const Achievements = () => {
             </Button>
           </div>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Celebrate your progress and milestones in your mental wellness journey.
+            Badges you have earned and the ones still ahead.
           </p>
         </div>
 

@@ -30,7 +30,7 @@ import { useToast } from "@/components/ui/use-toast";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { auth, db } from "@/firebase";
 import { doc, getDoc, setDoc, collection, getDocs, deleteDoc } from "firebase/firestore";
-import { sendEmailVerification, reload, onAuthStateChanged } from "firebase/auth";
+import { sendEmailVerification, reload, onAuthStateChanged, deleteUser } from "firebase/auth";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -342,14 +342,26 @@ const SettingsPage = () => {
     if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
       const currentUser = auth.currentUser;
       if (!currentUser) return;
-      await deleteDoc(doc(db, "users", currentUser.uid));
-      // Optionally delete assessments subcollection (requires recursive delete in backend or admin SDK)
-      toast({
-        title: "Account Deleted",
-        description: "Your account and all data have been permanently deleted.",
-        variant: "destructive"
-      });
-      navigate("/auth");
+      try {
+        // Remove everything stored under the account, then the profile, then the sign-in itself.
+        for (const name of ["assessments", "ai_chats", "notifications", "posts", "resources"]) {
+          const snap = await getDocs(collection(db, "users", currentUser.uid, name));
+          await Promise.all(snap.docs.map((d) => deleteDoc(d.ref)));
+        }
+        await deleteDoc(doc(db, "users", currentUser.uid));
+        await deleteUser(currentUser);
+        toast({ title: "Account deleted", description: "Your account and its data have been removed." });
+        navigate("/auth");
+      } catch (error: any) {
+        const recent = error?.code === "auth/requires-recent-login";
+        toast({
+          title: "Could not delete the account",
+          description: recent
+            ? "For your safety, please sign out, sign back in, and try again."
+            : error?.message || "Please try again.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -664,7 +676,7 @@ const SettingsPage = () => {
             <Card className="shadow-medium">
               <CardHeader>
                 <CardTitle>Account Statistics</CardTitle>
-                <CardDescription>Your mental wellness journey progress</CardDescription>
+                <CardDescription>Your progress so far</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -215,12 +215,10 @@ const Resources = () => {
 
               <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
                 <div className="rounded-xl border border-primary/10 bg-background/70 p-4">
-                  <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Catalog</div>
                   <div className="mt-3 text-3xl font-semibold text-foreground">{resources.length}</div>
-                  <p className="mt-2 text-sm text-muted-foreground">Curated items across tools, audio, articles, and crisis help.</p>
+                  <p className="mt-2 text-sm text-muted-foreground">Tools, audio, articles and crisis help.</p>
                 </div>
                 <div className="rounded-xl border border-primary/10 bg-background/70 p-4">
-                  <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Filtered view</div>
                   <div className="mt-3 text-3xl font-semibold text-foreground">{filteredResources.length}</div>
                   <p className="mt-2 text-sm text-muted-foreground">Live results update as users search, sort, and narrow the list.</p>
                 </div>

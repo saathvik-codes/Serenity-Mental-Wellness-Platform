@@ -320,7 +320,7 @@ const RewardsDialog = ({
     <DialogContent className="border-primary/15 bg-background/95 backdrop-blur-xl">
       <DialogHeader>
         <DialogTitle>Level Rewards</DialogTitle>
-        <DialogDescription>Here are the rewards you can unlock as you progress on your wellness journey.</DialogDescription>
+        <DialogDescription>Rewards you can earn as you keep checking in.</DialogDescription>
       </DialogHeader>
       <div className="space-y-4 py-4">
         {levelRewards.map((reward) => (
@@ -607,7 +607,6 @@ const Gamification = () => {
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div>
-              <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Level system</p>
               <h1 className="font-display text-3xl font-semibold flex items-center gap-3 sm:text-4xl lg:text-5xl">
                 <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
                   <Trophy className="w-6 h-6 text-white" />
@@ -615,7 +614,7 @@ const Gamification = () => {
                 Achievements & Challenges
               </h1>
               <p className="mt-3 max-w-2xl font-body text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                Track levels, unlock achievements, and claim milestone rewards in a cleaner progression space.
+                Your level, achievements and rewards.
               </p>
             </div>
           </div>

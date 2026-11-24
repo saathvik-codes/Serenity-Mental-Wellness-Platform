@@ -159,7 +159,7 @@ export const HelpCenterMap = () => {
 
   return (
     <div className="flex flex-col lg:flex-row gap-4">
-      <div className="lg:w-2/3 h-96 lg:h-[600px] rounded-lg overflow-hidden shadow-md bg-slate-900">
+      <div className="lg:w-2/3 h-96 lg:h-[600px] rounded-lg overflow-hidden shadow-md bg-background">
         <MapContainer
           center={[userLocation?.lat ?? defaultCenter.lat, userLocation?.lng ?? defaultCenter.lng]}
           zoom={userLocation ? 14 : 6}
@@ -204,7 +204,7 @@ export const HelpCenterMap = () => {
       </div>
 
       <div className="lg:w-1/3 space-y-3">
-        <Card className="p-4 bg-slate-800 text-white border-0">
+        <Card className="p-4 bg-card text-foreground border-0">
           <CardHeader className="p-0 mb-2">
             <CardTitle className="flex items-center gap-2 text-lg">
               <MapPin /> Nearby Services
@@ -212,9 +212,9 @@ export const HelpCenterMap = () => {
           </CardHeader>
           <CardContent className="p-0">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-sm text-slate-300">Showing nearby hospitals, clinics and welfare centres</div>
+              <div className="text-sm text-muted-foreground">Showing nearby hospitals, clinics and welfare centres</div>
               <div>
-                <Button size="sm" onClick={requestLocation} className=" bg-primary text-white">
+                <Button size="sm" onClick={requestLocation} className="bg-primary text-white">
                   <Navigation className="w-4 h-4 mr-1" />
                   {isLoading ? "Locating..." : "Use My Location"}
                 </Button>
@@ -223,10 +223,10 @@ export const HelpCenterMap = () => {
 
             <div className="max-h-[460px] overflow-auto space-y-2">
               {helpCenters.length === 0 && !isLoading && (
-                <div className="text-sm text-slate-400">No nearby services found in this area.</div>
+                <div className="text-sm text-muted-foreground">No nearby services found in this area.</div>
               )}
               {isLoading && (
-                <div className="flex items-center gap-2 text-sm text-slate-300">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="animate-spin" /> Searching nearby...
                 </div>
               )}
@@ -234,7 +234,7 @@ export const HelpCenterMap = () => {
               {helpCenters.map((c) => (
                 <div
                   key={c.id}
-                  className={`p-3 rounded-lg cursor-pointer border ${selected === c.id ? "border-primary" : "border-slate-700"} bg-slate-800`}
+                  className={`p-3 rounded-lg cursor-pointer border ${selected === c.id ? "border-primary" : "border-slate-700"} bg-card`}
                   onClick={() => {
                     setSelected(c.id);
                     mapRef.current?.setView([c.lat, c.lng], 16);
@@ -242,12 +242,12 @@ export const HelpCenterMap = () => {
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="font-semibold text-white">{c.name}</div>
-                      <div className="text-xs text-slate-300">{c.type}</div>
+                      <div className="font-semibold text-foreground">{c.name}</div>
+                      <div className="text-xs text-muted-foreground">{c.type}</div>
                     </div>
-                    <div className="text-xs text-slate-400">{c.distance ? `${(c.distance/1000).toFixed(1)} km` : ''}</div>
+                    <div className="text-xs text-muted-foreground">{c.distance ? `${(c.distance/1000).toFixed(1)} km` : ''}</div>
                   </div>
-                  {c.address && <div className="text-xs text-slate-300 mt-1">{c.address}</div>}
+                  {c.address && <div className="text-xs text-muted-foreground mt-1">{c.address}</div>}
                   <div className="mt-2 flex gap-2">
                     {c.phone && (
                       <Button size="sm" onClick={() => (window.location.href = `tel:${c.phone}`)}>
@@ -267,7 +267,7 @@ export const HelpCenterMap = () => {
           </CardContent>
         </Card>
 
-        <Card className="p-4 bg-slate-900 text-slate-300 border-0">
+        <Card className="p-4 bg-background text-muted-foreground border-0">
           <CardContent className="p-0">
             <div className="text-xs">These results come from OpenStreetMap (Overpass API). Verify before acting. In emergencies call local services.</div>
           </CardContent>

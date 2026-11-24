@@ -261,7 +261,7 @@ const Progress = () => {
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-primary bg-clip-text text-transparent">
                 Progress Reports
               </h1>
-              <p className="text-sm sm:text-base text-muted-foreground">Comprehensive view of your mental health journey</p>
+              <p className="text-sm sm:text-base text-muted-foreground">Your check-ins and mood over time.</p>
             </div>
           </div>
 
@@ -405,7 +405,7 @@ const Progress = () => {
                   <div className="text-center py-8 text-muted-foreground">
                     <img src="/illustrations/sn-empty-assessments.webp" alt="" width={240} height={171} loading="lazy" className="illus mx-auto mb-4 h-auto w-48" />
                     <p>No assessments completed yet</p>
-                    <p className="text-sm">Start your mental health journey by taking an assessment</p>
+                    <p className="text-sm">Take a check-in to see your first results here.</p>
                   </div>
                 ) : (
                   <div className="space-y-4">

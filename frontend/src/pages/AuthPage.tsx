@@ -630,7 +630,7 @@ const AuthPage = () => {
           data-aos-delay="200"
         >
           <BrandLogo size="lg" stacked className="justify-center" />
-          <p className="mt-3 font-body text-sm leading-6 text-muted-foreground">Your mental wellness journey starts here.</p>
+          <p className="mt-3 font-body text-sm leading-6 text-muted-foreground">A quiet place to check in with yourself.</p>
         </div>
 
         <Card 

@@ -297,7 +297,7 @@ const MoodTracker = () => {
                   Mood Tracker
                 </h1>
                 <p className="text-muted-foreground mt-1">
-                  Track your emotions and discover patterns with AI insights
+                  Log how you feel and see patterns over the last two weeks.
                 </p>
               </div>
             </div>
@@ -468,12 +468,12 @@ const MoodTracker = () => {
               </CardContent>
             </Card>
 
-            {/* AI Insights */}
+            {/* Patterns */}
             <Card className="shadow-medium border-primary/10">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg">
                   <Brain className="w-5 h-5 text-primary" />
-                  AI Insights
+                  Patterns
                 </CardTitle>
                 <CardDescription>Patterns detected in your mood</CardDescription>
               </CardHeader>
@@ -536,7 +536,7 @@ const MoodTracker = () => {
                   onClick={() => navigate("/ai-therapist")}
                 >
                   <Brain className="w-4 h-4 mr-2" />
-                  Talk to AI Companion
+                  Talk it through
                 </Button>
                 <Button
                   variant="outline"

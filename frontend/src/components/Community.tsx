@@ -339,13 +339,13 @@ const Community = () => {
         >
           <Badge className="mb-4 px-4 py-2 bg-primary/20 border-primary/50 text-primary dark:bg-primary/30 dark:border-primary/60 dark:text-primary">
             <Users className="w-4 h-4 mr-2" />
-            Community Hub
+            Community
           </Badge>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-green-400 bg-clip-text text-transparent">
             Mental Wellness Community
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Connect, learn, and grow together on your mental wellness journey
+            Talk with others, join a support group or read recent news.
           </p>
         </motion.div>
 
@@ -735,14 +735,10 @@ const Community = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2 flex items-center gap-2">
-                        Anonymous & Safe
-                        <Badge variant="outline" className="text-xs">
-                          <Lock className="w-3 h-3 mr-1" />
-                          AI Moderated
-                        </Badge>
+                        Anonymous by default
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        All support groups are anonymous and moderated by AI to ensure a safe, positive environment.
+                        Your name is hidden in support groups unless you choose to share it. Report anything that feels unsafe.
                       </p>
                     </div>
                   </div>

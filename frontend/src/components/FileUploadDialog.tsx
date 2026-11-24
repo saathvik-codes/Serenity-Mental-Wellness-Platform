@@ -139,7 +139,7 @@ export const FileUploadDialog = ({
         <DialogHeader>
           <DialogTitle>Upload Files</DialogTitle>
           <DialogDescription>
-            Share documents, images, or notes with your AI therapist for better context
+            Add a document or notes so the companion can take them into account
           </DialogDescription>
         </DialogHeader>
 

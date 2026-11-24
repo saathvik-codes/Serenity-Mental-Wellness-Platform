@@ -217,11 +217,11 @@ const AssessmentCenter = () => {
         >
           <Badge className="mb-4 px-4 py-2 bg-primary/10 border-primary/30">
             <Leaf className="w-4 h-4 mr-2" />
-            Professional Mental Health Screenings
+            Check-ins
           </Badge>
           <h1 className="text-5xl font-serif font-bold mb-4 text-gradient-primary">Assessment Center</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Take validated mental health screenings to track your wellbeing and get personalized insights
+            Short, validated questionnaires (PHQ-9, GAD-7 and others). Results are saved so you can see changes over time.
           </p>
         </motion.div>
 
@@ -305,7 +305,7 @@ const AssessmentCenter = () => {
                 <div className="text-center">
                   <CheckCircle className="w-8 h-8 text-wellness mx-auto mb-2" />
                   <h4 className="font-semibold mb-1">Clinically Validated</h4>
-                  <p className="text-sm text-muted-foreground">Evidence-based screening tools</p>
+                  <p className="text-sm text-muted-foreground">Validated questionnaires</p>
                 </div>
                 <div className="text-center">
                   <Heart className="w-8 h-8 text-energy mx-auto mb-2" />

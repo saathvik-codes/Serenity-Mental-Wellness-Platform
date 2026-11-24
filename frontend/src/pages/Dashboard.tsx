@@ -147,7 +147,7 @@ const NotificationSystem = ({
             <Badge className="ml-2 bg-primary text-primary-foreground">{unreadCount}</Badge>
           )}
         </CardTitle>
-        <CardDescription>Recent reminders, streak updates, and supportive nudges.</CardDescription>
+        <CardDescription>Reminders and updates.</CardDescription>
       </CardHeader>
       <CardContent className="p-0">
         <div className="max-h-80 overflow-y-auto">
@@ -640,7 +640,7 @@ const Dashboard = () => {
     },
     {
       title: "Achievements",
-      description: "Review your streaks, levels, and rewards.",
+      description: "Your streaks, levels and rewards.",
       icon: Target,
       path: "/gamification",
       iconColor: "text-focus",
@@ -648,38 +648,38 @@ const Dashboard = () => {
     },
     {
       title: "Assessments",
-      description: "Start a deeper check-in when you need clarity.",
+      description: "Validated check-ins for mood, anxiety and stress.",
       icon: BarChart3,
       path: "/assessment-center",
       iconColor: "text-primary",
       accent: "bg-primary/18",
     },
     {
-      title: "Focus Games",
-      description: "Reset attention with lighter mental workouts.",
+      title: "Games",
+      description: "Short games for focus and calm.",
       icon: Target,
       path: "/wellness-games",
       iconColor: "text-green-600",
       accent: "bg-green-500/18",
     },
     {
-      title: "Spotify Wellness",
-      description: "Shift the mood with supportive listening.",
+      title: "Music",
+      description: "Playlists for calm, focus and sleep.",
       icon: Music,
       path: "/spotify-wellness",
       iconColor: "text-green-500",
       accent: "bg-green-500/20",
     },
     {
-      title: "Need Help?",
-      description: "Jump quickly to urgent support options.",
+      title: "Get help now",
+      description: "Helplines and nearby support.",
       icon: Heart,
       path: "/emergency-help",
       iconColor: "text-red-500",
       accent: "bg-red-500/18",
     },
     {
-      title: "AI Companion",
+      title: "Talk it through",
       description: "Talk through your next step with guided support.",
       icon: Brain,
       path: "/ai-therapist",
@@ -797,20 +797,14 @@ const Dashboard = () => {
                 transition={{ duration: 0.45 }}
                 className="premium-panel relative overflow-hidden rounded-xl border border-primary/15 p-5 sm:p-8"
               >
-                <div className="absolute inset-0 " />
-                <div className="relative z-10 flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
+                                <div className="relative z-10 flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
                   <div className="max-w-2xl">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Personal dashboard</p>
-                      <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">{moodLoggedToday ? "Mood checked in today" : "Mood check-in waiting"}</p>
-                    </div>
-
-                    <h1 className="mt-5 font-display text-3xl font-semibold text-foreground sm:text-4xl lg:text-5xl">
-                      Good to see you, <span className="font-cursive text-primary">{firstName}</span>.
+                    <h1 className="font-display text-3xl font-semibold text-foreground sm:text-4xl lg:text-5xl">
+                      {firstName && firstName !== "User" ? <>Good to see you, <span className="font-cursive text-primary">{firstName}</span>.</> : "Good to see you."}
                     </h1>
                     <p className="mt-4 max-w-2xl font-body text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                      Track your momentum, revisit recent reflections, and step into the next wellness action without
-                      hunting through the interface.
+                      {moodLoggedToday ? "You have checked in today." : "You have not checked in today yet."}{" "}
+                      {weeklyCheckIns > 0 ? `${weeklyCheckIns} of the last 7 days have a check-in.` : "One short check-in is a good place to start."}
                     </p>
 
                     <div className="mt-6 flex flex-wrap gap-3">
@@ -844,33 +838,6 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <div className="relative z-10 mt-8 grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-xl border border-primary/10 bg-background/65 p-4 backdrop-blur-sm">
-                    <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Current streak</div>
-                    <div className="mt-3 text-3xl font-semibold text-foreground">{userData?.streak || 0}</div>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {userData?.streak ? "Consistency is compounding." : "Start a rhythm one day at a time."}
-                    </p>
-                  </div>
-                  <div className="rounded-xl border border-primary/10 bg-background/65 p-4 backdrop-blur-sm">
-                    <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Weekly rhythm</div>
-                    <div className="mt-3 text-3xl font-semibold text-foreground">{weeklyCheckIns}/7</div>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {weeklyGoalPercent >= 70 ? "Your week already has momentum." : "A few small check-ins can shift the week."}
-                    </p>
-                  </div>
-                  <div className="rounded-xl border border-primary/10 bg-background/65 p-4 backdrop-blur-sm">
-                    <div className="text-xs font-semibold uppercase tracking-[0.22em] text-foreground/45">Today</div>
-                    <div className="mt-3 text-2xl font-semibold text-foreground">
-                      {moodLoggedToday ? "Checked in" : "Needs a reset"}
-                    </div>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {recentAssessments.length > 0
-                        ? `${recentAssessments.length} recent reflections are ready to review.`
-                        : "Your first reflection will appear here once you begin."}
-                    </p>
-                  </div>
-                </div>
               </motion.section>
             </div>
 
@@ -883,17 +850,14 @@ const Dashboard = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, delay: index * 0.08 }}
                 >
-                  <Card className="premium-panel h-full rounded-xl border border-primary/10 shadow-medium transition-transform duration-300 hover:-translate-y-1">
+                  <Card className="h-full rounded-xl border border-border shadow-none">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 p-4 pb-2 sm:p-5">
-                      <CardTitle className="text-xs font-medium uppercase tracking-[0.18em] text-foreground/55 sm:text-sm">
+                      <CardTitle className="text-sm font-medium text-muted-foreground">
                         {stat.title}
                       </CardTitle>
-                      <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/8">
-                        <stat.icon className={`h-4 w-4 sm:h-5 sm:w-5 ${stat.color}`} />
-                      </div>
                     </CardHeader>
                     <CardContent className="p-4 pt-0 sm:p-5 sm:pt-0">
-                      <motion.div className={`text-2xl font-semibold sm:text-3xl ${stat.color}`}>
+                      <motion.div className="text-2xl font-semibold text-foreground sm:text-3xl">
                         {stat.value}
                       </motion.div>
                       <p className="mt-2 text-xs leading-6 text-muted-foreground sm:text-sm">{stat.subtitle}</p>
@@ -910,19 +874,11 @@ const Dashboard = () => {
                 {/* Quick Actions - Enhanced */}
                 <Card className="premium-panel rounded-xl border border-primary/10 shadow-medium">
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2 font-display text-2xl">
-                      <Leaf className="w-5 h-5 text-primary" />
-                      Quick Actions
-                    </CardTitle>
-                    <CardDescription>
-                      High-visibility shortcuts to the parts of Serenity people return to most often.
-                    </CardDescription>
+                    <CardTitle className="font-display text-2xl">Where to next</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                       {quickActions.map((action, index) => {
-                        const Icon = action.icon;
-
                         return (
                           <motion.button
                             key={action.title}
@@ -931,14 +887,10 @@ const Dashboard = () => {
                             initial={{ opacity: 0, y: 14 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.35, delay: index * 0.04 }}
-                            className={`group relative overflow-hidden rounded-xl border border-primary/10 bg-background/80 p-4 text-left transition-all duration-300 hover:-translate-y-1 hover:border-primary/25 hover:shadow-sm`}
+                            className="group rounded-xl border border-border bg-background p-4 text-left transition-colors hover:border-primary/40"
                           >
-                            <div className={`absolute inset-0 ${action.accent} opacity-80 transition-opacity duration-300 group-hover:opacity-100`} />
-                            <div className="relative z-10">
-                              <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-background/90 ${action.iconColor}`}>
-                                <Icon className="h-5 w-5" />
-                              </div>
-                              <h3 className="mt-5 font-display text-xl font-semibold text-foreground">{action.title}</h3>
+                            <div>
+                              <h3 className="font-display text-lg font-semibold text-foreground group-hover:text-primary">{action.title}</h3>
                               <p className="mt-2 text-sm leading-6 text-muted-foreground">{action.description}</p>
                             </div>
                           </motion.button>

@@ -229,12 +229,10 @@ const SpotifyWellness = () => {
 
             <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
               <div className="rounded-xl border border-white/10 bg-black/20 p-4">
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Live search</div>
                 <div className="mt-3 text-2xl font-semibold text-white">Spotify-backed</div>
                 <p className="mt-2 text-sm text-slate-300">Search runs through your backend so the client secret stays out of the browser bundle.</p>
               </div>
               <div className="rounded-xl border border-white/10 bg-black/20 p-4">
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Fallback playlists</div>
                 <div className="mt-3 text-2xl font-semibold text-white">Always something to open</div>
                 <p className="mt-2 text-sm text-slate-300">If Spotify search is unavailable, curated wellness playlists still populate the experience.</p>
               </div>

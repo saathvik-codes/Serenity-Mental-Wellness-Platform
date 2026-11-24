@@ -20,10 +20,6 @@ export default function ProfessionalHeroVideo() {
             />
             <div className="absolute inset-0 " />
 
-            <div className="absolute left-5 top-5 rounded-full border border-white/25 bg-black/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-white backdrop-blur-md">
-              Guided walkthrough
-            </div>
-
             <div className="absolute inset-0 flex items-center justify-center">
               <Button
                 size="lg"

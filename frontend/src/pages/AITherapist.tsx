@@ -361,7 +361,7 @@ const handleVoiceInput = () => {
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow flex-shrink-0">
                   <Brain className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
-                <span className="truncate">AI Therapy Companion</span>
+                <span className="truncate">Talk it through</span>
               </h1>
               <p className="text-xs sm:text-sm text-muted-foreground mt-1 truncate">
                 Your personal CBT-trained wellness assistant
@@ -383,7 +383,7 @@ const handleVoiceInput = () => {
                   <Leaf className="w-5 h-5 text-primary" />
                   CBT Techniques
                 </CardTitle>
-                <CardDescription>Evidence-based approaches</CardDescription>
+                <CardDescription>Techniques from cognitive behavioural therapy</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
                 {cbtTechniques.map((technique, index) => {
@@ -609,7 +609,7 @@ const handleVoiceInput = () => {
                     </Button>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2 text-center">
-                    This AI companion uses CBT principles but is not a replacement for professional therapy
+                    This is an AI companion. It can help you think things through, but it is not a therapist.
                   </p>
                 </div>
               </CardContent>

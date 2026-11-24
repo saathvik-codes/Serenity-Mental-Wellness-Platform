@@ -342,11 +342,11 @@ const Resources = () => {
         >
           <Badge className="mb-4 px-4 py-2 bg-primary/10 border-primary/30">
             <BookOpen className="w-4 h-4 mr-2" />
-            Curated Content
+            Resources
           </Badge>
           <h1 className="text-5xl font-bold mb-4 text-gradient-primary">Mental Wellness Resources</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Access curated articles, videos, audio guides, and tools to support your mental health journey.
+            Articles, videos, audio guides and tools, with crisis lines at the top.
           </p>
         </motion.div>
 
