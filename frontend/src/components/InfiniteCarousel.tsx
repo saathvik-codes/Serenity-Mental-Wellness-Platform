@@ -84,7 +84,7 @@ export default function InfiniteCarousel() {
         {testimonials.map((item, index) => (
           <Card 
             key={index}
-            className="flex-shrink-0 w-80 group hover:shadow-lg transition-all duration-300 border-0 bg-card/70 backdrop-blur-sm hover:-translate-y-1"
+            className="flex-shrink-0 w-80 group transition-all duration-300 border-0 bg-card/70 hover:-translate-y-1"
           >
             <CardContent className="p-6">
               <div className={`w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 ${item.color}`}>

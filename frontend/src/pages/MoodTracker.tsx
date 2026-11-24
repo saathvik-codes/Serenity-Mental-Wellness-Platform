@@ -268,9 +268,7 @@ const MoodTracker = () => {
                 <ArrowLeft className="w-4 h-4" />
               </Button>
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
-                  <Heart className="w-4 h-4 text-white" />
-                </div>
+                <img src="/illustrations/sn-journal.webp" alt="" width={112} height={112} className="illus h-14 w-14 shrink-0 object-contain" />
                 <div>
                   <h1 className="text-lg font-bold">Mood Tracker</h1>
                   <p className="text-xs text-muted-foreground">Track your emotions</p>
@@ -291,7 +289,7 @@ const MoodTracker = () => {
               </Button>
               <div>
                 <h1 className="text-3xl font-bold flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
+                  <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-sm">
                     <Heart className="w-6 h-6 text-white" />
                   </div>
                   Mood Tracker
@@ -330,7 +328,7 @@ const MoodTracker = () => {
                         className={cn(
                           "p-4 rounded-xl border-2 transition-all duration-300 hover:scale-105",
                           selectedMood === option.value
-                            ? `${option.bg} border-current ${option.color} shadow-lg`
+                            ? `${option.bg} border-current ${option.color} shadow-sm`
                             : "border-border hover:border-primary/50"
                         )}
                       >
@@ -434,8 +432,8 @@ const MoodTracker = () => {
                   </ResponsiveContainer>
                 ) : (
                   <div className="text-center py-12">
-                    <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">Start tracking to see your mood trends</p>
+                    <img src="/illustrations/sn-empty-journal.webp" alt="" width={240} height={171} loading="lazy" className="illus mx-auto mb-4 h-auto w-48" />
+                    <p className="text-muted-foreground">Log a mood to start your trend line.</p>
                   </div>
                 )}
               </CardContent>

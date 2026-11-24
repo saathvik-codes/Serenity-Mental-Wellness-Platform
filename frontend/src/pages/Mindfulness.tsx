@@ -366,9 +366,7 @@ const Mindfulness = () => {
                 <ArrowLeft className="w-4 h-4" />
               </Button>
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
-                  <Wind className="w-4 h-4 text-white" />
-                </div>
+                <img src="/illustrations/sn-mindfulness.webp" alt="" width={112} height={112} className="illus h-14 w-14 shrink-0 object-contain" />
                 <div>
                   <h1 className="text-lg font-bold">Mindfulness</h1>
                   <p className="text-xs text-muted-foreground">Daily practices</p>
@@ -389,9 +387,7 @@ const Mindfulness = () => {
               </Button>
               <div>
                 <h1 className="text-3xl font-bold flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
-                    <Wind className="w-6 h-6 text-white" />
-                  </div>
+                  <img src="/illustrations/sn-mindfulness.webp" alt="" width={112} height={112} className="illus h-14 w-14 shrink-0 object-contain" />
                   Mindfulness & Meditation
                 </h1>
                 <p className="text-muted-foreground mt-1">
@@ -478,7 +474,7 @@ const Mindfulness = () => {
                         <Card 
                           key={exercise.id}
                           className={cn(
-                            "shadow-medium border-primary/10 hover:shadow-glow transition-all cursor-pointer",
+                            "shadow-medium border-primary/10 transition-all cursor-pointer",
                             selectedExercise?.id === exercise.id && "border-primary"
                           )}
                           onClick={() => handleStartExercise(exercise)}

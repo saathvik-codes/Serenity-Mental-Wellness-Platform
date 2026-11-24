@@ -217,9 +217,9 @@ const VoiceAssistant = () => {
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="flex h-[560px] max-w-md flex-col overflow-hidden border-primary/15 bg-background/95 p-0 backdrop-blur-xl">
+        <DialogContent className="flex h-[560px] max-w-md flex-col overflow-hidden border-primary/15 bg-background/95 p-0">
           {/* Header */}
-          <div className="border-b border-primary/10  p-4">
+          <div className="border-b border-primary/10 p-4">
             <div className="flex items-center justify-between">
               <h3 className="flex items-center gap-2 text-lg font-semibold">
                 <MessageCircle className="w-5 h-5 text-primary" />
@@ -240,7 +240,7 @@ const VoiceAssistant = () => {
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-1 space-y-4 overflow-y-auto  p-4">
+          <div className="flex-1 space-y-4 overflow-y-auto p-4">
             {messages.length === 0 && (
               <div className="py-10 text-center text-sm text-muted-foreground">
                 <MessageCircle className="mx-auto mb-3 h-9 w-9 text-primary/60" />

@@ -48,13 +48,13 @@ function VideoModal({ onClose }: { onClose: () => void }) {
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.92, y: 30 }}
         transition={{ type: "spring", stiffness: 280, damping: 28 }}
-        className="relative w-full max-w-5xl overflow-hidden rounded-xl border border-white/10 bg-black shadow-sm"
+        className="relative w-full max-w-5xl overflow-hidden rounded-xl border border-border bg-black shadow-sm"
         onClick={(event) => event.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 rounded-full border border-white/10 bg-black/40 p-2 text-white transition-colors hover:bg-black/70"
+          className="absolute right-4 top-4 z-10 rounded-full border border-border bg-black/40 p-2 text-white transition-colors hover:bg-black/70"
           aria-label="Close video"
         >
           <X className="h-5 w-5" />
@@ -108,12 +108,12 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-transparent">
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute -left-24 top-16 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
-        <div className="absolute right-0 top-1/3 h-80 w-80 rounded-full bg-secondary/10 blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 h-64 w-64 rounded-full bg-accent/10 blur-3xl" />
+        
+        
+        
       </div>
 
-      <nav className="fixed top-0 z-50 w-full border-b border-white/20 cyber-glass">
+      <nav className="fixed top-0 z-50 w-full border-b border-border cyber-glass">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between gap-4">
             <Link to="/" className="flex items-center gap-3">
@@ -164,7 +164,7 @@ const LandingPage = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="border-t border-white/10 bg-background/95 px-6 pb-6 pt-3 backdrop-blur-xl md:hidden"
+              className="border-t border-border bg-background/95 px-6 pb-6 pt-3 md:hidden"
             >
               <div className="space-y-3">
                 {navigationItems.map((item) => (

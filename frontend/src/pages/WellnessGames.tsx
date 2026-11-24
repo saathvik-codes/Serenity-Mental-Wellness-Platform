@@ -172,23 +172,23 @@ const WellnessGames = () => {
 
   const games: any[] = [
     { 
-      id: "forest", title: "Focus Forest 🌳", desc: "Grow trees by staying focused", icon: TreePine, color: "bg-green-400", points: stats.forestMinutes,
+      id: "forest", title: "Focus Forest", desc: "Grow trees by staying focused", icon: TreePine, color: "bg-[#dfe8e0]", points: stats.forestMinutes,
       instructions: "Select a duration (15-60 mins). Click 'Start Focus' and a tree will grow. If you leave the page, the tree dies. Complete the session to plant the tree and earn points."
     },
     { 
-      id: "memory", title: "Memory Match 🎴", desc: "Match pairs & boost memory", icon: Brain, color: "bg-purple-400", points: stats.memoryHighScore,
+      id: "memory", title: "Memory Match", desc: "Match pairs & boost memory", icon: Brain, color: "bg-[#ece4d6]", points: stats.memoryHighScore,
       instructions: "Click on cards to reveal them. Find all matching pairs to complete the game. The fewer moves you make, the higher your score!"
     },
     { 
-      id: "breathing", title: "Calm Bubbles 🫧", desc: "Breathe with floating bubbles", icon: Cloud, color: "bg-blue-400", points: stats.breathingSessions,
+      id: "breathing", title: "Calm Bubbles", desc: "Breathe with floating bubbles", icon: Cloud, color: "bg-[#e3e9ea]", points: stats.breathingSessions,
       instructions: "Click 'Start Breathing' and follow the on-screen guide. Breathe in as the bubble grows, hold, and breathe out as it shrinks. Complete 5 cycles to feel calmer."
     },
     { 
-      id: "gratitude", title: "Gratitude Garden 🌸", desc: "Plant flowers of gratitude", icon: Flower2, color: "bg-pink-400", points: stats.gratitudeCount,
+      id: "gratitude", title: "Gratitude Garden", desc: "Plant flowers of gratitude", icon: Flower2, color: "bg-[#f1e1d8]", points: stats.gratitudeCount,
       instructions: "Type something you're grateful for in the input box and press the flower button. Each entry plants a flower in your garden, helping you cultivate positivity."
     },
     { 
-      id: "whack", title: "Whack-a-Stress 🎯", desc: "Smash away your worries!", icon: Zap, color: "bg-orange-400", points: stats.whackScore,
+      id: "whack", title: "Whack-a-Stress", desc: "Tap the worries away", icon: Zap, color: "bg-[#efe6d2]", points: stats.whackScore,
       instructions: "When the game starts, anxious faces (😰) will pop up. Click them as fast as you can to score points before the 30-second timer runs out. Avoid the calm faces (💤)!"
     }
   ];
@@ -282,7 +282,7 @@ const WellnessGames = () => {
       totalPoints: stats.totalPoints + mins * 2
     });
     
-    toast({ title: "🌳 Tree Planted!", description: `+${mins * 2} points!` });
+    toast({ title: "Tree Planted!", description: `+${mins * 2} points!` });
   };
 
   const startMemory = () => {
@@ -314,7 +314,7 @@ const WellnessGames = () => {
           if (matched.filter(c => c.matched).length === 16) {
             const score = Math.max(100 - memoryMoves * 5, 10);
             updateStats({ memoryHighScore: Math.max(stats.memoryHighScore, score), totalPoints: stats.totalPoints + score });
-            toast({ title: "🎉 Perfect Match!", description: `+${score} points!` });
+            toast({ title: "Perfect Match!", description: `+${score} points!` });
           }
         }, 500);
       } else {
@@ -337,7 +337,7 @@ const WellnessGames = () => {
       if (cycles >= 5) {
         setBreathActive(false);
         updateStats({ breathingSessions: stats.breathingSessions + 1, totalPoints: stats.totalPoints + 20 });
-        toast({ title: "🫧 Breathing Complete!", description: "+20 points!" });
+        toast({ title: "Breathing Complete!", description: "+20 points!" });
         return;
       }
       setBreathPhase(phases[idx].p as any);
@@ -355,7 +355,7 @@ const WellnessGames = () => {
     setGratitudeList([...gratitudeList, gratitudeInput]);
     setGratitudeInput("");
     updateStats({ gratitudeCount: stats.gratitudeCount + 1, totalPoints: stats.totalPoints + 10 });
-    toast({ title: "🌸 Flower Planted!", description: "+10 points!" });
+    toast({ title: "Flower Planted!", description: "+10 points!" });
   };
 
   const startWhack = () => {
@@ -371,7 +371,7 @@ const WellnessGames = () => {
           // Use functional update to get the latest score
           setWhackScore(currentScore => {
             updateStats({ whackScore: Math.max(stats.whackScore, currentScore), totalPoints: stats.totalPoints + currentScore });
-            toast({ title: "🎯 Game Over!", description: `Score: ${currentScore}` });
+            toast({ title: "Game Over!", description: `Score: ${currentScore}` });
             return currentScore;
           });
           return 0;
@@ -410,7 +410,7 @@ const WellnessGames = () => {
 
   if (currentGame === "menu") {
     return (
-      <div className="min-h-screen bg-purple-50 dark:bg-gray-900 pb-16 lg:pb-0">
+      <div className="min-h-screen bg-background pb-16 lg:pb-0">
         <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-6xl">
           <div className="flex items-center justify-between mb-6">
             <Button variant="ghost" onClick={() => navigate("/dashboard")}><ArrowLeft className="w-4 h-4 mr-2" />Back</Button>
@@ -423,10 +423,11 @@ const WellnessGames = () => {
           </div>
 
           <motion.div initial={{y:-20,opacity:0}} animate={{y:0,opacity:1}} className="text-center mb-8">
-            <h1 className="text-4xl sm:text-5xl font-bold mb-3 bg-purple-600 bg-clip-text text-transparent">
-              🎮 Wellness Arcade
+            <img src="/illustrations/sn-games.webp" alt="" width={112} height={112} className="illus mx-auto mb-4 block h-28 w-28 object-contain" />
+            <h1 className="text-4xl sm:text-5xl font-bold mb-3 text-foreground">
+              Games
             </h1>
-            <p className="text-lg text-muted-foreground">Choose your game & boost your mental health!</p>
+            <p className="text-lg text-muted-foreground">Short games for focus and calm.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -519,7 +520,7 @@ const WellnessGames = () => {
               {memoryCards.map((card,i) => (
                 <motion.div key={i} whileTap={{scale:0.9}} onClick={()=>flipMemoryCard(i)}
                   className={cn("aspect-square rounded-xl flex items-center justify-center text-4xl cursor-pointer transition-all",
-                    card.flipped||card.matched?"bg-white dark:bg-gray-800 border-4 border-primary":" bg-purple-400")}>
+                    card.flipped||card.matched?"bg-white dark:bg-gray-800 border-4 border-primary":" bg-[#ece4d6]")}>
                   {card.flipped||card.matched?card.emoji:"?"}
                 </motion.div>
               ))}

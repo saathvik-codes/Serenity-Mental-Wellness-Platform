@@ -530,8 +530,8 @@ const Achievements = () => {
         {/* Empty State */}
         {filteredAchievements.length === 0 && (
           <div className="text-center py-12">
-            <Award className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No achievements found</h3>
+            <img src="/illustrations/sn-empty-achievements.webp" alt="" width={240} height={171} loading="lazy" className="illus mx-auto mb-4 h-auto w-48" />
+            <h3 className="text-lg font-semibold mb-2">Nothing here yet</h3>
             <p className="text-muted-foreground">Try selecting a different category.</p>
           </div>
         )}

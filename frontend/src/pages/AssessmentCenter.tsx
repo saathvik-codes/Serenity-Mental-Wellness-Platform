@@ -219,7 +219,7 @@ const AssessmentCenter = () => {
             <Leaf className="w-4 h-4 mr-2" />
             Check-ins
           </Badge>
-          <h1 className="text-5xl font-serif font-bold mb-4 text-gradient-primary">Assessment Center</h1>
+          <h1 className="text-5xl font-serif font-bold mb-4 text-foreground">Assessment Center</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Short, validated questionnaires (PHQ-9, GAD-7 and others). Results are saved so you can see changes over time.
           </p>
@@ -249,7 +249,7 @@ const AssessmentCenter = () => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-black/60" />
-                    <div className={`absolute top-4 left-4 w-12 h-12 ${assessment.bgColor} backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg`}>
+                    <div className={`absolute top-4 left-4 w-12 h-12 ${assessment.bgColor} rounded-xl flex items-center justify-center shadow-sm`}>
                       <Icon className={`w-6 h-6 ${assessment.color}`} />
                     </div>
                   </div>
@@ -273,7 +273,7 @@ const AssessmentCenter = () => {
                     </div>
                     
                     <Button 
-                      className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-300"
+                      className="w-full bg-gradient-primary transition-all duration-300"
                       onClick={(e) => {
                         e.stopPropagation();
                         setCurrentAssessment(assessment.id as AssessmentType);

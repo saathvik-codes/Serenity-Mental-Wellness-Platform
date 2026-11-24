@@ -254,7 +254,7 @@ const Progress = () => {
               <ArrowLeft className="w-4 h-4" />
             </Button>
             <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-primary bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
                 Progress Reports
               </h1>
               <p className="text-sm sm:text-base text-muted-foreground">Your check-ins and mood over time.</p>

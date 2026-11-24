@@ -64,7 +64,7 @@ const AssessmentChart = ({ data, type, title, description }: AssessmentChartProp
                   if (active && payload && payload.length) {
                     const data = payload[0].payload;
                     return (
-                      <div className="bg-card p-3 rounded-lg shadow-lg border">
+                      <div className="bg-card p-3 rounded-lg shadow-sm border">
                         <p className="font-medium">{label}</p>
                         <p className="text-sm">Score: {data.score}</p>
                         <p className="text-sm text-muted-foreground">{data.interpretation}</p>
@@ -98,7 +98,7 @@ const AssessmentChart = ({ data, type, title, description }: AssessmentChartProp
                   if (active && payload && payload.length) {
                     const data = payload[0].payload;
                     return (
-                      <div className="bg-card p-3 rounded-lg shadow-lg border">
+                      <div className="bg-card p-3 rounded-lg shadow-sm border">
                         <p className="font-medium">{label}</p>
                         <p className="text-sm">Score: {data.score}</p>
                         <p className="text-sm text-muted-foreground">{data.interpretation}</p>

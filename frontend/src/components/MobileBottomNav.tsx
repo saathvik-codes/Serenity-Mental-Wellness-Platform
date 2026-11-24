@@ -16,7 +16,7 @@ const MobileBottomNav = () => {
   ];
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-t border-primary/20 shadow-sm">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/95 border-t border-primary/20 shadow-sm">
       <div className="grid grid-cols-5 gap-1 px-2 py-2 safe-bottom">
         {mobileMenuItems.map((item) => {
           const Icon = item.icon;

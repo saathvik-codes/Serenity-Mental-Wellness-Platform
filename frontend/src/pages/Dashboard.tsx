@@ -228,10 +228,10 @@ const Sidebar = ({
 
   return (
     <div className={cn(
-      "relative hidden flex-col border-r border-primary/10 bg-background/80 backdrop-blur-xl transition-all duration-300 lg:flex",
+      "relative hidden flex-col border-r border-primary/10 bg-background/80 transition-all duration-300 lg:flex",
       isCollapsed ? "w-20" : "w-72"
     )}>
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 " />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40" />
       {/* Header */}
       <div className="flex items-center justify-between border-b border-primary/10 px-4 py-5">
         <BrandLogo size="sm" showText={!isCollapsed} subtitle={false} />
@@ -689,11 +689,11 @@ const Dashboard = () => {
   ] as const;
 
   return (
-    <div className="relative flex min-h-screen overflow-hidden  pb-16 lg:pb-0">
+    <div className="relative flex min-h-screen overflow-hidden pb-16 lg:pb-0">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-20 top-10 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
-        <div className="absolute right-0 top-1/4 h-72 w-72 rounded-full bg-secondary/12 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-wellness/10 blur-3xl" />
+        
+        
+        
       </div>
       {/* Sidebar */}
       <Sidebar 
@@ -756,7 +756,7 @@ const Dashboard = () => {
               {/* Desktop Header */}
               <div className="hidden lg:flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
+                  <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center shadow-sm">
                     <User className="w-6 h-6 text-white" />
                   </div>
                   <div>

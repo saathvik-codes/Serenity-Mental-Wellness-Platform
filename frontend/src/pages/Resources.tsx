@@ -175,11 +175,11 @@ const Resources = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden  pb-16 lg:pb-0">
+    <div className="relative min-h-screen overflow-hidden pb-16 lg:pb-0">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-20 top-12 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
-        <div className="absolute right-0 top-1/4 h-72 w-72 rounded-full bg-secondary/12 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-wellness/10 blur-3xl" />
+        
+        
+        
       </div>
       <div className="relative z-10 container mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8">
         {/* Header */}
@@ -342,7 +342,7 @@ const Resources = () => {
                         <span className="ml-1 capitalize">{resource.type}</span>
                       </Badge>
                       {resource.type === "hotline" && (
-                        <Badge className="animate-pulse bg-red-100 text-xs text-red-700">
+                        <Badge className="bg-red-100 text-xs text-red-700">
                           24/7
                         </Badge>
                       )}

@@ -494,7 +494,8 @@ const SettingsPage = () => {
             <ArrowLeft className="w-4 h-4" />
           </Button>
           <div>
-            <h1 className="text-3xl font-bold bg-primary bg-clip-text text-transparent">
+            <img src="/illustrations/sn-settings.webp" alt="" width={112} height={112} className="illus mb-4 block h-28 w-28 object-contain" />
+            <h1 className="text-3xl font-bold text-foreground">
               Settings
             </h1>
             <p className="text-muted-foreground">Manage your account and preferences</p>

@@ -91,7 +91,7 @@ export default function PartnershipsSection() {
           </Badge>
           <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
             Aligned with
-            <span className="text-gradient-primary block">Global Standards</span>
+            <span className="block text-foreground">Global Standards</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             We work closely with leading mental health organizations to ensure 
@@ -103,7 +103,7 @@ export default function PartnershipsSection() {
           {partnerships.map((partner, index) => (
             <Card 
               key={index}
-              className="text-center p-6 border-0 bg-card/70 backdrop-blur-sm hover:shadow-medium hover:-translate-y-2 transition-all duration-300"
+              className="text-center p-6 border-0 bg-card/70 hover:shadow-medium hover:-translate-y-2 transition-all duration-300"
               data-aos="zoom-in"
               data-aos-delay={index * 100}
             >
@@ -118,7 +118,7 @@ export default function PartnershipsSection() {
         </div>
 
         {/* Certifications */}
-        <div className="bg-card/50 backdrop-blur-sm rounded-3xl p-8 border border-border/20 mb-16" data-aos="fade-up">
+        <div className="bg-card/50 rounded-3xl p-8 border border-border/20 mb-16" data-aos="fade-up">
           <div className="text-center mb-8">
             <h3 className="text-2xl font-serif font-bold mb-4">
               Security & Compliance Certifications
@@ -148,7 +148,7 @@ export default function PartnershipsSection() {
         </div>
 
         {/* Emergency Resources */}
-        <div className=" bg-red-50 dark:bg-red-950/20 rounded-3xl p-8 border border-red-200/50 dark:border-red-800/50" data-aos="fade-up">
+        <div className="bg-red-50 dark:bg-red-950/20 rounded-3xl p-8 border border-red-200/50 dark:border-red-800/50" data-aos="fade-up">
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-red-100 dark:bg-red-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
               <Heart className="w-8 h-8 text-red-600 dark:text-red-400" />

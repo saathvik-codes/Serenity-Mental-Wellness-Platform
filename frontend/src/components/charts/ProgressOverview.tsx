@@ -196,7 +196,7 @@ const ProgressOverview = ({ assessments, user }: ProgressOverviewProps) => {
                       content={({ active, payload, label }) => {
                         if (active && payload && payload.length) {
                           return (
-                            <div className="bg-card p-3 rounded-lg shadow-lg border">
+                            <div className="bg-card p-3 rounded-lg shadow-sm border">
                               <p className="font-medium">{label}</p>
                               {payload.map((entry: any, index) => (
                                 <p key={index} className="text-sm" style={{ color: entry.color }}>
@@ -267,7 +267,7 @@ const ProgressOverview = ({ assessments, user }: ProgressOverviewProps) => {
                       content={({ active, payload, label }) => {
                         if (active && payload && payload.length) {
                           return (
-                            <div className="bg-card p-3 rounded-lg shadow-lg border">
+                            <div className="bg-card p-3 rounded-lg shadow-sm border">
                               <p className="font-medium">{label}</p>
                               {payload.map((entry: any, index) => {
                                 if (entry.value !== null) {

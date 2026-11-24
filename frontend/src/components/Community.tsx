@@ -341,7 +341,7 @@ const Community = () => {
             <Users className="w-4 h-4 mr-2" />
             Community
           </Badge>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 bg-green-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-foreground">
             Mental Wellness Community
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -443,7 +443,7 @@ const Community = () => {
             {isLoadingNews ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <Card key={i} className="animate-pulse">
+                  <Card key={i} className="">
                     <div className="h-48 bg-muted rounded-t-lg" />
                     <CardHeader>
                       <div className="h-4 bg-muted rounded w-3/4 mb-2" />
@@ -477,7 +477,7 @@ const Community = () => {
                         }}
                       />
                       <div className="absolute top-2 right-2">
-                        <Badge className="bg-primary/90 backdrop-blur-sm">
+                        <Badge className="bg-primary/90">
                           {article.source}
                         </Badge>
                       </div>
@@ -510,7 +510,7 @@ const Community = () => {
             {isLoadingDiscussions ? (
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
-                  <Card key={i} className="animate-pulse">
+                  <Card key={i} className="">
                     <CardHeader>
                       <div className="h-6 bg-muted rounded w-3/4 mb-2" />
                       <div className="h-4 bg-muted rounded w-1/2" />
@@ -546,7 +546,7 @@ const Community = () => {
                   : "Just now";
 
                 return (
-                  <Card key={discussion.id} className="hover:shadow-lg transition-all duration-300">
+                  <Card key={discussion.id} className="transition-all duration-300">
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -617,7 +617,7 @@ const Community = () => {
             {/* Live Streams Section */}
             <div className="mb-8">
               <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                <Badge className="bg-red-500 animate-pulse">LIVE</Badge>
+                <Badge className="bg-red-500">LIVE</Badge>
                 24/7 Mental Wellness Streams
               </h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -634,12 +634,12 @@ const Community = () => {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
                       <div className="absolute top-2 left-2">
-                        <Badge className="bg-red-500 text-white animate-pulse">
+                        <Badge className="bg-red-500 text-white">
                           LIVE
                         </Badge>
                       </div>
                       <div className="absolute top-2 right-2">
-                        <Badge className="bg-black/70 backdrop-blur-sm text-white">
+                        <Badge className="bg-black/70 text-white">
                           {stream.viewers?.toLocaleString()} watching
                         </Badge>
                       </div>
@@ -690,7 +690,7 @@ const Community = () => {
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
                       <div className="absolute bottom-2 right-2">
-                        <Badge className="bg-black/70 backdrop-blur-sm text-white">
+                        <Badge className="bg-black/70 text-white">
                           {video.duration}
                         </Badge>
                       </div>
@@ -756,7 +756,7 @@ const Community = () => {
             {isLoadingGroups ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[1, 2, 3].map((i) => (
-                  <Card key={i} className="animate-pulse">
+                  <Card key={i} className="">
                     <CardHeader>
                       <div className="h-12 w-12 bg-muted rounded-full mb-2" />
                       <div className="h-6 bg-muted rounded w-3/4 mb-2" />
@@ -785,7 +785,7 @@ const Community = () => {
                 {filteredSupportGroups.map(group => (
                   <Card
                     key={group.id}
-                    className="hover:shadow-glow transition-all duration-300 cursor-pointer border-primary/10"
+                    className="transition-all duration-300 cursor-pointer border-primary/10"
                     onClick={() => setSelectedGroup(group)}
                   >
                     <CardHeader>

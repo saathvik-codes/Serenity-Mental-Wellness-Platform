@@ -126,7 +126,7 @@ const SpotifyPlayer = ({ playlist, tracks, onClose }: SpotifyPlayerProps) => {
               <img
                 src={currentTrack.albumArt}
                 alt={currentTrack.album}
-                className="w-14 h-14 rounded shadow-lg"
+                className="w-14 h-14 rounded shadow-sm"
               />
               <div className="min-w-0 flex-1">
                 <p className="text-white font-semibold truncate">

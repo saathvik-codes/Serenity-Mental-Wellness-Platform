@@ -25,8 +25,8 @@ const WelcomeGreeting = ({ userName, onDismiss }: WelcomeGreetingProps) => {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-      <Card className={`max-w-lg w-full p-8 text-center welcome-animation sparkle-effect bg-card/95 border-primary/20 shadow-glow ${show ? 'opacity-100' : 'opacity-0'}`}>
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6">
+      <Card className={`max-w-lg w-full p-8 text-center welcome-animation sparkle-effect bg-card/95 border-primary/20 shadow-sm ${show ? 'opacity-100' : 'opacity-0'}`}>
         <div className="absolute top-4 right-4">
           <Button
             variant="ghost"
@@ -39,10 +39,10 @@ const WelcomeGreeting = ({ userName, onDismiss }: WelcomeGreetingProps) => {
         </div>
 
         <div className="mb-6">
-          <div className="w-20 h-20 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4 shadow-glow">
+          <div className="w-20 h-20 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
             <Leaf className="w-10 h-10 text-white animate-spin" />
           </div>
-          <h2 className="text-3xl font-bold text-gradient-primary font-cursive mb-2">
+          <h2 className="text-3xl font-bold font-cursive mb-2 text-foreground">
             Welcome Back!
           </h2>
           <h3 className="text-2xl font-semibold mb-4">

@@ -119,12 +119,12 @@ export default function UniqueImpactSection() {
         <div className="text-center mb-20" data-aos="fade-up">
           <Badge 
             variant="outline" 
-            className="mb-6 px-6 py-3 bg-energy/15 border-energy/30 text-energy backdrop-blur-sm"
+            className="mb-6 px-6 py-3 bg-energy/15 border-energy/30 text-energy"
           >
             Impact & Benefits
           </Badge>
           <h2 className="text-5xl md:text-7xl font-bold mb-8">
-            <span className="text-transparent bg-clip-text bg-energy">
+            <span className="text-foreground">
               Transforming Lives
             </span>
             <br />
@@ -142,7 +142,7 @@ export default function UniqueImpactSection() {
               onHoverEnd={() => setHoveredStat(null)}
               whileHover={{ scale: 1.05, y: -10 }}
             >
-              <Card className="h-full border-0 bg-card/80 backdrop-blur-sm shadow-sm overflow-hidden">
+              <Card className="h-full border-0 bg-card/80 shadow-sm overflow-hidden">
                 <CardContent className="p-6 text-center relative">
                   {/* Background Icon */}
                   <motion.div
@@ -181,7 +181,7 @@ export default function UniqueImpactSection() {
           {/* Left: Interactive Benefits List */}
           <div className="space-y-6">
             <h3 className="text-3xl font-bold mb-8">
-              Why Choose <span className="text-gradient-primary">Serenity?</span>
+              Why Choose <span className="text-foreground">Serenity?</span>
             </h3>
             
             {benefits.map((benefit, index) => (
@@ -266,7 +266,7 @@ export default function UniqueImpactSection() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="absolute bottom-8 left-8 right-8"
               >
-                <Card className="bg-white/10 backdrop-blur-md border-white/20">
+                <Card className="bg-card border-border">
                   <CardContent className="p-6">
                     <div className="flex items-center space-x-4 mb-4">
                       <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
@@ -279,7 +279,7 @@ export default function UniqueImpactSection() {
                         <h4 className="text-xl font-bold text-white">
                           {benefits[activeIndex].title}
                         </h4>
-                        <p className="text-white/80 text-sm">
+                        <p className="text-foreground/80 text-sm">
                           {benefits[activeIndex].description}
                         </p>
                       </div>

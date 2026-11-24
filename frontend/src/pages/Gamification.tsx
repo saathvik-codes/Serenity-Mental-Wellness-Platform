@@ -317,7 +317,7 @@ const RewardsDialog = ({
   claimingRewardLevel: number | null;
 }) => (
   <Dialog open={open} onOpenChange={onOpenChange}>
-    <DialogContent className="border-primary/15 bg-background/95 backdrop-blur-xl">
+    <DialogContent className="border-primary/15 bg-background/95">
       <DialogHeader>
         <DialogTitle>Level Rewards</DialogTitle>
         <DialogDescription>Rewards you can earn as you keep checking in.</DialogDescription>
@@ -587,11 +587,11 @@ const Gamification = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden  pb-16 lg:pb-0">
+    <div className="relative min-h-screen overflow-hidden pb-16 lg:pb-0">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-16 top-12 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
-        <div className="absolute right-0 top-1/4 h-72 w-72 rounded-full bg-secondary/10 blur-3xl" />
-        <div className="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-energy/10 blur-3xl" />
+        
+        
+        
       </div>
       <div className="relative z-10 container mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8">
         {/* Header */}
@@ -608,7 +608,7 @@ const Gamification = () => {
             </Button>
             <div>
               <h1 className="font-display text-3xl font-semibold flex items-center gap-3 sm:text-4xl lg:text-5xl">
-                <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
+                <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-sm">
                   <Trophy className="w-6 h-6 text-white" />
                 </div>
                 Achievements & Challenges
@@ -638,7 +638,7 @@ const Gamification = () => {
           <CardContent className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="text-center">
-                <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-3 shadow-glow">
+                <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
                   <Crown className="w-10 h-10 text-white" />
                 </div>
                 <p className="text-sm text-muted-foreground">Level</p>
@@ -874,7 +874,7 @@ const Gamification = () => {
                           <div className={cn(
                             "w-12 h-12 rounded-full flex items-center justify-center",
                             achievement.unlocked 
-                              ? `bg-gradient-primary shadow-glow`
+                              ? `bg-gradient-primary shadow-sm`
                               : "bg-muted"
                           )}>
                             {achievement.unlocked ? (

@@ -49,7 +49,7 @@ const features = [
 
 export default function HowItWorksSection() {
   return (
-    <section className=" bg-background px-6 py-20">
+    <section className="bg-background px-6 py-20">
       <div className="container mx-auto">
         <div className="mb-16 text-center" data-aos="fade-up">
           <Badge
@@ -60,7 +60,7 @@ export default function HowItWorksSection() {
           </Badge>
           <h2 className="font-serif text-4xl font-bold md:text-5xl">
             A calmer path to
-            <span className="text-gradient-primary block">daily wellness</span>
+            <span className="block text-foreground">daily wellness</span>
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-muted-foreground">
             Move through a clear product rhythm that helps users check in, understand patterns, and return without
@@ -78,7 +78,7 @@ export default function HowItWorksSection() {
               viewport={{ once: true }}
               className="relative"
             >
-              <Card className="h-full border-0 bg-card/70 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-medium">
+              <Card className="h-full border-0 bg-card/70 transition-all duration-300 hover:-translate-y-2 hover:shadow-medium">
                 <CardContent className="p-6 text-center">
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-primary text-sm font-bold text-white">
@@ -110,7 +110,7 @@ export default function HowItWorksSection() {
           <div data-aos="fade-right">
             <h3 className="mb-6 font-serif text-3xl font-bold">
               Everything you need for
-              <span className="text-gradient-primary block">a steadier routine</span>
+              <span className="block text-foreground">a steadier routine</span>
             </h3>
             <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
               The product combines assessment flows, progress views, and softer daily rituals so users can keep

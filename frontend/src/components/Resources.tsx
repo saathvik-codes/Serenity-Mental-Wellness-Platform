@@ -344,7 +344,8 @@ const Resources = () => {
             <BookOpen className="w-4 h-4 mr-2" />
             Resources
           </Badge>
-          <h1 className="text-5xl font-bold mb-4 text-gradient-primary">Mental Wellness Resources</h1>
+          <img src="/illustrations/sn-resources.webp" alt="" width={112} height={112} className="illus mx-auto mb-4 block h-28 w-28 object-contain" />
+          <h1 className="text-5xl font-bold mb-4 text-foreground">Mental Wellness Resources</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Articles, videos, audio guides and tools, with crisis lines at the top.
           </p>

@@ -66,7 +66,7 @@ export default function ResearchSection() {
           </Badge>
           <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
             Backed by
-            <span className="text-gradient-primary block">Scientific Research</span>
+            <span className="block text-foreground">Scientific Research</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Our platform is built on peer-reviewed research and clinically validated assessment tools 
@@ -84,7 +84,7 @@ export default function ResearchSection() {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full border-0 bg-card/70 backdrop-blur-sm hover:shadow-medium hover:-translate-y-2 transition-all duration-300">
+              <Card className="h-full border-0 bg-card/70 hover:shadow-medium hover:-translate-y-2 transition-all duration-300">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <item.icon className="w-8 h-8 text-primary" />
@@ -119,7 +119,7 @@ export default function ResearchSection() {
         </div>
 
         {/* Clinical Tools */}
-        <div className="bg-card/50 backdrop-blur-sm rounded-3xl p-8 border border-border/20" data-aos="fade-up">
+        <div className="bg-card/50 rounded-3xl p-8 border border-border/20" data-aos="fade-up">
           <div className="text-center mb-8">
             <BookOpen className="w-12 h-12 text-primary mx-auto mb-4" />
             <h3 className="text-2xl font-serif font-bold mb-4">

@@ -358,9 +358,7 @@ const handleVoiceInput = () => {
             </Button>
             <div className="flex-1 min-w-0">
               <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold flex items-center gap-2 sm:gap-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow flex-shrink-0">
-                  <Brain className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
-                </div>
+                <img src="/illustrations/sn-therapist.webp" alt="" width={112} height={112} className="illus h-14 w-14 shrink-0 object-contain" />
                 <span className="truncate">Talk it through</span>
               </h1>
               <p className="text-xs sm:text-sm text-muted-foreground mt-1 truncate">
@@ -417,7 +415,7 @@ const handleVoiceInput = () => {
               <CardHeader className="border-b border-primary/10">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center animate-pulse">
+                    <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
                       <MessageCircle className="w-5 h-5 text-white" />
                     </div>
                     <div>
@@ -515,14 +513,14 @@ const handleVoiceInput = () => {
                     ))}
                     {isLoading && (
                       <div className="flex gap-3">
-                        <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center animate-pulse">
+                        <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
                           <Brain className="w-4 h-4 text-white" />
                         </div>
                         <div className="bg-muted rounded-2xl px-4 py-3">
                           <div className="flex gap-1">
-                            <div className="w-2 h-2 bg-primary/50 rounded-full animate-bounce" />
-                            <div className="w-2 h-2 bg-primary/50 rounded-full animate-bounce delay-100" />
-                            <div className="w-2 h-2 bg-primary/50 rounded-full animate-bounce delay-200" />
+                            <div className="w-2 h-2 bg-primary/50 rounded-full" />
+                            <div className="w-2 h-2 bg-primary/50 rounded-full delay-100" />
+                            <div className="w-2 h-2 bg-primary/50 rounded-full delay-200" />
                           </div>
                         </div>
                       </div>
@@ -578,7 +576,7 @@ const handleVoiceInput = () => {
                       }
                     >
                       {isListening ? (
-                        <MicOff className="w-4 h-4 animate-pulse" />
+                        <MicOff className="w-4 h-4" />
                       ) : (
                         <Mic className="w-4 h-4" />
                       )}

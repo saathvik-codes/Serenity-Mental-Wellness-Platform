@@ -309,9 +309,7 @@ ${new Date().toLocaleString()}`;
             </Button>
             <div>
               <h1 className="text-3xl font-bold flex items-center gap-3">
-                <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center shadow-glow">
-                  <Heart className="w-6 h-6 text-foreground" />
-                </div>
+                <img src="/illustrations/sn-help.webp" alt="" width={112} height={112} className="illus h-14 w-14 shrink-0 object-contain" />
                 Emergency Support
               </h1>
               <p className="text-muted-foreground mt-1">
@@ -368,7 +366,7 @@ ${new Date().toLocaleString()}`;
                     <Card 
                       key={hotline.id}
                       className={cn(
-                        "shadow-medium border-2 transition-all cursor-pointer hover:shadow-glow bg-slate-800 text-white",
+                        "shadow-medium border-2 transition-all cursor-pointer bg-slate-800 text-white",
                         selectedHotline?.id === hotline.id ? "border-primary" : "border-primary/10"
                       )}
                       onClick={() => setSelectedHotline(hotline)}
@@ -376,7 +374,7 @@ ${new Date().toLocaleString()}`;
                       <CardHeader>
                         <div className="flex items-start justify-between">
                           <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center shadow-glow">
+                            <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center shadow-sm">
                               <Icon className="w-6 h-6 text-foreground" />
                             </div>
                             <div className="flex-1">
