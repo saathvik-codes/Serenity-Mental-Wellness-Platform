@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Shield, Activity, Heart, ArrowLeft, CheckCircle, Clock, TrendingUp, AlertTriangle, Sparkles } from "lucide-react";
+import { Brain, Shield, Activity, Heart, ArrowLeft, CheckCircle, Clock, TrendingUp, AlertTriangle, Leaf } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PHQ9Assessment from "@/components/assessments/PHQ9Assessment";
@@ -216,7 +216,7 @@ const AssessmentCenter = () => {
           transition={{ duration: 0.6 }}
         >
           <Badge className="mb-4 px-4 py-2 bg-primary/10 border-primary/30">
-            <Sparkles className="w-4 h-4 mr-2" />
+            <Leaf className="w-4 h-4 mr-2" />
             Professional Mental Health Screenings
           </Badge>
           <h1 className="text-5xl font-serif font-bold mb-4 text-gradient-primary">Assessment Center</h1>

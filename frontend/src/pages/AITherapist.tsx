@@ -10,7 +10,7 @@ import { doc, getDoc, setDoc, collection, addDoc, query, orderBy, getDocs } from
 import { 
   Brain, 
   Send, 
-  Sparkles, 
+  Leaf, 
   Heart,
   MessageCircle,
   ArrowLeft,
@@ -380,7 +380,7 @@ const handleVoiceInput = () => {
             <Card className="shadow-medium border-primary/10 sticky top-8">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-primary" />
+                  <Leaf className="w-5 h-5 text-primary" />
                   CBT Techniques
                 </CardTitle>
                 <CardDescription>Evidence-based approaches</CardDescription>

@@ -28,7 +28,7 @@ import {
   Flame,
   Crown,
   Shield,
-  Sparkles,
+  Leaf,
   ArrowLeft,
   Lock,
   CheckCircle2,
@@ -161,7 +161,7 @@ const achievementsList: Achievement[] = [
     id: "zen-seeker",
     title: "Zen Seeker",
     description: "Complete 100 hours of mindfulness",
-    icon: Sparkles,
+    icon: Leaf,
     category: "mindfulness",
     requirement: 6000,
     xpReward: 2000,
@@ -203,7 +203,7 @@ const dailyChallenges: Challenge[] = [
     progress: 0,
     target: 3,
     xpReward: 20,
-    icon: Sparkles,
+    icon: Leaf,
     expiresAt: new Date(new Date().setHours(23, 59, 59)),
     completed: false
   }
@@ -249,10 +249,10 @@ const weeklyChallenges: Challenge[] = [
 ];
 
 const levelRewards = [
-  { level: 5, title: "New App Icon", description: "Unlock a new exclusive app icon to customize your home screen.", icon: Sparkles },
+  { level: 5, title: "New App Icon", description: "Unlock a new exclusive app icon to customize your home screen.", icon: Leaf },
   { level: 10, title: "Mindful Master Theme", description: "Access a new calming theme for the entire application.", icon: Palette },
   { level: 20, title: "Early Feature Access", description: "Get a sneak peek at new features before anyone else.", icon: Rocket },
-  { level: 30, title: "Premium Meditation Pack", description: "Unlock a pack of premium guided meditation sessions.", icon: Brain },
+  { level: 30, title: "Extra Meditation Pack", description: "Unlock a pack of extra guided meditation sessions.", icon: Brain },
   { level: 50, title: "Legendary Profile Badge", description: "Display a prestigious 'Legendary' badge on your profile.", icon: Crown },
 ];
 
@@ -450,7 +450,7 @@ const Gamification = () => {
         if (reward.title.includes("Early Feature Access")) {
           updates['earlyAccess'] = true;
         }
-        if (reward.title.includes("Premium Meditation")) {
+        if (reward.title.includes("Extra Meditation")) {
           updates['premiumMeditationUnlocked'] = true;
         }
         if (reward.title.includes("Legendary Profile Badge")) {

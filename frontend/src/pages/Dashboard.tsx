@@ -17,7 +17,7 @@ import {
   TrendingUp, 
   Calendar, 
   Activity, 
-  Sparkles, 
+  Leaf, 
   Target, 
   User,
   Settings,
@@ -633,7 +633,7 @@ const Dashboard = () => {
     {
       title: "Mindfulness",
       description: "Step into a quieter guided session.",
-      icon: Sparkles,
+      icon: Leaf,
       path: "/mindfulness",
       iconColor: "text-wellness",
       accent: "bg-wellness/18",
@@ -728,7 +728,7 @@ const Dashboard = () => {
                         Hi, <span className="text-primary font-cursive">{userData?.name || "User"}</span>!
                       </h1>
                       <p className="text-xs text-muted-foreground">
-                        {userData?.streak > 0 ? `${userData.streak} day streak 🔥` : "Start your journey"}
+                        {userData?.streak > 0 ? `${userData.streak} day streak ` : "Start your journey"}
                       </p>
                     </div>
                   </div>
@@ -911,7 +911,7 @@ const Dashboard = () => {
                 <Card className="premium-panel rounded-xl border border-primary/10 shadow-medium">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 font-display text-2xl">
-                      <Sparkles className="w-5 h-5 text-primary" />
+                      <Leaf className="w-5 h-5 text-primary" />
                       Quick Actions
                     </CardTitle>
                     <CardDescription>

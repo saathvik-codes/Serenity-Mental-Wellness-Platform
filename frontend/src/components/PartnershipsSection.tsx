@@ -7,25 +7,25 @@ const partnerships = [
   {
     name: "World Health Organization",
     description: "Following WHO guidelines for mental health assessment and care",
-    logo: "🏥",
+    logo: "",
     type: "Guidelines"
   },
   {
     name: "American Psychological Association",
     description: "Adhering to APA standards for psychological assessment tools",
-    logo: "🧠",
+    logo: "",
     type: "Standards"
   },
   {
     name: "National Institute of Mental Health",
     description: "Implementing NIMH research findings in our platform design",
-    logo: "🔬",
+    logo: "",
     type: "Research"
   },
   {
     name: "Mental Health America",
     description: "Supporting MHA's mission to promote mental wellness for all",
-    logo: "💚",
+    logo: "",
     type: "Advocacy"
   }
 ];
@@ -87,7 +87,7 @@ export default function PartnershipsSection() {
         {/* Partnerships */}
         <div className="text-center mb-16" data-aos="fade-up">
           <Badge variant="outline" className="mb-4 px-4 py-2 bg-accent/15 border-accent/30 text-accent neon-text dark:bg-accent/25 dark:border-accent/50 dark:text-accent">
-            🤝 Trusted Partnerships
+            Trusted Partnerships
           </Badge>
           <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
             Aligned with

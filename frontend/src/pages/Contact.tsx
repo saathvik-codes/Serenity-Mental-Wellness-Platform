@@ -10,7 +10,7 @@ import {
   Mail,
   MessageSquare,
   Phone,
-  Sparkles,
+  Leaf,
   WandSparkles,
 } from "lucide-react";
 
@@ -56,7 +56,7 @@ const collaborationPoints = [
   {
     icon: Layers3,
     title: "Design systems",
-    copy: "Premium UI structure, brand direction, reusable components, and better visual hierarchy.",
+    copy: "UI structure, brand direction, reusable components, and better visual hierarchy.",
   },
   {
     icon: Code2,
@@ -148,7 +148,7 @@ export default function Contact() {
                   <div className="relative">
                     <div className="mb-6 flex items-center justify-between">
                       <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Available to connect</p>
-                      <Sparkles className="h-5 w-5 text-primary" />
+                      <Leaf className="h-5 w-5 text-primary" />
                     </div>
 
                     <div className="grid gap-6 md:grid-cols-[0.86fr_1.14fr]">
@@ -197,7 +197,7 @@ export default function Contact() {
                             <MessageSquare className="mt-1 h-5 w-5 text-primary" />
                             <p className="font-body text-sm leading-7 text-foreground/78">
                               Expect responses around product vision, frontend implementation, motion direction, and
-                              how to make Serenity feel more premium and more readable.
+                              how to make Serenity calmer and more readable.
                             </p>
                           </div>
                         </div>

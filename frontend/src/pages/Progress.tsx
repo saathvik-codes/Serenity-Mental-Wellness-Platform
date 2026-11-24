@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Download, Share2, Calendar, TrendingUp, BarChart3, Sparkles } from "lucide-react";
+import { ArrowLeft, Download, Share2, Calendar, TrendingUp, BarChart3, Leaf } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import AssessmentChart from "@/components/charts/AssessmentChart";
@@ -146,7 +146,7 @@ const Progress = () => {
   };
 
   const handleShare = () => {
-    const shareText = `I've been tracking my mental wellness journey with Serenity! 🌟\n\n📊 Progress Summary:\n• ${assessments.length} assessments completed\n• ${user?.streak || 0} day streak\n• Wellness Score: ${user?.wellness_score || 0}\n\nTaking care of mental health matters! #MentalHealth #Wellness #SelfCare`;
+    const shareText = `I've been tracking my mental wellness journey with Serenity! \n\nProgress Summary:\n• ${assessments.length} assessments completed\n• ${user?.streak || 0} day streak\n• Wellness Score: ${user?.wellness_score || 0}\n\nTaking care of mental health matters! #MentalHealth #Wellness #SelfCare`;
     
     if (navigator.share) {
       navigator.share({
@@ -255,7 +255,7 @@ const Progress = () => {
             </Button>
             <div>
               <Badge className="mb-2 px-3 py-1 bg-primary/20 border-primary/50 text-primary dark:bg-primary/30 dark:border-primary/60 dark:text-primary">
-                <Sparkles className="w-3 h-3 mr-1" />
+                <Leaf className="w-3 h-3 mr-1" />
                 Your Journey
               </Badge>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-primary bg-clip-text text-transparent">
@@ -290,7 +290,7 @@ const Progress = () => {
             { icon: BarChart3, value: assessments.length, label: "Total Assessments", shortLabel: "Assessments", color: "primary" },
             { icon: TrendingUp, value: user?.wellness_score || 0, label: "Wellness Score", shortLabel: "Wellness", color: "wellness" },
             { icon: Calendar, value: user?.streak || 0, label: "Day Streak", shortLabel: "Streak", color: "energy" },
-            { icon: Sparkles, value: [...new Set(assessments.map(a => a.type))].length, label: "Assessment Types", shortLabel: "Types", color: "focus" }
+            { icon: Leaf, value: [...new Set(assessments.map(a => a.type))].length, label: "Assessment Types", shortLabel: "Types", color: "focus" }
           ].map((stat, index) => (
             <motion.div
               key={stat.label}

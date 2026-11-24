@@ -62,7 +62,7 @@ export default function ResearchSection() {
         {/* Research & Evidence */}
         <div className="text-center mb-16" data-aos="fade-up">
           <Badge variant="outline" className="mb-4 px-4 py-2 bg-focus/15 border-focus/30 text-focus neon-text dark:bg-focus/25 dark:border-focus/50 dark:text-focus">
-            📄 Evidence-Based Approach
+            Evidence-Based Approach
           </Badge>
           <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">
             Backed by

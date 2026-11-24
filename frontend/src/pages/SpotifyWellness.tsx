@@ -14,7 +14,6 @@ import {
   ExternalLink,
   Clock,
   Users,
-  Sparkles,
   Volume2,
   Headphones,
   MoonStar,
@@ -49,7 +48,7 @@ const SpotifyWellness = () => {
   const categories = getWellnessCategories();
   const categoryIcons = {
     anxiety: Heart,
-    meditation: Sparkles,
+    meditation: Leaf,
     sleep: MoonStar,
     stress: Leaf,
     focus: Target,
@@ -270,7 +269,7 @@ const SpotifyWellness = () => {
         {!selectedPlaylist && (
           <div className="mb-12">
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-              <Sparkles className="w-6 h-6 text-green-500" />
+              <Leaf className="w-6 h-6 text-green-500" />
               Browse by Category
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -526,7 +525,7 @@ const SpotifyWellness = () => {
           <CardContent className="p-6">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                <Sparkles className="w-6 h-6 text-green-500" />
+                <Leaf className="w-6 h-6 text-green-500" />
               </div>
               <div>
                 <h3 className="text-white font-semibold mb-2">

@@ -166,7 +166,7 @@ export const SupportGroupDialog = ({
       await addDoc(collection(db, "support_groups", groupId, "messages"), {
         userId: "system",
         userName: "System",
-        message: `${user.displayName || "A new member"} joined the group. Welcome! 👋`,
+        message: `${user.displayName || "A new member"} joined the group. Welcome! `,
         timestamp: serverTimestamp(),
         isModerated: true,
       });

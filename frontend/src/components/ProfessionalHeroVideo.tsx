@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pause, Play, Sparkles } from "lucide-react";
+import { Pause, Play, Leaf } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -39,8 +39,8 @@ export default function ProfessionalHeroVideo() {
               <div className="flex flex-col gap-4 rounded-xl border border-white/20 bg-black/30 p-5 text-white backdrop-blur-xl md:flex-row md:items-end md:justify-between">
                 <div className="max-w-xl">
                   <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    Designed to feel calm, private, and premium
+                    <Leaf className="h-3.5 w-3.5" />
+                    Designed to feel calm and private
                   </div>
                   <h3 className="font-display text-2xl font-semibold leading-tight">
                     A guided look at the assessment, insights, and daily support experience.

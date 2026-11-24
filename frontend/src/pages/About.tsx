@@ -7,7 +7,7 @@ import {
   Compass,
   HeartHandshake,
   Shield,
-  Sparkles,
+  Leaf,
 } from "lucide-react";
 
 import BrandLogo from "@/components/BrandLogo";
@@ -37,7 +37,7 @@ const productPromises = [
 
 const buildPrinciples = [
   "Reduce emotional friction before asking users to share anything personal.",
-  "Make the product feel premium without feeling cold or inaccessible.",
+  "Make the product feel considered without feeling cold or inaccessible.",
   "Turn wellness metrics into something people can actually revisit and understand.",
   "Use motion to guide attention, not to distract from moments that deserve care.",
 ] as const;
@@ -135,7 +135,7 @@ export default function About() {
                   <div className="relative">
                     <div className="mb-6 flex items-center justify-between">
                       <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Personal profile</p>
-                      <Sparkles className="h-5 w-5 text-primary" />
+                      <Leaf className="h-5 w-5 text-primary" />
                     </div>
 
                     <div className="grid gap-6 md:grid-cols-[0.84fr_1.16fr]">
@@ -170,7 +170,7 @@ export default function About() {
 
                         <div className="grid gap-3">
                           {[
-                            "Interface systems that feel premium, not generic",
+                            "Interface systems that feel considered, not generic",
                             "Motion and transitions that guide attention gracefully",
                             "Branding that feels warm, memorable, and trustworthy",
                           ].map((line) => (
@@ -240,7 +240,7 @@ export default function About() {
                 The aesthetic is meant to support trust, not just decoration.
               </h3>
               <p className="mt-4 font-body text-base leading-8 text-muted-foreground">
-                That means keeping interactions readable, reducing noise, and choosing a tone that feels elevated
+                That means keeping interactions readable, reducing noise, and choosing a tone that feels calm
                 without becoming cold. The interface should lower tension, not add to it.
               </p>
 

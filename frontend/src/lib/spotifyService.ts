@@ -21,7 +21,7 @@ export interface SpotifyPlaylist {
   category: string;
 }
 
-const API_BASE_URL = (import.meta.env.VITE_BACKEND_API_URL || "").replace(/\/+$/, "");
+const API_BASE_URL = (import.meta.env.VITE_BACKEND_API_URL || import.meta.env.VITE_API_URL || "https://serenity-s1io.onrender.com").replace(/\/+$/, "");
 
 const curatedPlaylists: Record<string, SpotifyPlaylist[]> = {
   anxiety: [

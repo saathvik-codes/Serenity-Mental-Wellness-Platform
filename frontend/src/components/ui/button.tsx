@@ -21,7 +21,7 @@ const buttonVariants = cva(
           "bg-transparent text-foreground/80 hover:bg-primary/10 hover:text-primary dark:hover:bg-primary/10",
         link: "text-primary underline-offset-4 hover:underline hover:text-primary/80 dark:text-primary dark:hover:text-primary/80",
         hero:
-          "relative overflow-hidden rounded-full border border-primary/20 bg-primary hover:bg-primary/90 px-6 text-primary-foreground before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.28),transparent_55%)] before:opacity-80 before:transition-opacity hover:before:opacity-100",
+          "rounded-full bg-primary hover:bg-primary/90 px-6 text-primary-foreground",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -17,7 +17,7 @@ import {
   TrendingDown,
   Calendar,
   Brain,
-  Sparkles,
+  Leaf,
   AlertCircle,
   Sun,
   Cloud,
@@ -507,9 +507,9 @@ const MoodTracker = () => {
                   })
                 ) : (
                   <div className="text-center py-6">
-                    <Sparkles className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
+                    <Leaf className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
                     <p className="text-sm text-muted-foreground">
-                      Track for 7 days to unlock AI insights
+                      Track for 7 days to see your patterns
                     </p>
                   </div>
                 )}

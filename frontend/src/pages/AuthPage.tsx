@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import BrandLogo from "@/components/BrandLogo";
 
 const fieldClassName =
-  "h-11 rounded-xl border-border/70 bg-background/85 pl-10 shadow-sm focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0";
+  "h-10 rounded-xl border-border/70 bg-background/85 pl-10 shadow-sm focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0";
 const fieldWithRightIconClassName = `${fieldClassName} pr-10`;
 const fieldLabelClassName = "font-soft text-sm font-semibold text-foreground/78";
 const leftIconClassName = "pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-foreground/35";
@@ -61,7 +61,7 @@ const AuthPage = () => {
   // Check if user exists - with better fallback handling
   const checkUserExists = async (email: string): Promise<{ exists: boolean; uid?: string }> => {
     try {
-      const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://serenity-s1io.onrender.com';
+      const API_URL = (import.meta.env.VITE_BACKEND_API_URL || import.meta.env.VITE_API_URL || 'https://serenity-s1io.onrender.com').replace(/\/+$/, '');
       
       const checkRes = await fetch(`${API_URL}/api/auth/check-user`, {
         method: "POST",
@@ -562,16 +562,10 @@ const AuthPage = () => {
 
   return (
     <div 
-      className="min-h-screen bg-transparent flex items-center justify-center p-4"
+      className="min-h-screen lg:grid lg:h-screen lg:grid-cols-2 lg:overflow-hidden"
       data-aos="fade-in"
     >
-      <div id="recaptcha-container"></div>
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 " />
-        <div className="absolute -top-28 -right-28 h-80 w-80 rounded-full bg-primary/14 blur-3xl"></div>
-        <div className="absolute -bottom-28 -left-24 h-80 w-80 rounded-full bg-secondary/16 blur-3xl"></div>
-        <div className="absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full border border-primary/10"></div>
-      </div>
+      <div id="recaptcha-container" className="absolute"></div>
 
       {/* Forgot Password Modal */}
       {showForgotPassword && <ForgotPasswordModal />}
@@ -579,7 +573,22 @@ const AuthPage = () => {
       {/* Email Verification Message Modal */}
       {showVerificationMessage && <EmailVerificationMessageModal />}
 
-      <img src="/illustrations/sn-auth-window.webp" alt="" width={380} height={464} className="illus mr-16 hidden h-auto w-[340px] shrink-0 lg:block" />
+      <aside className="hidden min-h-0 flex-col justify-between bg-secondary/60 p-10 lg:flex">
+        <div className="flex items-center justify-between">
+          <p className="font-display text-2xl text-foreground">Serenity</p>
+          <Link to="/" className="inline-flex items-center text-sm font-semibold text-foreground/70 hover:text-primary"><ArrowLeft className="mr-2 h-4 w-4" />Back to Home</Link>
+        </div>
+        <img
+          key={activeTab}
+          src={activeTab === "signup" ? "/illustrations/sn-auth-door.webp" : "/illustrations/sn-auth-window.webp"}
+          onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = "/illustrations/sn-auth-window.webp"; }}
+          alt="" width={380} height={464} className="illus mx-auto min-h-0 w-auto max-w-[380px] flex-1 object-contain py-6"
+        />
+        <p className="max-w-sm text-lg leading-7 text-foreground/75">
+          {activeTab === "signup" ? "A few minutes a day is enough to start." : "Welcome back. Take a moment for yourself."}
+        </p>
+      </aside>
+      <div className="flex min-h-screen items-center justify-center p-6 lg:min-h-0 lg:py-1 lg:overflow-y-auto">
       <div 
         className="relative w-full max-w-md"
         data-aos="fade-up"
@@ -588,7 +597,7 @@ const AuthPage = () => {
         {/* Back to Home */}
         <Link 
           to="/" 
-          className="mb-6 inline-flex items-center font-soft text-sm font-semibold text-foreground/70 transition-colors hover:text-primary"
+          className="mb-2 inline-flex items-center lg:hidden font-soft text-sm font-semibold text-foreground/70 transition-colors hover:text-primary"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Home
@@ -596,7 +605,7 @@ const AuthPage = () => {
 
         {/* Logo */}
         <div 
-          className="text-center mb-8"
+          className="mb-6 text-center lg:hidden"
           data-aos="fade-up"
           data-aos-delay="200"
         >
@@ -609,10 +618,10 @@ const AuthPage = () => {
           data-aos="fade-up"
           data-aos-delay="300"
         >
-          <CardHeader className="text-center pb-4">
-            <CardTitle className="font-display text-3xl font-semibold text-foreground">Welcome</CardTitle>
+          <CardHeader className="pb-2 pt-4 text-center">
+            <CardTitle className="font-display text-2xl font-semibold text-foreground">{activeTab === "signup" ? "Create your account" : "Welcome back"}</CardTitle>
             <CardDescription className="font-body text-muted-foreground">
-              Sign in to your account or create a new one
+              {activeTab === "signup" ? "It takes about a minute." : "Sign in to continue."}
             </CardDescription>
           </CardHeader>
           
@@ -620,7 +629,7 @@ const AuthPage = () => {
             <Tabs 
               value={activeTab} 
               onValueChange={setActiveTab} 
-              className="space-y-6"
+              className="space-y-3"
               data-aos="fade-up"
               data-aos-delay="400"
             >
@@ -655,8 +664,8 @@ const AuthPage = () => {
                 data-aos="fade-up"
                 data-aos-delay="500"
               >
-                <form onSubmit={handleSignIn} className="space-y-4">
-                  <div className="space-y-2">
+                <form onSubmit={handleSignIn} className="space-y-3">
+                  <div className="space-y-1.5">
                     <Label htmlFor="email" className={fieldLabelClassName}>Email</Label>
                     <div className="relative">
                       <Mail className={leftIconClassName} />
@@ -672,7 +681,7 @@ const AuthPage = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="password" className={fieldLabelClassName}>Password</Label>
                     <div className="relative">
                       <Lock className={leftIconClassName} />
@@ -734,8 +743,8 @@ const AuthPage = () => {
                 data-aos="fade-up"
                 data-aos-delay="500"
               >
-                <form onSubmit={handleSignUp} className="space-y-4">
-                  <div className="space-y-2">
+                <form onSubmit={handleSignUp} className="space-y-3">
+                  <div className="space-y-1.5">
                     <Label htmlFor="name" className={fieldLabelClassName}>Full Name</Label>
                     <div className="relative">
                       <User className={leftIconClassName} />
@@ -751,7 +760,7 @@ const AuthPage = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="email" className={fieldLabelClassName}>Email</Label>
                     <div className="relative">
                       <Mail className={leftIconClassName} />
@@ -767,7 +776,7 @@ const AuthPage = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="phone" className={fieldLabelClassName}>Phone Number (Optional)</Label>
                     <div className="relative">
                       <Phone className={leftIconClassName} />
@@ -782,14 +791,15 @@ const AuthPage = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="password" className={fieldLabelClassName}>Password</Label>
                     <div className="relative">
                       <Lock className={leftIconClassName} />
                       <Input
                         name="password"
                         type={showPassword ? "text" : "password"}
-                        placeholder="Create a strong password"
+                        placeholder="8+ characters"
                         className={fieldWithRightIconClassName}
                         required
                         value={formData.password}
@@ -803,19 +813,16 @@ const AuthPage = () => {
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      Must be at least 8 characters long
-                    </p>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label htmlFor="confirmPassword" className={fieldLabelClassName}>Confirm Password</Label>
                     <div className="relative">
                       <Lock className={leftIconClassName} />
                       <Input
                         name="confirmPassword"
                         type={showConfirmPassword ? "text" : "password"}
-                        placeholder="Confirm your password"
+                        placeholder="Repeat password"
                         className={fieldWithRightIconClassName}
                         required
                         value={formData.confirmPassword}
@@ -829,6 +836,7 @@ const AuthPage = () => {
                         {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
+                  </div>
                   </div>
 
                   <div className="text-xs text-muted-foreground">
@@ -857,7 +865,7 @@ const AuthPage = () => {
 
             {/* Social Login */}
             <div 
-            className="mt-6"
+            className="mt-3"
             data-aos="fade-up"
             data-aos-delay="600"
           >
@@ -871,7 +879,7 @@ const AuthPage = () => {
               </div>
 
               <div 
-              className="grid gap-3 mt-4"
+              className="grid gap-3 mt-3"
               data-aos="fade-up"
               data-aos-delay="650"
             >
@@ -894,23 +902,7 @@ const AuthPage = () => {
             </div>
           </CardContent>
         </Card>
-
-        {/* Privacy Notice */}
-        <div 
-        className="hidden"
-        data-aos="fade-up"
-        data-aos-delay="700"
-      >
-          <p>Calm sign-in flow</p>
-          <p>Simple account access</p>
-        </div>
-        <div
-        className="mt-6 text-center text-xs text-muted-foreground"
-        data-aos="fade-up"
-        data-aos-delay="700"
-      >
-          <p>Calm sign-in flows and account tools are built to feel clear from the first visit.</p>
-        </div>
+      </div>
       </div>
     </div>
   );

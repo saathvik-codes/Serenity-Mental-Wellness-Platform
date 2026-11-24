@@ -20,7 +20,7 @@ import {
   Users,
   Phone,
   Globe,
-  Sparkles,
+  Leaf,
   Clock
 } from "lucide-react";
 import { motion } from "framer-motion";

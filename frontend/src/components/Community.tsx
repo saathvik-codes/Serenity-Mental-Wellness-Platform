@@ -635,7 +635,7 @@ const Community = () => {
                       />
                       <div className="absolute top-2 left-2">
                         <Badge className="bg-red-500 text-white animate-pulse">
-                          🔴 LIVE
+                          LIVE
                         </Badge>
                       </div>
                       <div className="absolute top-2 right-2">

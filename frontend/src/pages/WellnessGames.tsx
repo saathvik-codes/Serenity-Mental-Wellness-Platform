@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "@/firebase";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import {
-  ArrowLeft, Play, Pause, RotateCcw, TreePine, Sparkles, Award, Target, Clock,
+  ArrowLeft, Play, Pause, RotateCcw, TreePine, Award, Target, Clock,
   Leaf, Flower2, Trees, Brain, Heart, Zap, Trophy, Star, Smile, Cloud, Home,
   Gamepad2, Crown, Shield, Flame, Gem, Rocket, Cpu, Wifi
 } from "lucide-react";

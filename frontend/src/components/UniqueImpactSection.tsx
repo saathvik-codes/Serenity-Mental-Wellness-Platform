@@ -45,7 +45,7 @@ const benefits = [
   },
   {
     title: "Personalized Care",
-    description: "AI-powered recommendations tailored to your unique needs",
+    description: "Recommendations tailored to your unique needs",
     image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&w=600&q=80",
     icon: Heart
   },
@@ -121,7 +121,7 @@ export default function UniqueImpactSection() {
             variant="outline" 
             className="mb-6 px-6 py-3 bg-energy/15 border-energy/30 text-energy backdrop-blur-sm"
           >
-            🎯 Impact & Benefits
+            Impact & Benefits
           </Badge>
           <h2 className="text-5xl md:text-7xl font-bold mb-8">
             <span className="text-transparent bg-clip-text bg-energy">

@@ -17,7 +17,7 @@ import {
   Moon,
   Sunrise,
   Brain,
-  Sparkles,
+  Leaf,
   Timer,
   Award,
   TrendingUp,
@@ -132,7 +132,7 @@ const exercises: Exercise[] = [
     description: "Cultivate appreciation and positive emotions",
     duration: 180,
     type: "gratitude",
-    icon: Sparkles,
+    icon: Leaf,
     videoId: "nj2ofrX7jAk",
     videoUrl: "https://www.youtube.com/embed/nj2ofrX7jAk",
     instructions: [
@@ -328,7 +328,7 @@ const Mindfulness = () => {
       await notifyMindfulnessCompleted(selectedExercise.title, minutes, xpEarned);
 
       toast({
-        title: "🎉 Session Complete!",
+        title: "Session Complete!",
         description: `Great job! You've completed ${selectedExercise.title}. +${minutes} minutes added.`,
       });
 
@@ -449,7 +449,7 @@ const Mindfulness = () => {
                     {userProgress.completedExercises.length}/{exercises.length}
                   </p>
                 </div>
-                <Sparkles className="w-8 h-8 text-focus/50" />
+                <Leaf className="w-8 h-8 text-focus/50" />
               </div>
             </CardContent>
           </Card>

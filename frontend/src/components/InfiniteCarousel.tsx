@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Brain, Heart, Shield, Users, TrendingUp, Sparkles, Activity, Target } from 'lucide-react';
+import { Brain, Heart, Shield, Users, TrendingUp, Leaf, Activity, Target } from 'lucide-react';
 
 const testimonials = [
   {
@@ -34,8 +34,8 @@ const testimonials = [
     color: "text-wellness"
   },
   {
-    icon: Sparkles,
-    title: "AI-Powered Insights",
+    icon: Leaf,
+    title: "Insights from your check-ins",
     description: "Personalized recommendations tailored to your needs",
     color: "text-accent"
   },

@@ -386,7 +386,7 @@ const Achievements = () => {
               }}
               disabled={loading}
             >
-              🔄 Refresh
+              Refresh
             </Button>
           </div>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">

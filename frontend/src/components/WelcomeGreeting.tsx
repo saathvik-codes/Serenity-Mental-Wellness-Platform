@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Heart, Brain, X } from "lucide-react";
+import { Leaf, Heart, Brain, X } from "lucide-react";
 
 interface WelcomeGreetingProps {
   userName: string;
@@ -40,7 +40,7 @@ const WelcomeGreeting = ({ userName, onDismiss }: WelcomeGreetingProps) => {
 
         <div className="mb-6">
           <div className="w-20 h-20 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4 shadow-glow">
-            <Sparkles className="w-10 h-10 text-white animate-spin" />
+            <Leaf className="w-10 h-10 text-white animate-spin" />
           </div>
           <h2 className="text-3xl font-bold text-gradient-primary font-cursive mb-2">
             Welcome Back!
@@ -62,7 +62,7 @@ const WelcomeGreeting = ({ userName, onDismiss }: WelcomeGreetingProps) => {
           </div>
           <div className="flex items-center gap-2 text-primary">
             <Brain className="w-5 h-5" />
-            <span className="text-sm font-medium">AI Powered</span>
+            <span className="text-sm font-medium">Today</span>
           </div>
         </div>
 

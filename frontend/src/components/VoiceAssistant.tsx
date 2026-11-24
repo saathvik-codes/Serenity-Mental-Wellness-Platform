@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { MessageCircle, X, Mic, MicOff, Send, Sparkles, Volume2 } from 'lucide-react';
+import { MessageCircle, X, Mic, MicOff, Send, Leaf, Volume2 } from 'lucide-react';
 import { getAIResponse, getQuickSuggestions } from '@/lib/aiAssistant';
 import {
   getSpeechRecognitionConstructor,
@@ -271,7 +271,7 @@ const VoiceAssistant = () => {
           <div className="border-t border-primary/10 bg-background/95 p-4">
             {isTyping && (
               <div className="mb-3 flex items-center gap-2 text-sm text-muted-foreground">
-                <Sparkles className="w-4 h-4 animate-spin" />
+                <Leaf className="w-4 h-4 animate-spin" />
                 <span>Thinking...</span>
               </div>
             )}
