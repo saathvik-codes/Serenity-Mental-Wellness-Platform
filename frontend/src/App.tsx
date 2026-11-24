@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AppShell from "@/components/AppShell";
 import { ThemeProvider } from "next-themes";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -62,23 +63,26 @@ const App = () => {
         >
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
-            <Route path="/wellness-games" element={<WellnessGames />} />
-            <Route path="/spotify-wellness" element={<SpotifyWellness />} />
-            <Route path="/assessment-center" element={<AssessmentCenter />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/progress" element={<ProgressPage />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/community" element={<Community />} />
-            <Route path="/achievements" element={<Achievements />} />
-            <Route path="/ai-therapist" element={<AITherapist />} />
-            <Route path="/mindfulness" element={<Mindfulness />} />
-            <Route path="/gamification" element={<Gamification />} />
+            {/* Signed-in screens share one layout with the sidebar */}
+            <Route element={<AppShell />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/wellness-games" element={<WellnessGames />} />
+              <Route path="/spotify-wellness" element={<SpotifyWellness />} />
+              <Route path="/assessment-center" element={<AssessmentCenter />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/progress" element={<ProgressPage />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/achievements" element={<Achievements />} />
+              <Route path="/ai-therapist" element={<AITherapist />} />
+              <Route path="/mindfulness" element={<Mindfulness />} />
+              <Route path="/gamification" element={<Gamification />} />
+              <Route path="/mood-tracker" element={<MoodTracker />} />
+            </Route>
             <Route path="/emergency-help" element={<EmergencyHelp />} />
-            <Route path="/mood-tracker" element={<MoodTracker />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

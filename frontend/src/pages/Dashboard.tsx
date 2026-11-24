@@ -695,12 +695,7 @@ const Dashboard = () => {
         
         
       </div>
-      {/* Sidebar */}
-      <Sidebar 
-        isCollapsed={sidebarCollapsed} 
-        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
-        currentPath={location.pathname}
-      />
+      {/* Navigation lives in AppShell */}
 
       {/* Main Content */}
       <div className="relative z-10 flex flex-1 flex-col overflow-hidden">
