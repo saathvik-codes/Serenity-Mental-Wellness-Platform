@@ -779,7 +779,7 @@ app.get('/api/music', async (req, res) => {
   if (hit && Date.now() - hit.at < 30 * 60 * 1000) return res.json({ tracks: hit.tracks });
   try {
     const host = await getAudiusHost();
-    const r = await fetch(`${host}/v1/tracks/search?query=${encodeURIComponent(q)}&app_name=serenity`);
+    const r = await fetch(`${host}/v1/tracks/search?query=${encodeURIComponent(q)}&limit=50&app_name=serenity`);
     if (!r.ok) { audiusHost = null; return res.status(502).json({ error: 'Music service did not respond', tracks: [] }); }
     const data = await r.json();
     const seen = new Set();
