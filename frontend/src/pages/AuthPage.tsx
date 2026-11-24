@@ -14,6 +14,25 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import BrandLogo from "@/components/BrandLogo";
+import AuthCarousel, { type Slide } from "@/components/AuthCarousel";
+
+// Each caption describes something the app really does. Slides whose image is missing are skipped.
+const art = (name: string) => `/illustrations/${name}.webp`;
+const SHARED_SLIDES: Slide[] = [
+  { src: art("sn-journal"), caption: "Log your mood in a few taps and add a note if you want to." },
+  { src: art("sn-breathing"), caption: "Guided breathing and short meditations for when you need a pause." },
+  { src: art("sn-carousel-checkin"), caption: "Short, validated check-ins show how you are doing over time." },
+  { src: art("sn-stories-bench"), caption: "Support groups and a community of people who understand." },
+  { src: art("sn-carousel-help"), caption: "Helplines and nearby support are one tap away if things get hard." },
+];
+const SIGN_IN_SLIDES: Slide[] = [
+  { src: art("sn-auth-window"), caption: "Welcome back. Take a moment for yourself." },
+  ...SHARED_SLIDES,
+];
+const SIGN_UP_SLIDES: Slide[] = [
+  { src: art("sn-auth-door"), caption: "A few minutes a day is enough to start." },
+  ...SHARED_SLIDES,
+];
 
 const fieldClassName =
   "h-10 rounded-xl border-border/70 bg-background/85 pl-10 shadow-sm focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0";
@@ -406,10 +425,19 @@ const AuthPage = () => {
       });
       navigate("/dashboard");
     } catch (error: any) {
+      const code = error?.code || "";
+      // Closing the Google window is a choice, not a failure.
+      if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") return;
       console.error("Google sign-in error:", error);
+      const messages: Record<string, string> = {
+        "auth/popup-blocked": "Your browser blocked the Google window. Allow pop-ups for this site and try again.",
+        "auth/unauthorized-domain": "Google sign-in is not enabled for this address yet. Use email and password for now.",
+        "auth/network-request-failed": "Could not reach Google. Check your connection and try again.",
+        "auth/account-exists-with-different-credential": "This email already has an account. Sign in with your password instead.",
+      };
       toast({
-        title: "Error",
-        description: error.message || "Google sign-in failed.",
+        title: "Google sign-in did not finish",
+        description: messages[code] || "Please try again, or use email and password.",
         variant: "destructive"
       });
     } finally {
@@ -578,15 +606,7 @@ const AuthPage = () => {
           <p className="font-display text-2xl text-foreground">Serenity</p>
           <Link to="/" className="inline-flex items-center text-sm font-semibold text-foreground/70 hover:text-primary"><ArrowLeft className="mr-2 h-4 w-4" />Back to Home</Link>
         </div>
-        <img
-          key={activeTab}
-          src={activeTab === "signup" ? "/illustrations/sn-auth-door.webp" : "/illustrations/sn-auth-window.webp"}
-          onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = "/illustrations/sn-auth-window.webp"; }}
-          alt="" width={380} height={464} className="illus mx-auto min-h-0 w-auto max-w-[380px] flex-1 object-contain py-6"
-        />
-        <p className="max-w-sm text-lg leading-7 text-foreground/75">
-          {activeTab === "signup" ? "A few minutes a day is enough to start." : "Welcome back. Take a moment for yourself."}
-        </p>
+        <AuthCarousel slides={activeTab === "signup" ? SIGN_UP_SLIDES : SIGN_IN_SLIDES} />
       </aside>
       <div className="flex min-h-screen items-center justify-center p-6 lg:min-h-0 lg:py-1 lg:overflow-y-auto">
       <div 
