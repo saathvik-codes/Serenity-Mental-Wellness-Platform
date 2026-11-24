@@ -637,7 +637,26 @@ app.get('/api/spotify/playlists/:playlistId/tracks', async (req, res) => {
   }
 });
 // ── AI (Gemini) and news: keys live here, never in the browser bundle ──
-const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+// Tried in order; a busy (503), rate-limited (429) or retired (404) model falls through to the next.
+const GEMINI_MODELS = (process.env.GEMINI_MODEL || 'gemini-flash-latest,gemini-3.8-flash,gemini-3.5-flash,gemini-flash-lite-latest')
+  .split(',').map((m) => m.trim()).filter(Boolean);
+
+async function callGemini(prompt) {
+  let lastStatus = 0;
+  for (const model of GEMINI_MODELS) {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': process.env.GEMINI_API_KEY },
+      body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }] }),
+    });
+    const data = await r.json().catch(() => ({}));
+    if (r.ok) return (data.candidates?.[0]?.content?.parts || []).map((p) => p.text || '').join('').trim();
+    lastStatus = r.status;
+    console.error('Gemini', model, r.status, data && data.error && data.error.message);
+    if (![404, 429, 500, 503].includes(r.status)) break;
+  }
+  const err = new Error('AI unavailable'); err.status = lastStatus; throw err;
+}
 const aiHits = new Map(); // ip -> [timestamps], a small per-IP limit so the key cannot be drained
 
 app.post('/api/ai/generate', async (req, res) => {
@@ -653,20 +672,7 @@ app.post('/api/ai/generate', async (req, res) => {
   aiHits.set(ip, [...recent, now]);
 
   try {
-    const r = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': process.env.GEMINI_API_KEY },
-        body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }] }),
-      }
-    );
-    const data = await r.json().catch(() => ({}));
-    if (!r.ok) {
-      console.error('Gemini error', r.status, data && data.error && data.error.message);
-      return res.status(502).json({ error: 'The AI service did not respond' });
-    }
-    const text = (data.candidates?.[0]?.content?.parts || []).map((p) => p.text || '').join('').trim();
+    const text = await callGemini(prompt);
     res.json({ text });
   } catch (error) {
     console.error('AI generate error:', error);
