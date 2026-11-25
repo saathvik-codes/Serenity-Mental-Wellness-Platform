@@ -10,7 +10,7 @@ import { BACKEND_URL } from "@/lib/backend";
 type Status = { kind: "idle" | "sending" | "sent" | "error"; text?: string };
 
 const LINKS = [
-  { label: "Email", value: "123cs0013@iiitk.ac.in", href: "mailto:123cs0013@iiitk.ac.in" },
+  { label: "Email", value: "saathvikk202@gmail.com", href: "mailto:saathvikk202@gmail.com" },
   { label: "GitHub", value: "saathvik-codes", href: "https://github.com/saathvik-codes" },
   { label: "LinkedIn", value: "Saathvik Kalepu", href: "https://www.linkedin.com/in/saathvik-kalepu-17041228b/" },
 ];

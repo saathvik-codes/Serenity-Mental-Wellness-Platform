@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { BACKEND_URL } from "@/lib/backend";
 import MobileBottomNav from "@/components/MobileBottomNav";
 
-type Track = { id: string; title: string; artist: string; duration: number; artwork: string | null; streamUrl: string; link: string | null };
+type Track = { id: string; title: string; artist: string; duration: number; artwork: string | null; streamUrl: string; link: string | null; preview?: boolean };
 
 // Each mood maps to a search on Audius, where every track streams in full for free.
 const MOODS = [
@@ -74,12 +74,12 @@ export default function SpotifyWellness() {
   const track = current !== null ? tracks[current] : null;
 
   return (
-    <div className="min-h-screen bg-background pb-36 lg:pb-28">
+    <div className={`min-h-screen bg-background ${track ? "pb-44 lg:pb-32" : "pb-20 lg:pb-8"}`}>
       <div className="container mx-auto max-w-6xl px-4 py-8 sm:px-6">
         <header className="flex items-start justify-between gap-6">
           <div>
             <h1 className="font-display text-4xl font-semibold text-foreground">Music</h1>
-            <p className="mt-2 max-w-xl text-foreground/70">Full-length tracks for calm, focus and sleep. Pick a mood or search for anything.</p>
+            <p className="mt-2 max-w-xl text-foreground/70">Pick a mood or search any song, artist or language. Free tracks play in full; other songs play a 30-second preview.</p>
           </div>
           <img src="/illustrations/sn-music.webp" alt="" width={112} height={112} className="illus hidden h-24 w-24 object-contain sm:block" />
         </header>
@@ -105,6 +105,8 @@ export default function SpotifyWellness() {
             <div className="flex items-center justify-center gap-2 py-16 text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" /> Loading tracks...</div>
           ) : error ? (
             <p className="py-16 text-center text-muted-foreground">{error}</p>
+          ) : tracks.length === 0 ? (
+            <p className="py-16 text-center text-muted-foreground">Nothing matched. Try an artist or song name.</p>
           ) : (
             <ol className="divide-y divide-border">
               {tracks.map((t, i) => (
@@ -119,14 +121,14 @@ export default function SpotifyWellness() {
                       <span className={`block truncate font-medium ${current === i ? "text-primary" : "text-foreground"}`}>{t.title}</span>
                       <span className="block truncate text-sm text-muted-foreground">{t.artist}</span>
                     </span>
-                    <span className="text-sm tabular-nums text-muted-foreground">{time(t.duration)}</span>
+                    <span className="flex shrink-0 items-center gap-2 text-sm tabular-nums text-muted-foreground">{t.preview && <span className="rounded border border-border px-1.5 py-0.5 text-[10px] uppercase tracking-wide">Preview</span>}{time(t.duration)}</span>
                   </button>
                 </li>
               ))}
             </ol>
           )}
         </section>
-        <p className="mt-2 text-xs text-muted-foreground">Tracks stream from Audius, a free music service. Every song plays in full.</p>
+        <p className="mt-2 text-xs text-muted-foreground">Free tracks stream from Audius. Other songs come from Apple's catalogue as 30-second previews with a link to the full song.</p>
 
         <section className="mt-14">
           <h2 className="font-display text-2xl font-semibold text-foreground">Spotify playlists</h2>
@@ -146,12 +148,13 @@ export default function SpotifyWellness() {
         onTimeUpdate={(e) => setProgress(e.currentTarget.currentTime)} onLoadedMetadata={(e) => setLength(e.currentTarget.duration)}
         onEnded={next} onPause={() => setPlaying(false)} onPlay={() => setPlaying(true)}
         onError={() => { if (current !== null) next(); }} />
-      <div className="fixed inset-x-0 bottom-16 z-30 border-t border-border bg-background/95 lg:bottom-0 lg:left-60">
+      {track && (
+      <div className="fixed inset-x-0 bottom-16 z-40 border-t border-border bg-card shadow-[0_-4px_16px_rgba(0,0,0,0.06)] lg:bottom-0 lg:left-60">
         <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 sm:px-6">
-          {track?.artwork ? <img src={track.artwork} alt="" className="hidden h-11 w-11 rounded-md object-cover sm:block" /> : <div className="hidden h-11 w-11 rounded-md bg-secondary sm:block" />}
+          {track.artwork ? <img src={track.artwork} alt="" className="hidden h-11 w-11 rounded-md object-cover sm:block" /> : <div className="hidden h-11 w-11 rounded-md bg-secondary sm:block" />}
           <div className="min-w-0 w-40 sm:w-56">
-            <p className="truncate text-sm font-medium text-foreground">{track ? track.title : "Nothing playing"}</p>
-            <p className="truncate text-xs text-muted-foreground">{track ? track.artist : "Pick a track above"}</p>
+            <p className="truncate text-sm font-medium text-foreground">{track.title}</p>
+            <p className="truncate text-xs text-muted-foreground">{track.artist}{track.preview ? " · preview" : ""}</p>
           </div>
           <div className="flex items-center gap-1">
             <Button variant="ghost" size="icon" onClick={prev} aria-label="Previous track"><SkipBack className="h-4 w-4" /></Button>
@@ -170,13 +173,14 @@ export default function SpotifyWellness() {
           <Button variant="ghost" size="icon" onClick={() => setMuted(!muted)} aria-label={muted ? "Unmute" : "Mute"}>
             {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </Button>
-          {track?.link && (
-            <a href={track.link} target="_blank" rel="noreferrer" className="hidden text-muted-foreground hover:text-primary sm:block" aria-label="Open on Audius">
+          {track.link && (
+            <a href={track.link} target="_blank" rel="noreferrer" className="hidden text-muted-foreground hover:text-primary sm:block" aria-label={track.preview ? "Open full song" : "Open on Audius"}>
               <ExternalLink className="h-4 w-4" />
             </a>
           )}
         </div>
       </div>
+      )}
       <MobileBottomNav />
     </div>
   );

@@ -783,11 +783,11 @@ app.get('/api/music', async (req, res) => {
     if (!r.ok) { audiusHost = null; return res.status(502).json({ error: 'Music service did not respond', tracks: [] }); }
     const data = await r.json();
     const seen = new Set();
-    const tracks = (data.data || [])
+    let tracks = (data.data || [])
       .filter((t) => t.is_streamable !== false && Number(t.duration) >= 60)
       .filter((t) => {
         // the same piece is often uploaded several times with small title changes
-        const k = `${(t.user && t.user.handle) || ''}|${String(t.title).toLowerCase().replace(/[^a-z]+/g, ' ').trim().slice(0, 24)}`;
+        const k = `${(t.user && t.user.handle) || ''}|${String(t.title).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim().slice(0, 24)}`;
         if (seen.has(k) || seen.has(t.id)) return false;
         seen.add(k); seen.add(t.id); return true;
       })
@@ -800,11 +800,142 @@ app.get('/api/music', async (req, res) => {
         streamUrl: `${host}/v1/tracks/${t.id}/stream?app_name=serenity`,
         link: t.permalink ? `https://audius.co${t.permalink}` : null,
       }));
+    // Audius streams full songs but its catalogue is small. For anything else (any artist, any language) add
+    // Apple's open search, which returns 30-second previews and a link to the full song.
+    if (tracks.length < 12) {
+      try {
+        const it = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&entity=song&limit=30`, { signal: AbortSignal.timeout(10000) });
+        if (it.ok) {
+          const extra = ((await it.json()).results || [])
+            .filter((t) => t.previewUrl && t.trackName)
+            .map((t) => ({
+              id: `it-${t.trackId}`, title: t.trackName, artist: t.artistName || 'Unknown artist', duration: 30, preview: true,
+              artwork: t.artworkUrl100 ? t.artworkUrl100.replace('100x100', '300x300') : null,
+              streamUrl: t.previewUrl, link: t.trackViewUrl || null,
+            }));
+          tracks = tracks.concat(extra);
+        }
+      } catch { /* previews are a bonus; Audius results still return */ }
+    }
     musicCache.set(key, { at: Date.now(), tracks });
     res.json({ tracks });
   } catch (error) {
     console.error('Music error:', error);
     res.status(502).json({ error: 'Music service did not respond', tracks: [] });
+  }
+});
+
+
+// ── Help centres: nearby hospitals, clinics and counselling services from OpenStreetMap ──
+const OVERPASS_MIRRORS = [
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
+  'https://overpass.private.coffee/api/interpreter',
+  'https://overpass.openstreetmap.fr/api/interpreter',
+];
+const helpCache = new Map(); // "lat,lng,radius" -> { at, centers }
+const haversine = (a, b, c, d) => {
+  const r = Math.PI / 180, dLat = (c - a) * r, dLng = (d - b) * r;
+  const x = Math.sin(dLat / 2) ** 2 + Math.cos(a * r) * Math.cos(c * r) * Math.sin(dLng / 2) ** 2;
+  return 6371000 * 2 * Math.asin(Math.sqrt(x));
+};
+
+async function overpass(query) {
+  let lastError;
+  for (const url of OVERPASS_MIRRORS) {
+    try {
+      const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `data=${encodeURIComponent(query)}`, signal: AbortSignal.timeout(25000) });
+      if (r.ok) return await r.json();
+      lastError = new Error(`Overpass ${r.status}`);
+    } catch (e) { lastError = e; }
+  }
+  throw lastError || new Error('Overpass unavailable');
+}
+
+
+// When every Overpass mirror is rate-limited, fall back to Nominatim searches inside a box around the point.
+async function nominatimCenters(lat, lng, radius) {
+  const dLat = radius / 111000, dLng = radius / (111000 * Math.cos((lat * Math.PI) / 180));
+  const box = `${lng - dLng},${lat + dLat},${lng + dLng},${lat - dLat}`;
+  const seen = new Map();
+  for (const term of ['hospital', 'clinic', 'psychiatrist', 'counselling']) {
+    const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=20&bounded=1&extratags=1&viewbox=${box}&q=${encodeURIComponent(term)}`, { headers: { 'User-Agent': 'serenity-wellness-app/1.0' }, signal: AbortSignal.timeout(15000) });
+    if (!r.ok) throw new Error(`Nominatim ${r.status}`);
+    for (const p of await r.json()) {
+      const la = Number(p.lat), lo = Number(p.lon), name = (p.display_name || '').split(',')[0].trim();
+      if (!name || seen.has(p.place_id)) continue;
+      const x = p.extratags || {};
+      seen.set(p.place_id, {
+        id: `nom-${p.place_id}`, name, type: term === 'hospital' || term === 'clinic' ? term : 'counselling',
+        address: (p.display_name || '').split(',').slice(1, 4).join(',').trim(), phone: x.phone || x['contact:phone'] || null,
+        website: x.website || x['contact:website'] || null, hours: x.opening_hours || null, lat: la, lng: lo, distance: Math.round(haversine(lat, lng, la, lo)),
+      });
+    }
+    await new Promise((res) => setTimeout(res, 1100)); // Nominatim allows one request per second
+  }
+  return [...seen.values()].sort((a, b) => a.distance - b.distance).slice(0, 40);
+}
+
+app.get('/api/help-centers', async (req, res) => {
+  const lat = Number(req.query.lat), lng = Number(req.query.lng);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) return res.status(400).json({ error: 'lat and lng are required', centers: [] });
+  try {
+    // widen the search only when the small circle is empty
+    for (const radius of [5000, 15000, 40000]) {
+      const key = `${lat.toFixed(2)},${lng.toFixed(2)},${radius}`;
+      let centers = helpCache.get(key)?.centers;
+      if (!centers) {
+        const around = `(around:${radius},${lat},${lng})`;
+        let data;
+        try { data = await overpass(`[out:json][timeout:20];(
+          nwr${around}[amenity~"^(hospital|clinic|doctors)$"];
+          nwr${around}[healthcare~"^(psychotherapist|psychiatrist|counselling|centre|hospital|clinic)$"];
+          nwr${around}[amenity=social_facility][social_facility~"mental|counselling|outreach|assisted_living|group_home",i];
+        );out center tags 120;`); } catch (e) {
+          // Overpass is busy: answer from Nominatim instead (one lookup per term, so a little slower)
+          console.warn('Overpass unavailable, using Nominatim:', e.message);
+          centers = await nominatimCenters(lat, lng, 15000);
+          helpCache.set(`${lat.toFixed(2)},${lng.toFixed(2)},15000`, { at: Date.now(), centers });
+          return res.json({ centers, radius: 15000, source: 'nominatim' });
+        }
+        const seen = new Set();
+        centers = (data.elements || []).map((el) => {
+          const la = el.lat ?? el.center?.lat, lo = el.lon ?? el.center?.lon, t = el.tags || {};
+          if (la == null || lo == null || !(t.name || t['name:en'])) return null;
+          const key2 = `${(t.name || '').toLowerCase()}|${la.toFixed(3)}|${lo.toFixed(3)}`;
+          if (seen.has(key2)) return null;
+          seen.add(key2);
+          const kind = t.healthcare === 'psychotherapist' || t.healthcare === 'psychiatrist' || t.healthcare === 'counselling' ? 'counselling' : (t.amenity || t.healthcare || 'health');
+          return {
+            id: `${el.type}-${el.id}`, name: t['name:en'] || t.name, type: kind,
+            address: [t['addr:housenumber'], t['addr:street'], t['addr:suburb'], t['addr:city']].filter(Boolean).join(', '),
+            phone: t['contact:phone'] || t.phone || null, website: t['contact:website'] || t.website || null, hours: t.opening_hours || null,
+            lat: la, lng: lo, distance: Math.round(haversine(lat, lng, la, lo)),
+          };
+        }).filter(Boolean).sort((a, b) => a.distance - b.distance).slice(0, 40);
+        helpCache.set(key, { at: Date.now(), centers });
+        if (helpCache.size > 300) helpCache.delete(helpCache.keys().next().value);
+      }
+      if (centers.length || radius === 40000) return res.json({ centers, radius });
+    }
+  } catch (error) {
+    console.error('Help centres error:', error.message);
+    return res.status(502).json({ error: 'The map data service is busy. Please try again in a moment.', centers: [] });
+  }
+});
+
+// Place search for the map ("Pune", "Jubilee Hills, Hyderabad", ...), through OpenStreetMap's Nominatim
+app.get('/api/geocode', async (req, res) => {
+  const q = String(req.query.q || '').trim().slice(0, 120);
+  if (q.length < 2) return res.json({ places: [] });
+  try {
+    const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=5&addressdetails=0&q=${encodeURIComponent(q)}`, { headers: { 'User-Agent': 'serenity-wellness-app/1.0' }, signal: AbortSignal.timeout(15000) });
+    if (!r.ok) throw new Error(`Nominatim ${r.status}`);
+    const data = await r.json();
+    res.json({ places: data.map((p) => ({ name: p.display_name, lat: Number(p.lat), lng: Number(p.lon) })) });
+  } catch (error) {
+    console.error('Geocode error:', error.message);
+    res.status(502).json({ error: 'Place search is unavailable right now.', places: [] });
   }
 });
 

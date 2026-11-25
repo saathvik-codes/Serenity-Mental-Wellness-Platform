@@ -40,6 +40,35 @@ interface HotlineResource {
 
 const hotlines: HotlineResource[] = [
   {
+    id: "tele-manas",
+    name: "Tele-MANAS (India)",
+    description: "Free 24/7 mental health counselling from the Government of India, in many languages",
+    phone: "14416",
+    available: "24/7",
+    type: "crisis",
+    icon: Phone,
+    website: "https://telemanas.mohfw.gov.in"
+  },
+  {
+    id: "kiran",
+    name: "KIRAN Helpline (India)",
+    description: "Toll-free national mental health rehabilitation helpline",
+    phone: "1800-599-0019",
+    available: "24/7",
+    type: "support",
+    icon: Headphones
+  },
+  {
+    id: "icall",
+    name: "iCall (India)",
+    description: "Free psychosocial counselling by trained professionals (TISS)",
+    phone: "9152987821",
+    available: "Mon-Sat, 10am-8pm IST",
+    type: "support",
+    icon: Users,
+    website: "https://icallhelpline.org"
+  },
+  {
     id: "988",
     name: "988 Suicide & Crisis Lifeline",
     description: "24/7 free and confidential support for people in distress",
@@ -298,30 +327,20 @@ ${new Date().toLocaleString()}`;
         </Alert>
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate("/dashboard")}
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-            <div>
-              <h1 className="text-3xl font-bold flex items-center gap-3">
-                <img src="/illustrations/sn-help.webp" alt="" width={112} height={112} className="illus h-14 w-14 shrink-0 object-contain" />
-                Emergency Support
-              </h1>
-              <p className="text-muted-foreground mt-1">
-                You're not alone. Help is available 24/7
-              </p>
-            </div>
+        <header className="mb-8 flex items-center gap-3 sm:gap-4">
+          <Button variant="ghost" size="icon" className="shrink-0" onClick={() => navigate("/dashboard")} aria-label="Back to dashboard">
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <img src="/illustrations/sn-help.webp" alt="" width={112} height={112} className="illus h-14 w-14 shrink-0 object-contain" />
+          <div className="min-w-0">
+            <h1 className="text-2xl font-bold leading-tight sm:text-3xl">Emergency Support</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground sm:text-base">You&apos;re not alone. Help is available 24/7.</p>
           </div>
-        </div>
+        </header>
 
         {/* Main Tabs */}
         <Tabs defaultValue="map" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 lg:w-[400px] bg-card p-1 rounded-full border border-border">
+          <TabsList className="grid h-auto w-full max-w-md grid-cols-3 rounded-xl border border-border bg-card p-1">
             <TabsTrigger value="map" className="flex items-center gap-2 bg-transparent text-muted-foreground data-[state=active]:bg-background data-[state=active]:text-foreground px-4 py-2 rounded-full">
               <Map className="w-4 h-4" />
               Map
@@ -337,17 +356,8 @@ ${new Date().toLocaleString()}`;
           </TabsList>
 
           {/* Map Tab */}
-          <TabsContent value="map" className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
-                <MapPin className="w-6 h-6 text-primary" />
-                Find Help Centers Worldwide
-              </h2>
-              <p className="text-muted-foreground mb-6">
-                Browse the interactive map to find mental health facilities near you or anywhere in the world
-              </p>
-              <InteractiveHelpMap />
-            </div>
+          <TabsContent value="map" className="mt-4">
+            <InteractiveHelpMap />
           </TabsContent>
 
           {/* Hotlines Tab */}
@@ -366,7 +376,7 @@ ${new Date().toLocaleString()}`;
                     <Card 
                       key={hotline.id}
                       className={cn(
-                        "shadow-medium border-2 transition-all cursor-pointer bg-slate-800 text-white",
+                        "shadow-medium border-2 transition-all cursor-pointer bg-card text-card-foreground",
                         selectedHotline?.id === hotline.id ? "border-primary" : "border-primary/10"
                       )}
                       onClick={() => setSelectedHotline(hotline)}
@@ -374,11 +384,11 @@ ${new Date().toLocaleString()}`;
                       <CardHeader>
                         <div className="flex items-start justify-between">
                           <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center shadow-sm">
-                              <Icon className="w-6 h-6 text-foreground" />
+                            <div className="w-12 h-12 shrink-0 rounded-full bg-primary/10 flex items-center justify-center">
+                              <Icon className="w-6 h-6 text-primary" />
                             </div>
                             <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-1">
+                              <div className="flex flex-wrap items-center gap-2 mb-1">
                                 <CardTitle className="text-lg">{hotline.name}</CardTitle>
                                 <Badge className={cn("text-xs", getTypeColor(hotline.type))}>
                                   {hotline.type}

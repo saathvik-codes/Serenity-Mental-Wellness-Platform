@@ -1,328 +1,152 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/components/ui/use-toast";
-import { MapPin, Navigation, Phone, Loader2 } from "lucide-react";
-
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents, Circle } from "react-leaflet";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { MapContainer, Marker, Popup, TileLayer, ZoomControl, useMap, useMapEvents } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { Loader2, LocateFixed, Navigation, Phone, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { BACKEND_URL } from "@/lib/backend";
 
-interface HelpCenter {
-  id: string;
-  name: string;
-  type: string;
-  address?: string;
-  phone?: string;
-  lat: number;
-  lng: number;
-  distance?: number;
-  website?: string;
-}
+type Center = {
+  id: string; name: string; type: string; address?: string; phone?: string | null; website?: string | null; hours?: string | null;
+  lat: number; lng: number; distance: number;
+};
+type Point = { lat: number; lng: number };
 
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+delete (L.Icon.Default.prototype as unknown as { _getIconUrl?: unknown })._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
 });
 
-const OVERPASS_URLS = [
-  "https://overpass-api.de/api/interpreter",
-  "https://overpass.kumi.systems/api/interpreter",
-  "https://overpass.private.coffee/api/interpreter",
-];
+const INDIA: Point = { lat: 20.5937, lng: 78.9629 };
+const km = (m: number) => (m < 1000 ? `${m} m` : `${(m / 1000).toFixed(1)} km`);
+const label = (t: string) => ({ hospital: "Hospital", clinic: "Clinic", doctors: "Doctor", counselling: "Counselling", social_facility: "Support service" }[t] || "Health service");
 
-function MapUpdater({ onMove, mapRef }: { onMove: (centerLat: number, centerLng: number, bounds: L.LatLngBounds, zoom: number) => void, mapRef: React.MutableRefObject<any> }) {
-  const map = useMapEvents({
-    moveend(e) {
-      const map = e.target;
-      const c = map.getCenter();
-      onMove(c.lat, c.lng, map.getBounds(), map.getZoom());
-    }
-  });
-  
-  // Set the map ref when the component mounts
-  React.useEffect(() => {
-    if (map && !mapRef.current) {
-      mapRef.current = map;
-    }
-  }, [map, mapRef]);
-  
+// Moves the map when the search point or the selected place changes; reports when the user pans away.
+function MapController({ target, zoom, onPan }: { target: Point | null; zoom: number; onPan: () => void }) {
+  const map = useMap();
+  useEffect(() => { if (target) map.flyTo([target.lat, target.lng], zoom, { duration: 0.8 }); }, [map, target, zoom]);
+  useMapEvents({ dragend: onPan });
   return null;
 }
 
 export const InteractiveHelpMap = () => {
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
-  const [helpCenters, setHelpCenters] = useState<HelpCenter[]>([]);
+  const [origin, setOrigin] = useState<Point | null>(null);
+  const [centers, setCenters] = useState<Center[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-  const mapRef = useRef<any>(null);
-  const fetchAbortRef = useRef<AbortController | null>(null);
-  const debounceRef = useRef<number | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [place, setPlace] = useState("");
+  const [panned, setPanned] = useState(false);
+  const [focus, setFocus] = useState<{ point: Point; zoom: number } | null>(null);
+  const mapRef = useRef<L.Map | null>(null);
+  const requestId = useRef(0);
 
-  const defaultCenter = useMemo(() => ({ lat: 20.5937, lng: 78.9629 }), []);
-
-  const fetchNearbyByBBox = async (bounds: L.LatLngBounds, centerLat: number, centerLng: number, zoom: number, tryExpanded = true, expandFactor = 1) => {
-    // Avoid huge global queries — require a minimum zoom
-    if (zoom < 5) {
-      setHelpCenters([]);
-      setIsLoading(false);
-      toast({ title: 'Zoom in', description: 'Please zoom in to search for nearby services in this area.', });
-      return;
-    }
-    // Cancel previous fetch
-    if (fetchAbortRef.current) {
-      try { fetchAbortRef.current.abort(); } catch (_) {}
-    }
-    const ac = new AbortController();
-    fetchAbortRef.current = ac;
-
-    setIsLoading(true);
-
-    // expand bounds slightly if requested
-    const south = bounds.getSouth();
-    const north = bounds.getNorth();
-    const west = bounds.getWest();
-    const east = bounds.getEast();
-    // expand bbox by factor around center
-    const latPad = (north - south) * (expandFactor - 1) * 0.5;
-    const lngPad = (east - west) * (expandFactor - 1) * 0.5;
-    const s = south - latPad;
-    const n = north + latPad;
-    const w = west - lngPad;
-    const e = east + lngPad;
-
-    const bboxStr = `${s},${w},${n},${e}`;
-
-    const query = `[
-      out:json][timeout:25];
-      (
-        node(${bboxStr})[amenity~"hospital|clinic|doctors|social_facility|pharmacy|asylum|healthcare"];
-        way(${bboxStr})[amenity~"hospital|clinic|doctors|social_facility|pharmacy|asylum|healthcare"];
-        relation(${bboxStr})[amenity~"hospital|clinic|doctors|social_facility|pharmacy|asylum|healthcare"];
-      );
-      out center 50;`;
-
+  const search = useCallback(async (point: Point) => {
+    const id = ++requestId.current;
+    setOrigin(point); setLoading(true); setError(""); setSelected(null); setPanned(false);
+    setFocus({ point, zoom: 13 });
     try {
-      // The public Overpass servers are often busy; try each mirror before giving up.
-      let resp: Response | null = null;
-      for (const url of OVERPASS_URLS) {
-        try {
-          resp = await fetch(url, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" }, body: `data=${encodeURIComponent(query)}`, signal: ac.signal });
-          if (resp.ok) break;
-        } catch (e: any) {
-          if (e?.name === "AbortError") throw e;
-          resp = null;
-        }
-      }
-      if (!resp || !resp.ok) throw new Error(`Overpass error ${resp ? resp.status : "network"}`);
-      const data = await resp.json();
-      const centers: HelpCenter[] = (data.elements || []).map((el: any) => {
-        const latVal = el.lat ?? el.center?.lat; const lonVal = el.lon ?? el.center?.lon; if (!latVal || !lonVal) return null;
-        const tags = el.tags || {};
-        return {
-          id: `${el.type}-${el.id}`,
-          name: tags.name || tags.operator || tags.amenity || "Unknown",
-          type: tags.amenity || "unknown",
-          address: [tags['addr:street'], tags['addr:housenumber'], tags['addr:city']].filter(Boolean).join(', '),
-          phone: tags['contact:phone'] || tags.phone || undefined,
-          website: tags.website || tags.url || undefined,
-          lat: latVal,
-          lng: lonVal,
-        } as HelpCenter;
-      }).filter(Boolean);
-
-      const withDistance = centers.map(c => ({ ...c, distance: Math.round(Math.hypot(c.lat - centerLat, c.lng - centerLng) * 111320) }));
-      withDistance.sort((a,b) => (a.distance||0)-(b.distance||0));
-      if (withDistance.length === 0 && tryExpanded && expandFactor < 4) {
-        // expand bbox and retry (up to a few times)
-        fetchNearbyByBBox(bounds, centerLat, centerLng, zoom, true, expandFactor * 2);
-        return;
-      }
-      setHelpCenters(withDistance);
-      setIsLoading(false);
-    } catch (err: any) {
-      if (err?.name === 'AbortError') {
-        return;
-      }
-      console.error(err);
-      setIsLoading(false);
-      toast({ title: 'Map error', description: 'Unable to fetch nearby locations', variant: 'destructive' });
+      const res = await fetch(`${BACKEND_URL}/api/help-centers?lat=${point.lat}&lng=${point.lng}`);
+      const data = await res.json().catch(() => ({}));
+      if (id !== requestId.current) return;
+      if (!res.ok) throw new Error(data.error || "Could not load nearby services.");
+      setCenters(data.centers || []);
+      if (!(data.centers || []).length) setError("No hospitals or clinics are mapped near this spot. Try searching a nearby city.");
+    } catch (e) {
+      if (id === requestId.current) { setCenters([]); setError(e instanceof Error ? e.message : "Could not load nearby services."); }
+    } finally {
+      if (id === requestId.current) setLoading(false);
     }
+  }, []);
+
+  const locateMe = useCallback(() => {
+    if (!navigator.geolocation) { setError("Your browser does not share location. Search for a city instead."); return; }
+    setLoading(true); setError("");
+    navigator.geolocation.getCurrentPosition(
+      (pos) => void search({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => { setLoading(false); setError("Location permission was not given. Search for your city instead."); },
+      { timeout: 10000, maximumAge: 300000 },
+    );
+  }, [search]);
+
+  const findPlace = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (place.trim().length < 2) return;
+    setLoading(true); setError("");
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/geocode?q=${encodeURIComponent(place.trim())}`);
+      const data = await res.json().catch(() => ({}));
+      const hit = data.places?.[0];
+      if (!hit) { setLoading(false); setError(res.ok ? "We could not find that place." : data.error || "Place search is unavailable."); return; }
+      await search({ lat: hit.lat, lng: hit.lng });
+    } catch { setLoading(false); setError("Place search is unavailable right now."); }
   };
 
+  const searchHere = () => { const c = mapRef.current?.getCenter(); if (c) void search({ lat: c.lat, lng: c.lng }); };
+  const directions = (c: Center) => window.open(`https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}${origin ? `&origin=${origin.lat},${origin.lng}` : ""}`, "_blank", "noopener");
+  const pick = (c: Center) => { setSelected(c.id); setFocus({ point: { lat: c.lat, lng: c.lng }, zoom: 16 }); };
+
+  // ask for the location once, politely: only when the browser has already been granted it
   useEffect(() => {
-    // Try to get user location on mount; fall back to default center
-    const initializeMap = () => {
-      if (navigator.geolocation) {
-        const got = (pos: GeolocationPosition) => {
-          const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-          setUserLocation(loc);
-          // Use setTimeout to ensure map is ready
-          setTimeout(() => {
-            try { 
-              mapRef.current?.setView([loc.lat, loc.lng], 13); 
-              const map = mapRef.current;
-              if (map) {
-                fetchNearbyByBBox(map.getBounds(), loc.lat, loc.lng, map.getZoom());
-              } else {
-                const fakeBounds = L.latLngBounds([loc.lat - 0.05, loc.lng - 0.05], [loc.lat + 0.05, loc.lng + 0.05]);
-                fetchNearbyByBBox(fakeBounds, loc.lat, loc.lng, 13);
-              }
-            } catch (_) {}
-          }, 100);
-        };
-        const onerr = () => {
-          // fallback
-          setTimeout(() => {
-            const map = mapRef.current;
-            if (map) {
-              fetchNearbyByBBox(map.getBounds(), defaultCenter.lat, defaultCenter.lng, map.getZoom());
-            } else {
-              const fakeBounds = L.latLngBounds([defaultCenter.lat - 0.5, defaultCenter.lng - 0.5], [defaultCenter.lat + 0.5, defaultCenter.lng + 0.5]);
-              fetchNearbyByBBox(fakeBounds, defaultCenter.lat, defaultCenter.lng, 6);
-            }
-          }, 100);
-        };
-        navigator.geolocation.getCurrentPosition(got, onerr, { timeout: 5000 });
-      } else {
-        setTimeout(() => {
-          const map = mapRef.current;
-          if (map) {
-            fetchNearbyByBBox(map.getBounds(), defaultCenter.lat, defaultCenter.lng, map.getZoom());
-          } else {
-            const fakeBounds = L.latLngBounds([defaultCenter.lat - 0.5, defaultCenter.lng - 0.5], [defaultCenter.lat + 0.5, defaultCenter.lng + 0.5]);
-            fetchNearbyByBBox(fakeBounds, defaultCenter.lat, defaultCenter.lng, 6);
-          }
-        }, 100);
-      }
-    };
-
-    // Delay initialization to ensure map is mounted
-    const timer = setTimeout(initializeMap, 200);
-    return () => clearTimeout(timer);
-  }, [defaultCenter.lat, defaultCenter.lng]);
-
-  const requestLocation = () => {
-    if (!navigator.geolocation) { toast({ title: 'Location not available', description: 'Geolocation not supported', variant: 'destructive' }); return; }
-    setIsLoading(true);
-    navigator.geolocation.getCurrentPosition(pos => { const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude }; setUserLocation(loc); mapRef.current?.setView([loc.lat, loc.lng], 14); const map = mapRef.current; if (map) { fetchNearbyByBBox(map.getBounds(), loc.lat, loc.lng, map.getZoom()); } else { const fakeBounds = L.latLngBounds([loc.lat - 0.05, loc.lng - 0.05], [loc.lat + 0.05, loc.lng + 0.05]); fetchNearbyByBBox(fakeBounds, loc.lat, loc.lng, 13); } }, err => { setIsLoading(false); toast({ title: 'Location error', description: err.message || 'Unable to get location', variant: 'destructive' }); }, { enableHighAccuracy: true, timeout: 10000 });
-  };
-
-  const handleMapMove = (lat:number,lng:number) => {
-    // debounce rapid map moves and abort inflight requests
-    if (debounceRef.current) window.clearTimeout(debounceRef.current);
-    debounceRef.current = window.setTimeout(() => {
-      // we need bounds and zoom; try to get them from mapRef
-      const map = mapRef.current;
-      if (map) {
-        fetchNearbyByBBox(map.getBounds(), lat, lng, map.getZoom());
-      } else {
-        const fakeBounds = L.latLngBounds([lat - 0.05, lng - 0.05], [lat + 0.05, lng + 0.05]);
-        fetchNearbyByBBox(fakeBounds, lat, lng, 13);
-      }
-      debounceRef.current = null;
-    }, 450);
-  };
-
-  const openDirections = (c: HelpCenter) => { const dest = `${c.lat},${c.lng}`; const origin = userLocation ? `${userLocation.lat},${userLocation.lng}` : undefined; const url = origin ? `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}` : `https://www.google.com/maps/search/?api=1&query=${dest}`; window.open(url,'_blank'); };
+    navigator.permissions?.query({ name: "geolocation" as PermissionName }).then((p) => { if (p.state === "granted") locateMe(); }).catch(() => {});
+  }, [locateMe]);
 
   return (
-    <div className="w-full h-full">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-220px)] min-h-[520px]">
-        <div className="lg:col-span-1 flex flex-col gap-4 h-full">
-          <Card className="p-4 bg-background text-foreground border-0">
-            <CardHeader className="p-0 mb-2"><CardTitle className="flex items-center gap-2"><MapPin /> Nearby Services</CardTitle></CardHeader>
-            <CardContent className="p-0">
-                <div className="flex items-center justify-between p-4">
-                <div className="text-sm text-muted-foreground">Showing nearby hospitals, clinics and welfare centres</div>
-                <Button size="sm" onClick={requestLocation} className="bg-primary text-white hover:opacity-95">{isLoading? 'Locating...' : 'Use My Location'}</Button>
-              </div>
-              <div className="max-h-[420px] overflow-auto p-4 space-y-2">
-                {isLoading && <div className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="animate-spin" /> Searching nearby...</div>}
-                {!isLoading && helpCenters.length===0 && <div className="text-sm text-muted-foreground">No nearby services found.</div>}
-                {helpCenters.map(c => (
-                  <div key={c.id} className={`p-3 rounded-lg cursor-pointer border ${selected===c.id? 'border-primary':'border-slate-700'} bg-card`} onClick={() => { setSelected(c.id); mapRef.current?.setView([c.lat,c.lng],16); }}>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="font-semibold text-foreground">{c.name}</div>
-                        <div className="text-xs text-muted-foreground">{c.type}</div>
-                      </div>
-                      <div className="text-xs text-muted-foreground">{c.distance? `${(c.distance/1000).toFixed(1)} km`:''}</div>
-                    </div>
-                    {c.address && <div className="text-xs text-muted-foreground mt-1">{c.address}</div>}
-                    <div className="mt-2 flex gap-2">
-                      {c.phone && <Button size="sm" onClick={() => window.location.href = `tel:${c.phone}`} className="bg-primary text-white px-3 py-1 text-sm rounded-md">Call</Button>}
-                      <Button size="sm" variant="outline" onClick={() => openDirections(c)} className="border border-border text-foreground px-3 py-1 text-sm rounded-md bg-transparent">Directions</Button>
-                      {c.website && <Button size="sm" variant="outline" onClick={() => window.open(c.website,'_blank')} className="border border-border text-foreground px-3 py-1 text-sm rounded-md bg-transparent">Website</Button>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+    <div className="relative h-[calc(100dvh-11rem)] min-h-[34rem] overflow-hidden rounded-2xl border border-border shadow-sm">
+      <MapContainer center={[INDIA.lat, INDIA.lng]} zoom={5} className="absolute inset-0 z-0 h-full w-full" ref={mapRef} scrollWheelZoom zoomControl={false}>
+        <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" attribution="&copy; OpenStreetMap contributors &copy; CARTO" maxZoom={19} />
+        <ZoomControl position="bottomright" />
+        <MapController target={focus?.point ?? null} zoom={focus?.zoom ?? 13} onPan={() => setPanned(true)} />
+        {origin && <Marker position={[origin.lat, origin.lng]}><Popup>Search centre</Popup></Marker>}
+        {centers.map((c) => (
+          <Marker key={c.id} position={[c.lat, c.lng]} eventHandlers={{ click: () => setSelected(c.id) }}>
+            <Popup>
+              <b>{c.name}</b><br />{label(c.type)} · {km(c.distance)}
+              {c.hours && <><br />Hours: {c.hours}</>}
+              {c.phone && <><br /><a href={`tel:${c.phone}`}>{c.phone}</a></>}
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
 
-        <div className="lg:col-span-2 h-full rounded-lg overflow-hidden shadow-md bg-background">
-          <MapContainer 
-            center={[defaultCenter.lat, defaultCenter.lng]} 
-            zoom={6} 
-            style={{height:'100%', width:'100%'}}
-          >
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            <MapUpdater onMove={handleMapMove} mapRef={mapRef} />
-            {userLocation && (
-              <>
-                <Marker position={[userLocation.lat, userLocation.lng]}>
-                  <Popup>You are here</Popup>
-                </Marker>
-                <Circle 
-                  center={[userLocation.lat, userLocation.lng]} 
-                  radius={1000} 
-                  pathOptions={{color:'#60A5FA'}}
-                />
-              </>
-            )}
-            {helpCenters.map(c => (
-              <Marker 
-                key={c.id} 
-                position={[c.lat, c.lng]} 
-                eventHandlers={{click: () => setSelected(c.id)}}
-              >
-                <Popup>
-                  <div>
-                    <strong>{c.name}</strong>
-                    <div className="text-xs">{c.type}</div>
-                    {c.address && <div className="text-xs">{c.address}</div>}
-                    <div className="mt-2 flex gap-2">
-                      {c.phone && (
-                        <Button 
-                          size="sm" 
-                          onClick={() => window.location.href = `tel:${c.phone}`} 
-                          className="bg-primary text-white px-3 py-1 text-sm rounded-md"
-                        >
-                          Call
-                        </Button>
-                      )}
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        onClick={() => openDirections(c)} 
-                        className="border border-border text-foreground px-3 py-1 text-sm rounded-md bg-transparent"
-                      >
-                        Directions
-                      </Button>
-                    </div>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
-          </MapContainer>
+      {/* floating panel, like a maps app: search on top, results below */}
+      <div className="absolute inset-x-3 bottom-3 z-[1000] flex max-h-[48%] flex-col gap-3 rounded-xl border border-border bg-card/95 p-3 shadow-xl backdrop-blur-sm lg:inset-y-3 lg:left-3 lg:right-auto lg:max-h-none lg:w-[23rem]">
+        <form onSubmit={findPlace} className="flex gap-2">
+          <div className="relative flex-1">
+            <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <Input value={place} onChange={(e) => setPlace(e.target.value)} placeholder="Search a city or area" aria-label="Search a place" className="h-10 pl-9" />
+          </div>
+          <Button type="button" size="icon" variant="outline" onClick={locateMe} disabled={loading} aria-label="Use my location" className="h-10 w-10 shrink-0"><LocateFixed className="h-4 w-4" /></Button>
+        </form>
+
+        <div className="min-h-0 flex-1 space-y-2 overflow-auto pr-1" aria-live="polite">
+          {loading && <p className="flex items-center gap-2 py-4 text-sm text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" /> Looking for services...</p>}
+          {!loading && error && <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
+          {!loading && !error && !origin && <p className="py-3 text-sm text-muted-foreground">Tap the location button or search a city to see hospitals, clinics and counselling services around it.</p>}
+          {!loading && centers.length > 0 && <p className="text-xs font-medium text-muted-foreground">{centers.length} nearest services</p>}
+          {!loading && centers.map((c) => (
+            <div key={c.id} className={`cursor-pointer rounded-lg border p-3 transition-colors ${selected === c.id ? "border-primary bg-primary/5" : "border-border bg-background hover:border-primary/40"}`} onClick={() => pick(c)}>
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0"><p className="truncate font-medium">{c.name}</p><p className="text-xs text-muted-foreground">{label(c.type)}</p></div>
+                <span className="shrink-0 text-xs font-medium text-primary">{km(c.distance)}</span>
+              </div>
+              {c.address && <p className="mt-1 text-xs text-muted-foreground">{c.address}</p>}
+              <div className="mt-2 flex flex-wrap gap-2">
+                {c.phone && <Button size="sm" onClick={(e) => { e.stopPropagation(); window.location.href = `tel:${c.phone}`; }}><Phone className="mr-1 h-3.5 w-3.5" />Call</Button>}
+                <Button size="sm" variant="outline" onClick={(e) => { e.stopPropagation(); directions(c); }}><Navigation className="mr-1 h-3.5 w-3.5" />Directions</Button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
+
+      {panned && !loading && (
+        <Button onClick={searchHere} className="absolute left-1/2 top-3 z-[1000] -translate-x-1/2 rounded-full shadow-md lg:left-[calc(50%+11.5rem)]">Search this area</Button>
+      )}
+      <p className="pointer-events-none absolute bottom-1 right-14 z-[900] hidden text-[10px] text-muted-foreground lg:block">Hours and phone numbers may be missing; call ahead.</p>
     </div>
   );
 };
